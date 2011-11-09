@@ -1,0 +1,1 @@
+try { __nc4_eval_result = eval(__nc4_eval_string); } catch (e) { __nc4_eval_error = e; }
