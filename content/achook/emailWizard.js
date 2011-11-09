@@ -54,7 +54,7 @@
     elements.emailInputBox.hidden = true;
     elements.emailLocalPartInputBox.addEventListener("blur", function () {
       elements.emailInputBox.value = getCurrentMailAddress();
-      // alert(elements.emailInputBox.value);
+      gEmailConfigWizard.onInputEmail();
     }, false);
   }
 

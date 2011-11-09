@@ -8,7 +8,6 @@ const Cr = Components.results;
 const { Browser } = Cu.import('resource://achook-modules/Browser.js', {});
 const { Deferred } = Cu.import('resource://achook-modules/jsdeferred.js', {});
 const { NetUtil } = Cu.import("resource://gre/modules/NetUtil.jsm", {});
-const { StringBundle } = Cu.import("resource://achook-modules/StringBundle.js", {});
 
 const Application = Cc['@mozilla.org/steel/application;1']
   .getService(Ci.steelIApplication);
@@ -350,23 +349,6 @@ var Util = {
     }
 
     return [number.toFixed(0), notations[0] + "B"];
-  },
-
-  formatTime: function formatTime(sec, precise) {
-    precise = precise || 0;
-
-    function formatter(number, bases) {
-      let [base, name] = bases.shift();
-      if ((number / base) >= 1 && bases.length)
-        return formatter(number / base, bases);
-      return [number.toFixed(precise), name];
-    }
-
-    return formatter(sec, [
-      [60, StringBundle.achook.GetStringFromName("timeFormat_second")],
-      [60, StringBundle.achook.GetStringFromName("timeFormat_minute")],
-      [24, StringBundle.achook.GetStringFromName("timeFormat_hour")]
-    ]);
   },
 
   log: function () {
