@@ -8,6 +8,10 @@
   const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
   const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
 
+  let mozServices = {};
+  Cu.import("resource://gre/modules/Services.jsm", mozServices);
+  mozServices = mozServices.Services;
+
   const preferences = new Preferences("");
 
   function $(selector) document.querySelector(selector);
@@ -56,4 +60,37 @@
 
   if (domain)
     buildFixedDomainView();
+
+
+  var accountManager = Cc["@mozilla.org/messenger/account-manager;1"]
+                         .getService(Ci.nsIMsgAccountManager);
+  var smtpManager = Cc["@mozilla.org/messengercompose/smtp;1"]
+                      .getService(Ci.nsISmtpService);
+
+  let beforeAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map(function(account) account.key);
+  let beforeSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function(server) account.key);
+
+  window.addEventListener("unload", function ACHook_onUnload() {
+    window.removeEventListener("unload", ACHook_onUnload, false);
+
+    let config = gEmailConfigWizard._currentConfig;
+
+    let afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
+    if (afterAccounts.length > beforeAccounts.length) {
+      afterAccounts.some(function(account) {
+        if (beforeAccounts.indexOf(account.key) > -1) return false;
+        // apply configurations
+        return true;
+      });
+    }
+
+    let afterSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer);
+    if (afterSMTPServers.length > beforeSMTPServers.length) {
+      afterSMTPServers.some(function(server) {
+        if (beforeSMTPServers.indexOf(server.key) > -1) return false;
+        // apply configurations
+        return true;
+      });
+    }
+  }, false);
 })(window);
