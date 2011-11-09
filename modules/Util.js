@@ -5,10 +5,10 @@ const Ci = Components.interfaces;
 const Cu = Components.utils;
 const Cr = Components.results;
 
-const { Browser } = Cu.import('resource://nc4migrator-modules/Browser.js', {});
-const { Deferred } = Cu.import('resource://nc4migrator-modules/jsdeferred.js', {});
+const { Browser } = Cu.import('resource://achook-modules/Browser.js', {});
+const { Deferred } = Cu.import('resource://achook-modules/jsdeferred.js', {});
 const { NetUtil } = Cu.import("resource://gre/modules/NetUtil.jsm", {});
-const { StringBundle } = Cu.import("resource://nc4migrator-modules/StringBundle.js", {});
+const { StringBundle } = Cu.import("resource://achook-modules/StringBundle.js", {});
 
 const Application = Cc['@mozilla.org/steel/application;1']
   .getService(Ci.steelIApplication);
@@ -363,9 +363,9 @@ var Util = {
     }
 
     return formatter(sec, [
-      [60, StringBundle.nc4migrator.GetStringFromName("timeFormat_second")],
-      [60, StringBundle.nc4migrator.GetStringFromName("timeFormat_minute")],
-      [24, StringBundle.nc4migrator.GetStringFromName("timeFormat_hour")]
+      [60, StringBundle.achook.GetStringFromName("timeFormat_second")],
+      [60, StringBundle.achook.GetStringFromName("timeFormat_minute")],
+      [24, StringBundle.achook.GetStringFromName("timeFormat_hour")]
     ]);
   },
 
@@ -379,7 +379,7 @@ var Util = {
     if (!this._loader)
       this._loader = Cc["@mozilla.org/moz/jssubscript-loader;1"]
       .getService(Ci.mozIJSSubScriptLoader);
-    this._loader.loadSubScript("resource://nc4migrator-modules/eval.js", context);
+    this._loader.loadSubScript("resource://achook-modules/eval.js", context);
     return context;
   },
 
@@ -398,7 +398,7 @@ var Util = {
 
       Cc["@mozilla.org/moz/jssubscript-loader;1"]
         .getService(Ci.mozIJSSubScriptLoader)
-        .loadSubScript("resource://nc4migrator-modules/eval.js", aContext);
+        .loadSubScript("resource://achook-modules/eval.js", aContext);
 
       if (aContext[EVAL_ERROR])
         throw aContext[EVAL_ERROR];
@@ -468,7 +468,7 @@ var Util = {
   },
 
   commands: {
-    diskfree: "chrome://nc4migrator/content/bin/diskfree.bat"
+    diskfree: "chrome://achook/content/bin/diskfree.bat"
   },
 
   get diskFreeCommand() {
@@ -481,7 +481,7 @@ var Util = {
     if (!this._getDiskSpace) {
       let { ctypes } = Cu.import("resource://gre/modules/ctypes.jsm", {});
       this._getDiskSpace = !!ctypes.ArrayType
-        ? Cu.import('resource://nc4migrator-modules/diskspace.win32.js', {}).getDiskSpace
+        ? Cu.import('resource://achook-modules/diskspace.win32.js', {}).getDiskSpace
         : null;
     }
 
