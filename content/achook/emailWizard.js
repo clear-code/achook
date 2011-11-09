@@ -18,9 +18,11 @@
     get emailErrorIcon() $("#emailerroricon")
   };
 
-  function buildView() {
+  let domain = preferences.get(PreferenceNames.emailDomainPart);
+
+  function buildFixedDomainView() {
     function getCurrentMailAddress() elements.emailLocalPartInputBox.value
-      + "@" + preferences.get(PreferenceNames.emailDomainPart);
+      + "@" + domain;
 
     elements.emailInfoContainer = elements.emailInputBox.parentNode;
     elements.accountInfoContainer = elements.emailInfoContainer.parentNode;
@@ -38,7 +40,7 @@
 
     elements.emailInfoContainer.insertBefore(
       createElement("label", {
-        value: "@" + preferences.get(PreferenceNames.emailDomainPart)
+        value: "@" + domain
       }),
       elements.emailNewElementsBase
     );
@@ -52,5 +54,6 @@
     }, false);
   }
 
-  buildView();
+  if (domain)
+    buildFixedDomainView();
 })(window);
