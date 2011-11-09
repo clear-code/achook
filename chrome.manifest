@@ -1,0 +1,3 @@
+content	achook	content/achook/
+overlay	chrome://messenger/content/accountcreation/emailWizard.xul	chrome://achook/content/emailWizard.xul
+
