@@ -7,7 +7,6 @@
   const { Services } = Cu.import('resource://achook-modules/Services.js', {});
   const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
   const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
-  const { StringBundle } = Cu.import("resource://achook-modules/StringBundle.js", {});
 
   const preferences = new Preferences("");
 
