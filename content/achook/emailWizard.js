@@ -106,16 +106,40 @@
     };
   }
 
+  function ensureNoDuplicatedOldAccount(username, hostname, type) {
+    var server;
+    try {
+      server = accountManager.FindServer(username, hostname, type);
+      let targetAccounts = [];
+      for (let i = 0; i < accountManager.accounts.Count(); ++i) {
+        let account = accountManager.accounts.QueryElementAt(i, Ci.nsISupports);
+        account.QueryInterface(Ci.nsIMsgAccount);
+        if (account.incomingServer == server)
+          targetAccounts.push(account);
+      }
+      targetAccounts.forEach(function (account) accountManager.removeAccount(account));
+    } catch (x) {
+      dump("Failed to remove account " + username + "@" + hostname + "(" + type +")\n" + x + "\n");
+    }
+  }
+
   function suppressAccountVerification() {
     var originalVerifyLogon = window.verifyLogon;
     window.verifyLogon = function ACHook_verifyLogon(config, inServer, alter, msgWindow, successCallback, errorCallback) {
+      ensureNoDuplicatedOldAccount(config.incoming.username, config.incoming.hostname, config.incoming.type); // XXX for debugging!
       if (lastConfigXML) {
-try{
-        let incomingServer = lastConfigXML..incomingServer;
-        let requireVerification = incomingServer && lastConfigXML..incomingServer.ACHOOK::requireVerification;
-        if (requireVerification && /^\s*(no|false|0)\s*$/i.test(requireVerification.text()))
-          return successCallback.call(this, config);
-}catch(e){dump(e+'\n');dump(config.toSource()+'\n');throw e;}
+        try{
+          let incomingServer = lastConfigXML..incomingServer;
+          let requireVerification = incomingServer && lastConfigXML..incomingServer.ACHOOK::requireVerification;
+          if (requireVerification && /^\s*(no|false|0)\s*$/i.test(requireVerification.text())) {
+            accountManager.removeIncomingServer(inServer, true);
+            return successCallback.call(this, config);
+          }
+        } catch(e) {
+          dump(e+"\n");
+          dump(config.toSource()+"\n");
+          throw e;
+        }
       }
       return originalVerifyLogon.apply(this, arguments);
     };
