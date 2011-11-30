@@ -192,33 +192,60 @@
   var beforeAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map(function(account) account.key);
   var beforeSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function(server) server.key);
 
+  function setAccountValue(aTarget, aKey, aValue) {
+    if (!(aKey in aTarget)) {
+      dump("unknown key "+aKey+"="+aValue+" for "+aTarget+"\n");
+      return;
+    }
+    switch (typeof aTarget[aKey]) {
+      case "string": aValue = String(aValue); break;
+      case "number": aValue = Number(aValue); break;
+      case "boolean": aValue = !!aValue; break;
+      default:
+        dump("object type key cannot be updated: "+aKey+"="+aValue+" for "+aTarget+"\n");
+        return;
+    }
+    dump("override "+aKey+"="+aValue+" for "+aTarget+"\n");
+    aTarget[aKey] = aValue;
+  }
+
   window.addEventListener("unload", function ACHook_onUnload() {
     window.removeEventListener("unload", ACHook_onUnload, false);
 
     var config = lastConfigXML;
-dump('config : '+config+'\n');
 
-    let afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
-dump('before : '+beforeAccounts.length+' => after : '+afterAccounts.length+'\n');
+    var afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
     if (afterAccounts.length > beforeAccounts.length) {
       afterAccounts.some(function(account) {
         if (beforeAccounts.indexOf(account.key) > -1) return false;
 
-dump('INCOMING\n');
         var incomingServer = account.incomingServer;
-        Array.forEach(config..incomingServer.ACHOOK::*, function(aProperty) {
-          var key = aProperty.name();
-          var value = aProperty.text();
-dump(key+' = '+value+'\n');
-        });
+        switch (incomingServer.type) {
+          case "pop3":
+            incomingServer = incomingServer.QueryInterface(Ci.nsIPop3IncomingServer);
+            break;
+          case "imap":
+            incomingServer = incomingServer.QueryInterface(Ci.nsIImapIncomingServer);
+            break;
+          case "nntp":
+            incomingServer = incomingServer.QueryInterface(Ci.nsINntpIncomingServer);
+            break;
+        }
+        for each (let property in config..incomingServer.ACHOOK::*) {
+          if (!property.children().length()) continue;
+          var key = property.localName();
+          var value = property.text();
+          setAccountValue(incomingServer, key, value);
+        }
 
-dump('IDENTITY\n');
         var identity = account.defaultIdentity;
-        Array.forEach(config..identity.ACHOOK::*, function(aProperty) {
-          var key = aProperty.name();
-          var value = aProperty.text();
-dump(key+' = '+value+'\n');
-        });
+        identity = identity.QueryInterface(Ci.nsIMsgIdentity);
+        for each (let property in config..identity.ACHOOK::*) {
+          if (!property.children().length()) continue;
+          var key = property.localName();
+          var value = property.text();
+          setAccountValue(identity, key, value);
+        }
 
         return true;
       });
@@ -228,7 +255,15 @@ dump(key+' = '+value+'\n');
     if (afterSMTPServers.length > beforeSMTPServers.length) {
       afterSMTPServers.some(function(server) {
         if (beforeSMTPServers.indexOf(server.key) > -1) return false;
-        // apply configurations
+
+        server = server.QueryInterface(Ci.nsISmtpServer);
+        for each (let property in config..outgoingServer.ACHOOK::*) {
+          if (!property.children().length()) continue;
+          var key = property.localName();
+          var value = property.text();
+          setAccountValue(server, key, value);
+        }
+
         return true;
       });
     }
