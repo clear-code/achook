@@ -22,10 +22,20 @@
 
   var elements = {
     get emailInputBox() $("#email"),
-    get emailErrorIcon() $("#emailerroricon")
+    get emailErrorIcon() $("#emailerroricon"),
+    get manualEditButton() $("#manual-edit_button")
   };
 
-  var domain = preferences.get(PreferenceNames.emailDomainPart);
+  let domain = preferences.get(PreferenceNames.emailDomainPart);
+  let domainIsGiven = !!domain;
+
+  function blurElement(element) {
+    let { activeElement } = document;
+    element.focus();
+    element.blur();
+    if (activeElement)
+      activeElement.focus();
+  }
 
   function buildFixedDomainView() {
     function getCurrentMailAddress() elements.emailLocalPartInputBox.value
@@ -61,8 +71,22 @@
     }, false);
   }
 
-  if (domain)
+  function suppressBuiltinLecture() {
+    // TODO:
+    elements.manualEditButton.style = "display : none !important";
+    // elements.manualEditButton.hidden = true;
+    gEmailConfigWizard.displayConfigResult =
+      function displayConfigResult_override(config) {
+        Util.alert2("config set!");
+        this.switchToMode("result");
+        // (config)
+    };
+  }
+
+  if (domainIsGiven) {
     buildFixedDomainView();
+    suppressBuiltinLecture();
+  }
 
   function outputDebugMessages() {
     eval('EmailConfigWizard.prototype.findConfig = '+EmailConfigWizard.prototype.findConfig.toSource()
@@ -84,9 +108,9 @@
       )
     );
   }
+
   if (DEBUG)
     outputDebugMessages();
-
 
   var accountManager = Cc["@mozilla.org/messenger/account-manager;1"]
                          .getService(Ci.nsIMsgAccountManager);
