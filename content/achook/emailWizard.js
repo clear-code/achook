@@ -74,10 +74,15 @@
     // Hide default input box and arrange event listeners
 
     elements.emailInputBox.hidden = true;
-    elements.emailLocalPartInputBox.addEventListener("blur", function () {
-      elements.emailInputBox.value = getCurrentMailAddress();
-      gEmailConfigWizard.onInputEmail();
-    }, false);
+    function onLocalPartInput() {
+      let currentMailAddress = getCurrentMailAddress();
+      if (currentMailAddress !== elements.emailInputBox.value) {
+        elements.emailInputBox.value = currentMailAddress;
+        gEmailConfigWizard.onInputEmail();
+      }
+    }
+    elements.emailLocalPartInputBox.addEventListener("input", onLocalPartInput, false);
+    elements.emailLocalPartInputBox.addEventListener("blur", onLocalPartInput, false);
   }
 
   function suppressBuiltinLecture() {
