@@ -1,3 +1,4 @@
 content	achook	content/achook/
+locale	achook	ja	locale/ja/achook/
 overlay	chrome://messenger/content/accountcreation/emailWizard.xul	chrome://achook/content/emailWizard.xul
 resource achook-modules modules/

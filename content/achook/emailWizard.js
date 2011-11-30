@@ -12,6 +12,7 @@
   const { Services } = Cu.import('resource://achook-modules/Services.js', {});
   const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
   const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
+  const { StringBundle } = Cu.import("resource://achook-modules/StringBundle.js", {});
 
   var mozServices = {};
   Cu.import("resource://gre/modules/Services.jsm", mozServices);
@@ -53,15 +54,16 @@
 
     elements.emailInfoContainer.insertBefore(
       elements.emailLocalPartInputBox = createElement("textbox", {
-        emptytext: "please.input.your.account",
-        class: "padded uri-element"
+        placeholder : StringBundle.achook.GetStringFromName("accountCreationWizard.address.placeholder"),
+        emptytext   : StringBundle.achook.GetStringFromName("accountCreationWizard.address.placeholder"),
+        "class"     : "padded uri-element"
       }),
       elements.emailNewElementsBase
     );
 
     elements.emailInfoContainer.insertBefore(
       createElement("label", {
-        value: "@" + domain
+        value : "@" + domain
       }),
       elements.emailNewElementsBase
     );
