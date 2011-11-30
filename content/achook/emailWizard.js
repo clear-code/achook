@@ -23,7 +23,8 @@
   var elements = {
     get emailInputBox() $("#email"),
     get emailErrorIcon() $("#emailerroricon"),
-    get manualEditButton() $("#manual-edit_button")
+    get manualEditButton() $("#manual-edit_button"),
+    get createButton() $("#create_button")
   };
 
   let domain = preferences.get(PreferenceNames.emailDomainPart);
@@ -72,14 +73,25 @@
   }
 
   function suppressBuiltinLecture() {
-    // TODO:
-    elements.manualEditButton.style = "display : none !important";
+    elements.manualEditButton.style.setProperty("display", "none", "important");
     // elements.manualEditButton.hidden = true;
-    gEmailConfigWizard.displayConfigResult =
-      function displayConfigResult_override(config) {
-        Util.alert2("config set!");
-        this.switchToMode("result");
-        // (config)
+
+    EmailConfigWizard.prototype._foundConfig2 =
+      function _foundConfig2_override(config) {
+        this._currentConfig   = config;
+        this._currentModename = "result";
+
+        $("#next_button").hidden = true;
+        $("#half-manual-test_button").hidden = true;
+        $("#stop_button").hidden = true;
+        $("#advanced-setup_button").hidden = true;
+
+        elements.createButton.disabled = false;
+        elements.createButton.hidden = false;
+
+        window.sizeToContent();
+
+        // TODO: automatically click "create account" button?
     };
   }
 
