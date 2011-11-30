@@ -12,6 +12,7 @@
   const { Services } = Cu.import('resource://achook-modules/Services.js', {});
   const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
   const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
+  const { StringBundle } = Cu.import("resource://achook-modules/StringBundle.js", {});
 
   var mozServices = {};
   Cu.import("resource://gre/modules/Services.jsm", mozServices);
@@ -26,7 +27,8 @@
     get emailInputBox() $("#email"),
     get emailErrorIcon() $("#emailerroricon"),
     get manualEditButton() $("#manual-edit_button"),
-    get createButton() $("#create_button")
+    get createButton() $("#create_button"),
+    get masterVBox() $("#mastervbox")
   };
 
   let domain = preferences.get(PreferenceNames.emailDomainPart);
@@ -52,15 +54,16 @@
 
     elements.emailInfoContainer.insertBefore(
       elements.emailLocalPartInputBox = createElement("textbox", {
-        emptytext: "please.input.your.account",
-        class: "padded uri-element"
+        placeholder : StringBundle.achook.GetStringFromName("accountCreationWizard.address.placeholder"),
+        emptytext   : StringBundle.achook.GetStringFromName("accountCreationWizard.address.placeholder"),
+        "class"     : "padded uri-element"
       }),
       elements.emailNewElementsBase
     );
 
     elements.emailInfoContainer.insertBefore(
       createElement("label", {
-        value: "@" + domain
+        value : "@" + domain
       }),
       elements.emailNewElementsBase
     );
@@ -75,6 +78,15 @@
   }
 
   function suppressBuiltinLecture() {
+    var shownElements = "initialSettings,status_area,buttons_area".split(",");
+    Array.forEach(elements.masterVBox.childNodes, function(aElement) {
+      if (aElement.nodeType != Ci.nsIDOMNode.ELEMENT_NODE)
+        return;
+
+      if (shownElements.indexOf(aElement.id) < 0)
+        aElement.style.setProperty("display", "none", "important");
+    });
+
     elements.manualEditButton.style.setProperty("display", "none", "important");
     // elements.manualEditButton.hidden = true;
 
@@ -223,7 +235,7 @@
       afterAccounts.some(function(account) {
         if (beforeAccounts.indexOf(account.key) > -1) return false;
 
-        var incomingServer = account.incomingServer;
+        var incomingServer = account.incomingServer.QueryInterface(Ci.nsIIncomingServer);
         switch (incomingServer.type) {
           case "pop3":
             incomingServer = incomingServer.QueryInterface(Ci.nsIPop3IncomingServer);
@@ -242,8 +254,7 @@
           setAccountValue(incomingServer, key, value);
         }
 
-        var identity = account.defaultIdentity;
-        identity = identity.QueryInterface(Ci.nsIMsgIdentity);
+        var identity = account.defaultIdentity.QueryInterface(Ci.nsIMsgIdentity);
         for each (let property in config..identity.ACHOOK::*) {
           if (!property.children().length()) continue;
           var key = property.localName();
