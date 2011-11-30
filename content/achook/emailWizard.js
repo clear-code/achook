@@ -121,9 +121,16 @@ try{
     };
   }
 
+  function suppressSecurityWarning() {
+    EmailConfigWizard.prototype.onCreate = function onCreate_override () {
+      this.validateAndFinish(this.getConcreteConfig());
+    };
+  }
+
   if (domainIsGiven) {
     buildFixedDomainView();
     suppressBuiltinLecture();
+    suppressSecurityWarning();
   }
 
   storeSourceXML();
