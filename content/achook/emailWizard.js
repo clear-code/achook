@@ -168,9 +168,50 @@
   }
 
   function suppressSecurityWarning() {
-    EmailConfigWizard.prototype.onCreate = function onCreate_override () {
-      this.validateAndFinish(this.getConcreteConfig());
+    // emailWizard.js#1715
+    gSecurityWarningDialog.open = function (
+      configSchema, configFilledIn, onlyIfNeeded,
+      okCallback, cancelCallback
+    ) {
+      okCallback();
     };
+  }
+
+  function suppressAccountDuplicationCheck() {
+    let userChoseRemove = false;
+    function confirmRemove(message) {
+      return userChoseRemove ||
+        (userChoseRemove = confirm(message || "Remove already exist account?"));
+    }
+
+    let validateAndFinish_original = EmailConfigWizard.prototype.validateAndFinish;
+    EmailConfigWizard.prototype.validateAndFinish = function () {
+      let config = this.getConcreteConfig();
+
+      let incomingServer = checkIncomingServerAlreadyExists(config);
+      let outgoingServer = checkOutgoingServerAlreadyExists(config);
+
+      if (incomingServer || outgoingServer) {
+        if (confirmRemove() == false) {
+          // nothing to do
+          return null;
+        }
+        Services.accountManager.removeIncomingServer(incomingServer, true);
+        Services.smtpService.deleteSmtpServer(outgoingServer);
+      }
+
+      return validateAndFinish_original.apply(this, arguments);
+    };
+
+    window.addEventListener("unload", function () {
+      function confirmRestart() {
+        return confirm("Restart application?");
+      }
+
+      if (userChoseRemove && confirmRestart()) {
+        Util.restartApplication();
+      }
+    }, false);
   }
 
   function useStaticConfigURL() {
@@ -194,6 +235,7 @@
   if (domainIsGiven) {
     buildFixedDomainView();
     suppressSecurityWarning();
+    suppressAccountDuplicationCheck();
   }
 
   if (staticConfigIsGiven) {
