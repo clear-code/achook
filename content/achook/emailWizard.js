@@ -80,7 +80,7 @@
   function suppressBuiltinLecture() {
     var shownElements = "initialSettings,status_area,buttons_area".split(",");
     Array.forEach(elements.masterVBox.childNodes, function(aElement) {
-      if (aElement.nodeType != Ci.nsIDOMNode.ELEMENT_NODE)
+      if (aElement.nodeType != Ci.nsIDOMNode.ELEMENT_NODE || aElement.localName == "spacer")
         return;
 
       if (shownElements.indexOf(aElement.id) < 0)
