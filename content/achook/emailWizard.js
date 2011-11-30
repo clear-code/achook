@@ -1,6 +1,9 @@
-"use strict";
+// in strict mode, we cannot use E4X!
+// "use strict";
 
 (function (exports) {
+  const DEBUG = true;
+
   const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
 
   const { Util } = Cu.import('resource://achook-modules/Util.js', {});
@@ -8,21 +11,21 @@
   const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
   const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
 
-  let mozServices = {};
+  var mozServices = {};
   Cu.import("resource://gre/modules/Services.jsm", mozServices);
   mozServices = mozServices.Services;
 
   const preferences = new Preferences("");
 
   function $(selector) document.querySelector(selector);
-  let createElement = Util.getElementCreator(document);
+  var createElement = Util.getElementCreator(document);
 
-  let elements = {
+  var elements = {
     get emailInputBox() $("#email"),
     get emailErrorIcon() $("#emailerroricon")
   };
 
-  let domain = preferences.get(PreferenceNames.emailDomainPart);
+  var domain = preferences.get(PreferenceNames.emailDomainPart);
 
   function buildFixedDomainView() {
     function getCurrentMailAddress() elements.emailLocalPartInputBox.value
@@ -61,30 +64,69 @@
   if (domain)
     buildFixedDomainView();
 
+  function outputDebugMessages() {
+    eval('EmailConfigWizard.prototype.findConfig = '+EmailConfigWizard.prototype.findConfig.toSource()
+      .replace(
+        /(gEmailWizardLogger.info\(("[^"]+")\))/g,
+        'dump($2); dump("\\n"); $1'
+      )
+      .replace(
+        /((?:this|self)\.(?:switchToMode|startSpinner)\(("[^"]+")\))/g,
+        'dump($2); dump("\\n"); $1'
+      )
+      .replace(
+        '{',
+        '{ dump("domain = "+domain+" / email = " + email+"\\n");'
+      )
+      .replace(
+        /(function\s*\(e\)\s*\{)/,
+        '$1 dump("error : "+e+"\\n");'
+      )
+    );
+  }
+  if (DEBUG)
+    outputDebugMessages();
+
 
   var accountManager = Cc["@mozilla.org/messenger/account-manager;1"]
                          .getService(Ci.nsIMsgAccountManager);
   var smtpManager = Cc["@mozilla.org/messengercompose/smtp;1"]
                       .getService(Ci.nsISmtpService);
 
-  let beforeAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map(function(account) account.key);
-  let beforeSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function(server) server.key);
+  var beforeAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map(function(account) account.key);
+  var beforeSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function(server) server.key);
 
   window.addEventListener("unload", function ACHook_onUnload() {
     window.removeEventListener("unload", ACHook_onUnload, false);
 
-    let config = gEmailConfigWizard._currentConfig;
+    var config = gEmailConfigWizard._currentConfig;
+
+    const ACHOOK = new Namespace("achook", "http://www.clear-code.com/thunderbird/achook");
 
     let afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
     if (afterAccounts.length > beforeAccounts.length) {
       afterAccounts.some(function(account) {
         if (beforeAccounts.indexOf(account.key) > -1) return false;
-        // apply configurations
+
+        var incomingServer = account.incomingServer;
+        Array.forEach(config..incomingServer.ACHOOK::*, function(aProperty) {
+          var key = aProperty.name();
+          var value = aProperty.text();
+dump(key+' = '+value+'\n');
+        });
+
+        var identity = account.defaultIdentity;
+        Array.forEach(config..identity.ACHOOK::*, function(aProperty) {
+          var key = aProperty.name();
+          var value = aProperty.text();
+dump(key+' = '+value+'\n');
+        });
+
         return true;
       });
     }
 
-    let afterSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer);
+    var afterSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer);
     if (afterSMTPServers.length > beforeSMTPServers.length) {
       afterSMTPServers.some(function(server) {
         if (beforeSMTPServers.indexOf(server.key) > -1) return false;
