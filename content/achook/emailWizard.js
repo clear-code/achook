@@ -26,7 +26,8 @@
     get emailInputBox() $("#email"),
     get emailErrorIcon() $("#emailerroricon"),
     get manualEditButton() $("#manual-edit_button"),
-    get createButton() $("#create_button")
+    get createButton() $("#create_button"),
+    get masterVBox() $("#mastervbox")
   };
 
   let domain = preferences.get(PreferenceNames.emailDomainPart);
@@ -75,6 +76,15 @@
   }
 
   function suppressBuiltinLecture() {
+    var shownElements = "initialSettings,status_area,buttons_area".split(",");
+    Array.forEach(elements.masterVBox.childNodes, function(aElement) {
+      if (aElement.nodeType != Ci.nsIDOMNode.ELEMENT_NODE)
+        return;
+
+      if (shownElements.indexOf(aElement.id) < 0)
+        aElement.style.setProperty("display", "none", "important");
+    });
+
     elements.manualEditButton.style.setProperty("display", "none", "important");
     // elements.manualEditButton.hidden = true;
 
