@@ -167,10 +167,48 @@
     };
   }
 
+  function suppressAccountDuplicationCheck() {
+    let userChoseRemove = false;
+    function confirmRemove(message) {
+      return userChoseRemove ||
+        (userChoseRemove = confirm(message || "Remove already exist account?"));
+    }
+
+    let validateAndFinish_original = EmailConfigWizard.prototype.validateAndFinish;
+    EmailConfigWizard.prototype.validateAndFinish = function () {
+      let config = this.getConcreteConfig();
+
+      let incomingServer = checkIncomingServerAlreadyExists(config);
+      let outgoingServer = checkOutgoingServerAlreadyExists(config);
+
+      if (incomingServer || outgoingServer) {
+        if (confirmRemove() == false) {
+          // nothing to do
+          return null;
+        }
+        Services.accountManager.removeIncomingServer(incomingServer, true);
+        Services.smtpService.deleteSmtpServer(outgoingServer);
+      }
+
+      return validateAndFinish_original.apply(this, arguments);
+    };
+
+    window.addEventListener("unload", function () {
+      function confirmRestart() {
+        return confirm("Restart application?");
+      }
+
+      if (userChoseRemove && confirmRestart()) {
+        Util.restartApplication();
+      }
+    }, false);
+  }
+
   if (domainIsGiven) {
     buildFixedDomainView();
     suppressBuiltinLecture();
     suppressSecurityWarning();
+    suppressAccountDuplicationCheck();
   }
 
   storeSourceXML();
