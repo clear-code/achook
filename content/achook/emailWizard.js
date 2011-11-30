@@ -106,9 +106,27 @@
     };
   }
 
+  function ensureNoDuplicatedOldAccount(username, hostname, type) {
+    var server;
+    try {
+      server = accountManager.FindServer(username, hostname, type);
+      let targetAccounts = [];
+      for (let i = 0; i < accountManager.accounts.Count(); ++i) {
+        let account = accountManager.accounts.QueryElementAt(i, Ci.nsISupports);
+        account.QueryInterface(Ci.nsIMsgAccount);
+        if (account.incomingServer == server)
+          targetAccounts.push(account);
+      }
+      targetAccounts.forEach(function (account) accountManager.removeAccount(account));
+    } catch (x) {
+      dump("Failed to remove account %s: %s", username + hostname + type, x);
+    }
+  }
+
   function suppressAccountVerification() {
     var originalVerifyLogon = window.verifyLogon;
     window.verifyLogon = function ACHook_verifyLogon(config, inServer, alter, msgWindow, successCallback, errorCallback) {
+      ensureNoDuplicatedOldAccount(config.incoming.username, config.incoming.hostname, config.incoming.type); // XXX for debugging!
       if (lastConfigXML) {
 try{
         let incomingServer = lastConfigXML..incomingServer;
