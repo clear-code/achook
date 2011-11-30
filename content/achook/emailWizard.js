@@ -28,7 +28,8 @@
     get emailErrorIcon() $("#emailerroricon"),
     get manualEditButton() $("#manual-edit_button"),
     get createButton() $("#create_button"),
-    get masterVBox() $("#mastervbox")
+    get masterVBox() $("#mastervbox"),
+    get statusMessage() $("#status_msg")
   };
 
   var domain = preferences.get(PreferenceNames.emailDomainPart);
@@ -86,10 +87,7 @@
   }
 
   function suppressBuiltinLecture() {
-    var shownElements = ["initialSettings", "buttons_area"];
-    if (!staticConfigIsGiven)
-      shownElements.push("status_area");
-
+    var shownElements = ["initialSettings", "status_area", "buttons_area"];
     Array.forEach(elements.masterVBox.childNodes, function(aElement) {
       if (aElement.nodeType != Ci.nsIDOMNode.ELEMENT_NODE || aElement.localName == "spacer")
         return;
@@ -121,6 +119,7 @@
   }
 
   var lastConfigXML = null;
+
   function storeSourceXML() {
     var originalReadFromXML = window.readFromXML;
     window.readFromXML = function ACHook_readFromXML(clientConfigXML) {
@@ -182,24 +181,8 @@
     };
   }
 
+  var existingAccountRemoved = false;
   function suppressAccountDuplicationCheck() {
-    let userChoseRemove = false;
-    function confirmRemove(message) {
-      const removeButtonIndex = 0;
-      return userChoseRemove ||
-        (userChoseRemove = (
-          Util.confirmEx(
-            window,
-            StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.title"),
-            StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.text"),
-            Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
-            Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
-            StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.remove"),
-            StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.keep"),
-            null
-          ) == removeButtonIndex));
-    }
-
     let validateAndFinish_original = EmailConfigWizard.prototype.validateAndFinish;
     EmailConfigWizard.prototype.validateAndFinish = function () {
       let config = this.getConcreteConfig();
@@ -208,38 +191,27 @@
       let outgoingServer = checkOutgoingServerAlreadyExists(config);
 
       if (incomingServer || outgoingServer) {
-        if (confirmRemove() == false) {
+        const removeButtonIndex = 0;
+        if (Util.confirmEx(
+              window,
+              StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.title"),
+              StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.text"),
+              Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
+              Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
+              StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.remove"),
+              StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.keep"),
+              null
+            ) != removeButtonIndex) {
           // nothing to do
           return null;
         }
         Services.accountManager.removeIncomingServer(incomingServer, true);
         Services.smtpService.deleteSmtpServer(outgoingServer);
+        existingAccountRemoved = true;
       }
 
       return validateAndFinish_original.apply(this, arguments);
     };
-
-    window.addEventListener("unload", function ACHoook_restartAfterRecreation() {
-      window.removeEventListener("unload", ACHoook_restartAfterRecreation, false);
-
-      function confirmRestart() {
-        const restartButtonIndex = 0;
-        return Util.confirmEx(
-            window,
-            StringBundle.achook.GetStringFromName("confirmRestartNow.title"),
-            StringBundle.achook.GetStringFromName("confirmRestartNow.text"),
-            Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
-            Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
-            StringBundle.achook.GetStringFromName("confirmRestartNow.restart"),
-            StringBundle.achook.GetStringFromName("confirmRestartNow.later"),
-            null
-          ) == restartButtonIndex;
-      }
-
-      if (userChoseRemove && confirmRestart()) {
-        Util.restartApplication();
-      }
-    }, false);
   }
 
   function useStaticConfigURL() {
@@ -252,6 +224,7 @@
           contents = contents.replace(/<\?xml[^>]*\?>/, "");
           lastConfigXML = new XML(contents);
           successCallback(readFromXML(lastConfigXML));
+          elements.statusMessage.textContent = StringBundle.achook.GetStringFromName("accountCreationWizard.staticConfigUsed");
         } catch (e) {
           dump(e+'\n');
           return originalFetchConfigFromDisk.apply(this, arguments);
@@ -324,9 +297,7 @@
     aTarget[aKey] = aValue;
   }
 
-  window.addEventListener("unload", function ACHook_onUnload() {
-    window.removeEventListener("unload", ACHook_onUnload, false);
-
+  function overrideAccountConfig() {
     var config = lastConfigXML;
 
     var afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
@@ -381,5 +352,27 @@
         return true;
       });
     }
+  }
+
+  function confirmRestart() {
+    const restartButtonIndex = 0;
+    if (existingAccountRemoved && (Util.confirmEx(
+          window,
+          StringBundle.achook.GetStringFromName("confirmRestartNow.title"),
+          StringBundle.achook.GetStringFromName("confirmRestartNow.text"),
+          Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
+          Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
+          StringBundle.achook.GetStringFromName("confirmRestartNow.restart"),
+          StringBundle.achook.GetStringFromName("confirmRestartNow.later"),
+          null
+        ) == restartButtonIndex)) {
+      Util.restartApplication();
+    }
+  };
+
+  window.addEventListener("unload", function ACHook_onUnload() {
+    window.removeEventListener("unload", ACHook_onUnload, false);
+    overrideAccountConfig();
+    confirmRestart();
   }, false);
 })(window);
