@@ -81,7 +81,10 @@
   }
 
   function suppressBuiltinLecture() {
-    var shownElements = "initialSettings,status_area,buttons_area".split(",");
+    var shownElements = ["initialSettings", "buttons_area"];
+    if (!staticConfigIsGiven)
+      shownElements.push("status_area");
+
     Array.forEach(elements.masterVBox.childNodes, function(aElement) {
       if (aElement.nodeType != Ci.nsIDOMNode.ELEMENT_NODE || aElement.localName == "spacer")
         return;
@@ -175,12 +178,13 @@
     window.fetchConfigFromDisk = function ACHook_fetchConfigFromDisk(domain, successCallback, errorCallback) {
       return new TimeoutAbortable(runAsync(function ACHook_asyncFetchConfigCallback() {
         try {
-          var uri = Services.io.newURI(staticConfigURL, null, null);
+          var uri = Util.makeURIFromSpec(staticConfigURL);
           var contents = readURLasUTF8(uri);
           contents = contents.replace(/<\?xml[^>]*\?>/, "");
           lastConfigXML = new XML(contents);
           successCallback(readFromXML(lastConfigXML));
         } catch (e) {
+          dump(e+'\n');
           return originalFetchConfigFromDisk.apply(this, arguments);
         }
       }));

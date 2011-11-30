@@ -431,14 +431,18 @@ var Util = {
     if (!aUrl || !(/^chrome:/.test(aUrl)))
       return null;
 
-    let ios = Cc['@mozilla.org/network/io-service;1']
-          .getService(Ci["nsIIOService"]);
-    let uri = ios.newURI(aUrl, "UTF-8", null);
+    let uri = this.makeURIFromSpec(aUrl);
     let cr = Cc['@mozilla.org/chrome/chrome-registry;1']
           .getService(Ci.nsIChromeRegistry);
     let urlSpec = cr.convertChromeURL(uri).spec;
 
     return urlSpec;
+  },
+
+  makeURIFromSpec: function (aURI) {
+    let ios = Cc['@mozilla.org/network/io-service;1']
+          .getService(Ci.nsIIOService);
+    return ios.newURI(aURI, 'UTF-8', null);
   },
 
   launchProcess: function (exe, args) {
