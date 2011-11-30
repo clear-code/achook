@@ -135,6 +135,10 @@
     }
   }
 
+  function stringToBoolean(aString) {
+    return /^\s*(yes|true|1)\s*$/i.test(String(aString));
+  }
+
   function suppressAccountVerification() {
     var originalVerifyLogon = window.verifyLogon;
     window.verifyLogon = function ACHook_verifyLogon(config, inServer, alter, msgWindow, successCallback, errorCallback) {
@@ -143,7 +147,7 @@
         try{
           let incomingServer = lastConfigXML..incomingServer;
           let requireVerification = incomingServer && lastConfigXML..incomingServer.ACHOOK::requireVerification;
-          if (requireVerification && /^\s*(no|false|0)\s*$/i.test(requireVerification.text())) {
+          if (requireVerification && !stringToBoolean(requireVerification.text())) {
             accountManager.removeIncomingServer(inServer, true);
             return successCallback.call(this, config);
           }
@@ -212,7 +216,7 @@
     switch (typeof aTarget[aKey]) {
       case "string": aValue = String(aValue); break;
       case "number": aValue = Number(aValue); break;
-      case "boolean": aValue = !!aValue; break;
+      case "boolean": aValue = stringToBoolean(aValue); break;
       default:
         dump("object type key cannot be updated: "+aKey+"="+aValue+" for "+aTarget+"\n");
         return;
@@ -231,7 +235,7 @@
       afterAccounts.some(function(account) {
         if (beforeAccounts.indexOf(account.key) > -1) return false;
 
-        var incomingServer = account.incomingServer.QueryInterface(Ci.nsIIncomingServer);
+        var incomingServer = account.incomingServer.QueryInterface(Ci.nsIMsgIncomingServer);
         switch (incomingServer.type) {
           case "pop3":
             incomingServer = incomingServer.QueryInterface(Ci.nsIPop3IncomingServer);
