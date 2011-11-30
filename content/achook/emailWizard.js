@@ -122,8 +122,12 @@ try{
   }
 
   function suppressSecurityWarning() {
-    EmailConfigWizard.prototype.onCreate = function onCreate_override () {
-      this.validateAndFinish(this.getConcreteConfig());
+    // emailWizard.js#1715
+    gSecurityWarningDialog.open = function (
+      configSchema, configFilledIn, onlyIfNeeded,
+      okCallback, cancelCallback
+    ) {
+      okCallback();
     };
   }
 
