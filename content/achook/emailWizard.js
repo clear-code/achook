@@ -4,6 +4,8 @@
 (function (exports) {
   const DEBUG = true;
 
+  const ACHOOK = new Namespace("achook", "http://www.clear-code.com/thunderbird/achook");
+
   const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
 
   const { Util } = Cu.import('resource://achook-modules/Util.js', {});
@@ -95,10 +97,37 @@
     };
   }
 
+  var lastConfigXML = null;
+  function storeSourceXML() {
+    var originalReadFromXML = window.readFromXML;
+    window.readFromXML = function ACHook_readFromXML(clientConfigXML) {
+      lastConfigXML = clientConfigXML;
+      return originalReadFromXML.apply(this, arguments);
+    };
+  }
+
+  function suppressAccountVerification() {
+    var originalVerifyLogon = window.verifyLogon;
+    window.verifyLogon = function ACHook_verifyLogon(config, inServer, alter, msgWindow, successCallback, errorCallback) {
+      if (lastConfigXML) {
+try{
+        let incomingServer = lastConfigXML..incomingServer;
+        let requireVerification = incomingServer && lastConfigXML..incomingServer.ACHOOK::requireVerification;
+        if (requireVerification && /^\s*(no|false|0)\s*$/i.test(requireVerification.text()))
+          return successCallback.call(this, config);
+}catch(e){dump(e+'\n');dump(config.toSource()+'\n');throw e;}
+      }
+      return originalVerifyLogon.apply(this, arguments);
+    };
+  }
+
   if (domainIsGiven) {
     buildFixedDomainView();
     suppressBuiltinLecture();
   }
+
+  storeSourceXML();
+  suppressAccountVerification();
 
   function outputDebugMessages() {
     eval('EmailConfigWizard.prototype.findConfig = '+EmailConfigWizard.prototype.findConfig.toSource()
@@ -135,15 +164,16 @@
   window.addEventListener("unload", function ACHook_onUnload() {
     window.removeEventListener("unload", ACHook_onUnload, false);
 
-    var config = gEmailConfigWizard._currentConfig;
-
-    const ACHOOK = new Namespace("achook", "http://www.clear-code.com/thunderbird/achook");
+    var config = lastConfigXML;
+dump('config : '+config+'\n');
 
     let afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
+dump('before : '+beforeAccounts.length+' => after : '+afterAccounts.length+'\n');
     if (afterAccounts.length > beforeAccounts.length) {
       afterAccounts.some(function(account) {
         if (beforeAccounts.indexOf(account.key) > -1) return false;
 
+dump('INCOMING\n');
         var incomingServer = account.incomingServer;
         Array.forEach(config..incomingServer.ACHOOK::*, function(aProperty) {
           var key = aProperty.name();
@@ -151,6 +181,7 @@
 dump(key+' = '+value+'\n');
         });
 
+dump('IDENTITY\n');
         var identity = account.defaultIdentity;
         Array.forEach(config..identity.ACHOOK::*, function(aProperty) {
           var key = aProperty.name();
