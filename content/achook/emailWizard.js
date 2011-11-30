@@ -180,8 +180,19 @@
   function suppressAccountDuplicationCheck() {
     let userChoseRemove = false;
     function confirmRemove(message) {
+      const removeButtonIndex = 0;
       return userChoseRemove ||
-        (userChoseRemove = confirm(message || "Remove already exist account?"));
+        (userChoseRemove = (
+          Util.confirmEx(
+            window,
+            StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.title"),
+            StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.text"),
+            Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
+            Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
+            StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.remove"),
+            StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.keep"),
+            null
+          ) == removeButtonIndex));
     }
 
     let validateAndFinish_original = EmailConfigWizard.prototype.validateAndFinish;
@@ -203,9 +214,21 @@
       return validateAndFinish_original.apply(this, arguments);
     };
 
-    window.addEventListener("unload", function () {
+    window.addEventListener("unload", function ACHoook_restartAfterRecreation() {
+      window.removeEventListener("unload", ACHoook_restartAfterRecreation, false);
+
       function confirmRestart() {
-        return confirm("Restart application?");
+        const restartButtonIndex = 0;
+        return Util.confirmEx(
+            window,
+            StringBundle.achook.GetStringFromName("confirmRestartNow.title"),
+            StringBundle.achook.GetStringFromName("confirmRestartNow.text"),
+            Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
+            Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
+            StringBundle.achook.GetStringFromName("confirmRestartNow.restart"),
+            StringBundle.achook.GetStringFromName("confirmRestartNow.later"),
+            null
+          ) == restartButtonIndex;
       }
 
       if (userChoseRemove && confirmRestart()) {
