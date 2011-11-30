@@ -219,7 +219,7 @@
       afterAccounts.some(function(account) {
         if (beforeAccounts.indexOf(account.key) > -1) return false;
 
-        var incomingServer = account.incomingServer;
+        var incomingServer = account.incomingServer.QueryInterface(Ci.nsIIncomingServer);
         switch (incomingServer.type) {
           case "pop3":
             incomingServer = incomingServer.QueryInterface(Ci.nsIPop3IncomingServer);
@@ -238,8 +238,7 @@
           setAccountValue(incomingServer, key, value);
         }
 
-        var identity = account.defaultIdentity;
-        identity = identity.QueryInterface(Ci.nsIMsgIdentity);
+        var identity = account.defaultIdentity.QueryInterface(Ci.nsIMsgIdentity);
         for each (let property in config..identity.ACHOOK::*) {
           if (!property.children().length()) continue;
           var key = property.localName();
