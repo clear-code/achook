@@ -31,8 +31,11 @@
     get masterVBox() $("#mastervbox")
   };
 
-  let domain = preferences.get(PreferenceNames.emailDomainPart);
-  let domainIsGiven = !!domain;
+  var domain = preferences.get(PreferenceNames.emailDomainPart);
+  var domainIsGiven = !!domain;
+
+  var staticConfigURL = preferences.get(PreferenceNames.staticConfigURL);
+  var staticConfigIsGiven = !!staticConfigURL;
 
   function blurElement(element) {
     let { activeElement } = document;
@@ -167,13 +170,35 @@
     };
   }
 
+  function useStaticConfigURL() {
+    var originalFetchConfigFromDisk = window.fetchConfigFromDisk;
+    window.fetchConfigFromDisk = function ACHook_fetchConfigFromDisk(domain, successCallback, errorCallback) {
+      return new TimeoutAbortable(runAsync(function ACHook_asyncFetchConfigCallback() {
+        try {
+          var uri = Services.io.newURI(staticConfigURL, null, null);
+          var contents = readURLasUTF8(uri);
+          contents = contents.replace(/<\?xml[^>]*\?>/, "");
+          lastConfigXML = new XML(contents);
+          successCallback(readFromXML(lastConfigXML));
+        } catch (e) {
+          return originalFetchConfigFromDisk.apply(this, arguments);
+        }
+      }));
+    };
+  }
+
   if (domainIsGiven) {
     buildFixedDomainView();
-    suppressBuiltinLecture();
     suppressSecurityWarning();
   }
 
-  storeSourceXML();
+  if (staticConfigIsGiven) {
+    suppressBuiltinLecture();
+    useStaticConfigURL();
+  } else {
+    storeSourceXML();
+  }
+
   suppressAccountVerification();
 
   function outputDebugMessages() {
