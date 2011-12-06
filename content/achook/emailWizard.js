@@ -312,7 +312,7 @@
   function extractKeyValuesFromXML(xml) {
     return [[property.localName(), property.text()]
             for each (property in xml)
-            if (property.children.length())];
+            if (property.children().length())];
   }
 
   function setAccountValueFromKeyValues(target, keyValues) {
