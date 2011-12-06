@@ -205,8 +205,19 @@
           // nothing to do
           return null;
         }
-        Services.accountManager.removeIncomingServer(incomingServer, true);
-        Services.smtpService.deleteSmtpServer(outgoingServer);
+
+        try {
+          Services.accountManager.removeIncomingServer(incomingServer, true);
+        } catch (x) {
+          dump(x);
+        }
+
+        try {
+          Services.smtpService.deleteSmtpServer(outgoingServer);
+        } catch (x) {
+          dump(x);
+        }
+
         existingAccountRemoved = true;
       }
 
@@ -277,8 +288,9 @@
   var smtpManager = Cc["@mozilla.org/messengercompose/smtp;1"]
                       .getService(Ci.nsISmtpService);
 
-  var beforeAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map(function(account) account.key);
-  var beforeSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function(server) server.key);
+  var beforeAccountKeys = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map(function(account) account.key);
+  var afterSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer);
+  var beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function (server) server.key);
 
   function setAccountValue(aTarget, aKey, aValue) {
     if (!(aKey in aTarget)) {
@@ -297,61 +309,86 @@
     aTarget[aKey] = aValue;
   }
 
+  function extractKeyValuesFromXML(xml) {
+    return [[property.localName(), property.text()]
+            for each (property in xml)
+            if (property.children.length())];
+  }
+
+  function setAccountValueFromKeyValues(target, keyValues) {
+    keyValues.forEach(function ([key, value]) {
+      try {
+        setAccountValue(target, key, value);
+      } catch (x) {
+        dump("Error while setting the property " + key);
+      }
+    });
+  }
+
+  function dispatchEvent(name, properties) {
+    var response = document.createEvent("DataContainerEvent");
+    response.initEvent(name, true, false);
+
+    for (let [key, value] in Iterator(properties)) {
+      response.setData(key, value);
+    }
+
+    document.dispatchEvent(response);
+  }
+
+  function dispatchAccountCreatedEvent(createdAccount, createdSMTPServer) {
+    return dispatchEvent("AcHookAccountCreated", {
+      account: createdAccount,
+      smtpServer: createdSMTPServer
+    });
+  }
+
   function overrideAccountConfig() {
     var config = lastConfigXML;
 
     var afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
-    if (afterAccounts.length > beforeAccounts.length) {
-      afterAccounts.some(function(account) {
-        if (beforeAccounts.indexOf(account.key) > -1) return false;
+    var createdAccounts = afterAccounts.filter(function (account) beforeAccountKeys.indexOf(account.key) < 0);
 
-        var incomingServer = account.incomingServer.QueryInterface(Ci.nsIMsgIncomingServer);
-        switch (incomingServer.type) {
-          case "pop3":
-            incomingServer = incomingServer.QueryInterface(Ci.nsIPop3IncomingServer);
-            break;
-          case "imap":
-            incomingServer = incomingServer.QueryInterface(Ci.nsIImapIncomingServer);
-            break;
-          case "nntp":
-            incomingServer = incomingServer.QueryInterface(Ci.nsINntpIncomingServer);
-            break;
-        }
-        for each (let property in config..incomingServer.ACHOOK::*) {
-          if (!property.children().length()) continue;
-          var key = property.localName();
-          var value = property.text();
-          setAccountValue(incomingServer, key, value);
-        }
+    createdAccounts.forEach(function (account) {
+      var incomingServer = account.incomingServer.QueryInterface(Ci.nsIMsgIncomingServer);
+      switch (incomingServer.type) {
+      case "pop3":
+        incomingServer = incomingServer.QueryInterface(Ci.nsIPop3IncomingServer);
+        break;
+      case "imap":
+        incomingServer = incomingServer.QueryInterface(Ci.nsIImapIncomingServer);
+        break;
+      case "nntp":
+        incomingServer = incomingServer.QueryInterface(Ci.nsINntpIncomingServer);
+        break;
+      }
 
-        var identity = account.defaultIdentity.QueryInterface(Ci.nsIMsgIdentity);
-        for each (let property in config..identity.ACHOOK::*) {
-          if (!property.children().length()) continue;
-          var key = property.localName();
-          var value = property.text();
-          setAccountValue(identity, key, value);
-        }
+      setAccountValueFromKeyValues(
+        incomingServer,
+        extractKeyValuesFromXML(config..incomingServer.ACHOOK::*)
+      );
 
-        return true;
-      });
-    }
+      var identity = account.defaultIdentity.QueryInterface(Ci.nsIMsgIdentity);
+      setAccountValueFromKeyValues(
+        identity,
+        extractKeyValuesFromXML(config..identity.ACHOOK::*)
+      );
+    });
 
     var afterSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer);
-    if (afterSMTPServers.length > beforeSMTPServers.length) {
-      afterSMTPServers.some(function(server) {
-        if (beforeSMTPServers.indexOf(server.key) > -1) return false;
+    var createdSMTPServers = afterSMTPServers.filter(function (server) beforeSMTPServerKeys.indexOf(server.key) < 0);
+    createdSMTPServers.forEach(function (server) {
+      server = server.QueryInterface(Ci.nsISmtpServer);
+      setAccountValueFromKeyValues(
+        server,
+        extractKeyValuesFromXML(config..outgoingServer.ACHOOK::*)
+      );
+    });
 
-        server = server.QueryInterface(Ci.nsISmtpServer);
-        for each (let property in config..outgoingServer.ACHOOK::*) {
-          if (!property.children().length()) continue;
-          var key = property.localName();
-          var value = property.text();
-          setAccountValue(server, key, value);
-        }
-
-        return true;
-      });
-    }
+    dispatchAccountCreatedEvent(
+      createdAccounts[0] || null,
+      createdSMTPServers[0] || null
+    );
   }
 
   function confirmRestart() {
