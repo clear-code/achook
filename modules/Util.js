@@ -718,7 +718,7 @@ var Util = {
         array.push(enumerator.QueryElementAt(i, iface));
     } else if (enumerator instanceof Ci.nsISimpleEnumerator) {
       while (enumerator.hasMoreElements())
-        array.push(enumerator.getNext());
+        array.push(enumerator.getNext().QueryInterface(iface));
     }
 
     return array;
