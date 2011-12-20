@@ -146,7 +146,8 @@
   }
 
   function stringToBoolean(aString, aDefault) {
-    return /^\s*(yes|true|1)\s*$/i.test(String(aString)) || aDefault;
+    aString = String(aString);
+    return aString ? /^\s*(yes|true|1)\s*$/i.test(aString) : aDefault ;
   }
 
   function suppressAccountVerification() {
