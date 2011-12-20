@@ -145,8 +145,8 @@
     }
   }
 
-  function stringToBoolean(aString) {
-    return /^\s*(yes|true|1)\s*$/i.test(String(aString));
+  function stringToBoolean(aString, aDefault) {
+    return /^\s*(yes|true|1)\s*$/i.test(String(aString)) || aDefault;
   }
 
   function suppressAccountVerification() {
@@ -157,7 +157,7 @@
         try{
           let incomingServer = lastConfigXML..incomingServer;
           let requireVerification = incomingServer && lastConfigXML..incomingServer.ACHOOK::requireVerification;
-          if (requireVerification && !stringToBoolean(requireVerification.text())) {
+          if (requireVerification && !stringToBoolean(requireVerification.text(), true)) {
             accountManager.removeIncomingServer(inServer, true);
             return successCallback.call(this, config);
           }
