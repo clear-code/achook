@@ -60,7 +60,7 @@
       elements.emailLocalPartInputBox = createElement("textbox", {
         placeholder : StringBundle.achook.GetStringFromName("accountCreationWizard.address.placeholder"),
         emptytext   : StringBundle.achook.GetStringFromName("accountCreationWizard.address.placeholder"),
-        "class"     : "padded uri-element"
+        "class"     : "padded uri-element initialDesc"
       }),
       elements.emailNewElementsBase
     );
