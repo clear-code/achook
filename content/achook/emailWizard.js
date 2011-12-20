@@ -343,6 +343,36 @@
     });
   }
 
+  function getPrettyNameForIncomingServer(incomingServer) {
+    let defaultFormat = "%username%@%hostname%%not_default_port_expression%";
+
+    var constructedPrettyName = preferences.get(
+      "extensions.achook.prettyNameFormat",
+      defaultFormat
+    );
+
+    if (!constructedPrettyName)
+      constructedPrettyName = defaultFormat;
+
+    let serverPort = incomingServer.port;
+    let defaultServerPort = Services.imapProtocolInfo.getDefaultServerPort(false);
+    let isDefaultPort = serverPort == defaultServerPort;
+
+    let replacePairs = [
+      [/%username%/gi, incomingServer.username.split("@")[0]],
+      [/%real_username%/gi, incomingServer.username],
+      [/%hostname%/gi, incomingServer.hostName],
+      [/%port%/gi, incomingServer.port],
+      [/%not_default_port_expression%/gi, isDefaultPort ? "" : ":" + serverPort]
+    ];
+
+    replacePairs.forEach(function ([pattern, replacer]) {
+      constructedPrettyName = constructedPrettyName.replace(pattern, replacer);
+    });
+
+    return constructedPrettyName;
+  }
+
   function overrideAccountConfig() {
     var config = lastConfigXML;
 
@@ -385,10 +415,14 @@
       );
     });
 
-    dispatchAccountCreatedEvent(
-      createdAccounts[0] || null,
-      createdSMTPServers[0] || null
-    );
+    var createdAccount = createdAccounts[0] || null;
+    var createdSMTPServer = createdSMTPServers[0] || null;
+    var createdAccountIncomingServer = createdAccount.incomingServer;
+
+    if (preferences.get("extensions.achook.prettyNameFormat"))
+      createdAccountIncomingServer.prettyName = getPrettyNameForIncomingServer(createdAccountIncomingServer);
+
+    dispatchAccountCreatedEvent(createdAccount, createdSMTPServer);
   }
 
   function confirmRestart() {
