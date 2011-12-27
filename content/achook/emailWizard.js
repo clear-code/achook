@@ -60,7 +60,8 @@
       elements.emailLocalPartInputBox = createElement("textbox", {
         placeholder : StringBundle.achook.GetStringFromName("accountCreationWizard.address.placeholder"),
         emptytext   : StringBundle.achook.GetStringFromName("accountCreationWizard.address.placeholder"),
-        "class"     : "padded uri-element"
+        "class"     : "padded uri-element",
+        "id"        : "emailLocalPartInputBox"
       }),
       elements.emailNewElementsBase
     );
@@ -75,19 +76,28 @@
     // Hide default input box and arrange event listeners
 
     elements.emailInputBox.hidden = true;
+
+    function onEmailUpdated(newAddress) {
+      if (newAddress !== elements.emailInputBox.value) {
+        elements.emailInputBox.value = newAddress;
+        gEmailConfigWizard.onInputEmail();
+      }
+    }
+
     function onLocalPartInput() {
       let currentMailAddress = getCurrentMailAddress();
-      let [dispatched, event] = dispatchEvent("AcHookMailAddressInput", {
+      if (elements.emailLocalPartInputBox.dispatchEvent(createDataContainerEvent("AcHookMailAddressInput", {
             value: currentMailAddress
-          });
-      currentMailAddress = event.getData("value");
-      if (currentMailAddress !== elements.emailInputBox.value) {
-        elements.emailInputBox.value = currentMailAddress;
-        gEmailConfigWizard.onInputEmail();
+          }, true))) {
+          onEmailUpdated(currentMailAddress);
       }
     }
     elements.emailLocalPartInputBox.addEventListener("input", onLocalPartInput, false);
     elements.emailLocalPartInputBox.addEventListener("blur", onLocalPartInput, false);
+
+    document.addEventListener("AcHookMailAddressOverride", function (ev) {
+      onEmailUpdated(ev.getData("value"));
+    }, false);
   }
 
   function suppressBuiltinLecture() {
@@ -330,23 +340,22 @@
     });
   }
 
-  function dispatchEvent(name, properties) {
-    var response = document.createEvent("DataContainerEvent");
-    response.initEvent(name, true, false);
+  function createDataContainerEvent(name, properties, cancellable) {
+    var event = document.createEvent("DataContainerEvent");
+    event.initEvent(name, true, cancellable);
 
     for (let [key, value] in Iterator(properties)) {
-      response.setData(key, value);
+      event.setData(key, value);
     }
 
-    return [document.dispatchEvent(response), response];
+    return event;
   }
 
   function dispatchAccountCreatedEvent(createdAccount, createdSMTPServer) {
-    var [dispatched, event] = dispatchEvent("AcHookAccountCreated", {
-          account: createdAccount,
-          smtpServer: createdSMTPServer
-        });
-    return dispatched;
+    return document.dispatchEvent(createDataContainerEvent("AcHookAccountCreated", {
+             account: createdAccount,
+             smtpServer: createdSMTPServer
+           }));
   }
 
   function getPrettyNameForIncomingServer(incomingServer) {
