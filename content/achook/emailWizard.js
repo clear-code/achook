@@ -77,6 +77,10 @@
     elements.emailInputBox.hidden = true;
     function onLocalPartInput() {
       let currentMailAddress = getCurrentMailAddress();
+      let [dispatched, event] = dispatchEvent("AcHookMailAddressInput", {
+            value: currentMailAddress
+          });
+      currentMailAddress = event.getData("value");
       if (currentMailAddress !== elements.emailInputBox.value) {
         elements.emailInputBox.value = currentMailAddress;
         gEmailConfigWizard.onInputEmail();
@@ -334,14 +338,15 @@
       response.setData(key, value);
     }
 
-    document.dispatchEvent(response);
+    return [document.dispatchEvent(response), response];
   }
 
   function dispatchAccountCreatedEvent(createdAccount, createdSMTPServer) {
-    return dispatchEvent("AcHookAccountCreated", {
-      account: createdAccount,
-      smtpServer: createdSMTPServer
-    });
+    var [dispatched, event] = dispatchEvent("AcHookAccountCreated", {
+          account: createdAccount,
+          smtpServer: createdSMTPServer
+        });
+    return dispatched;
   }
 
   function getPrettyNameForIncomingServer(incomingServer) {
