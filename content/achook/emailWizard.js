@@ -20,6 +20,15 @@
 
   const preferences = new Preferences("");
 
+  const Messages = {
+    _messages : new Preferences("extensions.achook.wizard."),
+    getLocalized: function (key, defaultValue) {
+      if (this._messages.has(key + ".override"))
+        key += ".override";
+      return this._messages.getLocalized(key, defaultValue);
+    }
+  };
+
   function $(selector) document.querySelector(selector);
   var createElement = Util.getElementCreator(document);
 
@@ -206,18 +215,27 @@
       let outgoingServer = checkOutgoingServerAlreadyExists(config);
 
       if (incomingServer || outgoingServer) {
-        const removeButtonIndex = 0;
-        if (Util.confirmEx(
-              window,
-              StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.title"),
-              StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.text"),
-              Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
-              Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
-              StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.remove"),
-              StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.keep"),
-              null
-            ) != removeButtonIndex) {
-          // nothing to do
+        if (preferences.get(PreferenceNames.overwriteExistingAccount, true)) {
+          const removeButtonIndex = 0;
+          if (Util.confirmEx(
+                window,
+                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.title"),
+                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.text"),
+                Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
+                Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
+                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.remove"),
+                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.keep"),
+                null
+              ) != removeButtonIndex) {
+            // nothing to do
+            return null;
+          }
+        } else {
+          Util.alert(
+            Messages.getLocalized("alertExistingServers.title"),
+            Messages.getLocalized("alertExistingServers.text"),
+            window
+          );
           return null;
         }
 
