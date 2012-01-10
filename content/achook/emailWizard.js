@@ -413,6 +413,9 @@
     var createdAccounts = afterAccounts.filter(function (account) beforeAccountKeys.indexOf(account.key) < 0);
 
     createdAccounts.forEach(function (account) {
+      if (!account.defaultIdentity) // ignore local folder account
+        return;
+
       var incomingServer = account.incomingServer.QueryInterface(Ci.nsIMsgIncomingServer);
       switch (incomingServer.type) {
       case "pop3":
