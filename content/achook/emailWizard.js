@@ -13,6 +13,7 @@
   const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
   const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
   const { StringBundle } = Cu.import("resource://achook-modules/StringBundle.js", {});
+  const { StaticConfig } = Cu.import("resource://achook-modules/StaticConfig.js", {});
 
   var mozServices = {};
   Cu.import("resource://gre/modules/Services.jsm", mozServices);
@@ -44,25 +45,17 @@
   var existingAccountRemoved = false;
   var lastConfigXML = null;
 
-  var staticConfigFile = preferences.get(PreferenceNames.staticConfigFile);
-  var staticConfigIsGiven = !!staticConfigFile;
-
-  if (staticConfigIsGiven) {
+  var shouldUseStaticConfig = StaticConfig.available;
+  if (shouldUseStaticConfig) {
     suppressBuiltinLecture();
-    useStaticConfigFile();
+    useStaticConfig();
   } else {
     storeSourceXML();
   }
 
-  var domain = preferences.get(PreferenceNames.staticConfigDomain);
-  if (!domain && staticConfigIsGiven) {
-    try {
-      domain = readStaticConfigXML().emailProvider.domain.text();
-    } catch (e) {
-    }
-  }
+  var domain = StaticConfig.domain;
   if (domain) {
-    buildFixedDomainView();
+    buildFixedDomainView(domain);
     suppressSecurityWarning();
     suppressAccountDuplicationCheck();
   }
@@ -96,7 +89,7 @@
       activeElement.focus();
   }
 
-  function buildFixedDomainView() {
+  function buildFixedDomainView(domain) {
     function getCurrentMailAddress() elements.emailLocalPartInputBox.value
       + "@" + domain;
 
@@ -296,20 +289,12 @@
     };
   }
 
-  function readStaticConfigXML() {
-    var uri = Util.makeURIFromSpec(staticConfigFile);
-    var contents = readURLasUTF8(uri);
-    contents = contents.replace(/<\?xml[^>]*\?>/, "");
-    return new XML(contents);
-  }
-
-  function useStaticConfigFile() {
+  function useStaticConfig() {
     var originalFetchConfigFromDisk = window.fetchConfigFromDisk;
     window.fetchConfigFromDisk = function ACHook_fetchConfigFromDisk(domain, successCallback, errorCallback) {
       return new TimeoutAbortable(runAsync(function ACHook_asyncFetchConfigCallback() {
         try {
-          lastConfigXML = readStaticConfigXML();
-          successCallback(readFromXML(lastConfigXML));
+          successCallback(readFromXML(lastConfigXML = StaticConfig.xml));
           elements.statusMessage.textContent = StringBundle.achook.GetStringFromName("accountCreationWizard.staticConfigUsed");
         } catch (e) {
           dump(e+'\n');

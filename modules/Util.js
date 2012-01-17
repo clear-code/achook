@@ -77,6 +77,30 @@ var Util = {
     return out.value;
   },
 
+  readFromURI : function (aURI, aEncoding) {
+    aEncoding = aEncoding || "UTF-8";
+
+    let ios = Cc["@mozilla.org/network/io-service;1"]
+          .getService(Ci.nsIIOService);
+    let channel = ios.newChannelFromURI(aURI);
+
+    let stream = Cc["@mozilla.org/intl/converter-input-stream;1"]
+                   .createInstance(Ci.nsIConverterInputStream);
+    stream.init(channel.open(), aEncoding, 1024, Ci.nsIConverterInputStream.DEFAULT_REPLACEMENT_CHARACTER);
+
+    let content = "";
+    let out = {};
+    try {
+      while (stream.readString(1024, out) != 0) {
+        content += out.value;
+      }
+    } finally {
+      stream.close();
+    }
+
+    return content;
+  },
+
   writeFile: function (aTarget, aData, aOptions) {
     aOptions = aOptions || {};
 
