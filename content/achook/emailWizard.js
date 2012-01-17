@@ -37,6 +37,7 @@
     get emailInputBox() $("#email"),
     get emailErrorIcon() $("#emailerroricon"),
     get manualEditButton() $("#manual-edit_button"),
+    get nextButton() $("#next_button"),
     get createButton() $("#create_button"),
     get masterVBox() $("#mastervbox"),
     get statusMessage() $("#status_msg")
@@ -337,6 +338,9 @@
             throw new Error("failed to load static config file");
           successCallback(readFromXML(lastConfigXML));
           elements.statusMessage.textContent = StringBundle.achook.GetStringFromName("accountCreationWizard.staticConfigUsed");
+          window.setTimeout(function() {
+            elements.createButton.click();
+          }, 0);
         } catch (e) {
           dump(e+'\n');
           if (preferences.get(PreferenceNames.staticConfigRequired))
@@ -346,6 +350,7 @@
         }
       }));
     };
+    elements.nextButton.label = elements.createButton.label;
   }
 
   function outputDebugMessages() {
