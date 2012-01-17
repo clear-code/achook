@@ -20,7 +20,7 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
   var plainItem = document.getElementById("newMailAccountMenuItem");
   var staticConfigItem = document.getElementById("newMailAccountMenuItem_achook_staticConfig");
 
-  if (StaticConfig.available && !plainItem.hidden) {
+  if ((StaticConfig.available || StaticConfig.domain) && !plainItem.hidden) {
     if (StaticConfig.always) {
       staticConfigItem.setAttribute("hidden", true);
     } else {

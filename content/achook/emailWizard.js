@@ -55,8 +55,7 @@
 
   var staticDomainUsed = StaticConfig.domainFromSource && shouldUseStaticConfig();
   if (staticDomainUsed) {
-    let domain = StaticConfig.domain;
-    buildFixedDomainView(domain);
+    buildFixedDomainView(StaticConfig.domain);
     suppressSecurityWarning();
     suppressAccountDuplicationCheck();
   }
@@ -76,8 +75,24 @@
 
     if (staticDomainUsed)
       document.dispatchEvent(createDataContainerEvent(StaticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
-        domain : domain
+        domain : StaticConfig.domain
       }));
+
+    if (!StaticConfig.available &&
+        shouldUseStaticConfig() &&
+        preferences.get(PreferenceNames.staticConfigRequired)) {
+        window.addEventListener("load", function ACHook_onLoad() {
+          window.removeEventListener("load", ACHook_onLoad, false);
+          window.setTimeout(function() {
+            Util.alert(
+              Messages.getLocalized("missingStaticConfig.title"),
+              Messages.getLocalized("missingStaticConfig.text"),
+              window
+            );
+            window.close();
+          });
+        }, false);
+    }
   }, false);
 
   window.addEventListener("unload", function ACHook_onUnload() {
