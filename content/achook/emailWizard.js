@@ -71,7 +71,7 @@
 
     if (staticConfigUsed)
       document.dispatchEvent(createDataContainerEvent(StaticConfig.EVENT_TYPE_STATIC_CONFIG_READY, {
-        location : StaticConfig.location
+        source : StaticConfig.source
       }));
 
     if (staticDomainUsed)

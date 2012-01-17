@@ -32,39 +32,57 @@ XPCOMUtils.defineLazyGetter(this, "preferences", function() {
 
 var StaticConfig = {
   EVENT_TYPE_STATIC_CONFIG_READY : "nsDOMAcHookStaticConfigReady",
-  EVENT_TYPE_STATIC_DOMAIN_READY : "nsDOMAcHookStaticDomainReady"
+  EVENT_TYPE_STATIC_DOMAIN_READY : "nsDOMAcHookStaticDomainReady",
+
+  get xml() {
+    return this._lastXML || this.xmlFromSource;
+  },
+  get xmlFromSource() {
+    var xml = this._loadXML();
+    if (xml) this._lastXML = xml;
+    return xml;
+  },
+  _lastXML : null,
+  _loadXML : function StaticConfig_loadXML() {
+    try {
+      var uri = Util.makeURIFromSpec(this.source);
+      var contents = Util.readFromURI(uri, "UTF-8");
+      contents = contents.replace(/<\?xml[^>]*\?>/, "");
+      return new XML(contents);
+    } catch(e) {
+      return null;
+    }
+  },
+
+  get domain() {
+    return this._lastDomain || this.domainFromSource;
+  },
+  get domainFromSource() {
+    var domain = this._loadDomain();
+    if (domain) this._lastDomain = domain;
+    return xml;
+  },
+  _lastDomain : null,
+  _loadDomain : function StaticConfig_loadDomain() {
+    var domain = preferences.get(PreferenceNames.staticConfigDomain);
+    if (!domain) {
+      try {
+        domain = this.xml.emailProvider.domain.text();
+      } catch (e) {
+      }
+    }
+    return domain;
+  }
 };
 
-XPCOMUtils.defineLazyGetter(StaticConfig, "available", function() {
-  return !!this.location && !!this.xml;
+XPCOMUtils.defineLazyGetter(StaticConfig, "available", function StaticConfig_available() {
+  return !!this.source && !!this.xml;
 });
 
-XPCOMUtils.defineLazyGetter(StaticConfig, "always", function() {
+XPCOMUtils.defineLazyGetter(StaticConfig, "always", function StaticConfig_always() {
   return preferences.get(PreferenceNames.staticConfigAlways);
 });
 
-XPCOMUtils.defineLazyGetter(StaticConfig, "location", function() {
+XPCOMUtils.defineLazyGetter(StaticConfig, "source", function StaticConfig_source() {
   return preferences.get(PreferenceNames.staticConfigFile);
-});
-
-XPCOMUtils.defineLazyGetter(StaticConfig, "xml", function() {
-  try {
-    var uri = Util.makeURIFromSpec(this.location);
-    var contents = Util.readFromURI(uri, "UTF-8");
-    contents = contents.replace(/<\?xml[^>]*\?>/, "");
-    return new XML(contents);
-  } catch(e) {
-    return null;
-  }
-});
-
-XPCOMUtils.defineLazyGetter(StaticConfig, "domain", function() {
-  var domain = preferences.get(PreferenceNames.staticConfigDomain);
-  if (!domain) {
-    try {
-      domain = this.xml.emailProvider.domain.text();
-    } catch (e) {
-    }
-  }
-  return domain;
 });
