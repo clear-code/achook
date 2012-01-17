@@ -68,7 +68,7 @@
     </incomingServer>
 
     <outgoingServer type="smtp">
-      <hostname>gm-smtp.tg-group.example.com</hostname>
+      <hostname>smtp.example.com</hostname>
       <port>25</port>
       <socketType>plain</socketType>
       <username>%EMAILLOCALPART%</username>
