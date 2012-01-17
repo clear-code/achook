@@ -33,7 +33,7 @@ XPCOMUtils.defineLazyGetter(this, "preferences", function() {
 var StaticConfig = {};
 
 XPCOMUtils.defineLazyGetter(StaticConfig, "available", function() {
-  return !!StaticConfig.location;
+  return !!this.location && !!this.xml;
 });
 
 XPCOMUtils.defineLazyGetter(StaticConfig, "location", function() {
@@ -41,17 +41,21 @@ XPCOMUtils.defineLazyGetter(StaticConfig, "location", function() {
 });
 
 XPCOMUtils.defineLazyGetter(StaticConfig, "xml", function() {
-  var uri = Util.makeURIFromSpec(StaticConfig.location);
-  var contents = Util.readFromURI(uri, "UTF-8");
-  contents = contents.replace(/<\?xml[^>]*\?>/, "");
-  return new XML(contents);
+  try {
+    var uri = Util.makeURIFromSpec(this.location);
+    var contents = Util.readFromURI(uri, "UTF-8");
+    contents = contents.replace(/<\?xml[^>]*\?>/, "");
+    return new XML(contents);
+  } catch(e) {
+    return null;
+  }
 });
 
 XPCOMUtils.defineLazyGetter(StaticConfig, "domain", function() {
   var domain = preferences.get(PreferenceNames.staticConfigDomain);
   if (!domain) {
     try {
-      domain = StaticConfig.xml.emailProvider.domain.text();
+      domain = this.xml.emailProvider.domain.text();
     } catch (e) {
     }
   }
