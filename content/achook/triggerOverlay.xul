@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript" src="./triggerOverlay.js" />
+  <menupopup id="menu_NewPopup">
+    <menuitem id="newMailAccountMenuItem_achook_staticConfig"
+              insertafter="newMailAccountMenuItem"
+              hidden="true"
+              oncommand="NewMailAccount(msgWindow, null, { __achook__staticConfig : true });"/>
+  </menupopup>
+</overlay>
