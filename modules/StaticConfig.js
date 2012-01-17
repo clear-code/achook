@@ -51,9 +51,7 @@ var StaticConfig = {
     return this._lastXML || this.xmlFromSource;
   },
   get xmlFromSource() {
-    var xml = this._loadXML();
-    if (xml) this._lastXML = xml;
-    return xml;
+    return this._lastXML = this._loadXML();
   },
   _lastXML : null,
   _loadXML : function StaticConfig_loadXML() {
@@ -71,9 +69,7 @@ var StaticConfig = {
     return this._lastDomain || this.domainFromSource;
   },
   get domainFromSource() {
-    var domain = this._loadDomain();
-    if (domain) this._lastDomain = domain;
-    return domain;
+    return this._lastDomain = this._loadDomain();
   },
   _lastDomain : null,
   _loadDomain : function StaticConfig_loadDomain() {
