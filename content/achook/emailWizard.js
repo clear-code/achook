@@ -43,6 +43,13 @@
     get statusMessage() $("#status_msg")
   };
 
+  // Reset wizard status to "start".
+  function resetStatus() {
+    elements.statusMessage.textContent = "";
+    gEmailConfigWizard.onStartOver();
+    gEmailConfigWizard.checkStartDone();
+  }
+
   var existingAccountRemoved = false;
   var lastConfigXML = null;
 
@@ -268,6 +275,22 @@
     };
   }
 
+  // Reset status to "start" when verification failed
+  let (verifyConfig_original = verifyConfig) {
+    verifyConfig = function (config, alter, msgWindow, successCallback, errorCallback) {
+      verifyConfig_original(
+        config, alter, msgWindow,
+        function success() {
+          successCallback.apply(this, arguments);
+        },
+        function error() {
+          resetStatus();
+          errorCallback.apply(this, arguments);
+        }
+      );
+    };
+  };
+
   function suppressAccountDuplicationCheck() {
     let validateAndFinish_original = EmailConfigWizard.prototype.validateAndFinish;
     EmailConfigWizard.prototype.validateAndFinish = function () {
@@ -290,7 +313,7 @@
                 null
               ) != removeButtonIndex) {
             // nothing to do
-            return null;
+            return resetStatus();
           }
         } else {
           Util.alert(
@@ -298,7 +321,7 @@
             Messages.getLocalized("alertExistingServers.text"),
             window
           );
-          return null;
+          return resetStatus();
         }
 
         try {
@@ -337,7 +360,7 @@
           if (!lastConfigXML)
             throw new Error("failed to load static config file");
           successCallback(readFromXML(lastConfigXML));
-          elements.statusMessage.textContent = StringBundle.achook.GetStringFromName("accountCreationWizard.staticConfigUsed");
+          elements.statusMessage.textContent = "";
           window.setTimeout(function() {
             elements.createButton.click();
           }, 0);
