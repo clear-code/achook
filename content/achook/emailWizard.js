@@ -45,19 +45,24 @@
   var existingAccountRemoved = false;
   var lastConfigXML = null;
 
-  var shouldUseStaticConfig = StaticConfig.available;
-  if (shouldUseStaticConfig) {
+  if (StaticConfig.available && shouldUseStaticConfig()) {
     suppressBuiltinLecture();
     useStaticConfig();
+    document.dispatchEvent(createDataContainerEvent(StaticConfig.EVENT_TYPE_STATIC_CONFIG_READY, {
+      location : StaticConfig.location
+    }));
   } else {
     storeSourceXML();
   }
 
-  var domain = StaticConfig.domain;
-  if (domain) {
+  if (StaticConfig.domain && shouldUseStaticConfig()) {
+    let domain = StaticConfig.domain;
     buildFixedDomainView(domain);
     suppressSecurityWarning();
     suppressAccountDuplicationCheck();
+    document.dispatchEvent(createDataContainerEvent(StaticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
+      domain : domain
+    }));
   }
 
   suppressAccountVerification();
@@ -287,6 +292,14 @@
 
       return validateAndFinish_original.apply(this, arguments);
     };
+  }
+
+  function shouldUseStaticConfig() {
+    if (StaticConfig.always)
+      return true;
+
+    var arg = window.arguments && window.arguments.length > 0 && window.arguments[0];
+    return arg && arg.extraData && arg.extraData.__achook__staticConfig;
   }
 
   function useStaticConfig() {

@@ -30,10 +30,17 @@ XPCOMUtils.defineLazyGetter(this, "preferences", function() {
 });
 
 
-var StaticConfig = {};
+var StaticConfig = {
+  EVENT_TYPE_STATIC_CONFIG_READY : "nsDOMAcHookStaticConfigReady",
+  EVENT_TYPE_STATIC_DOMAIN_READY : "nsDOMAcHookStaticDomainReady"
+};
 
 XPCOMUtils.defineLazyGetter(StaticConfig, "available", function() {
   return !!this.location && !!this.xml;
+});
+
+XPCOMUtils.defineLazyGetter(StaticConfig, "always", function() {
+  return preferences.get(PreferenceNames.staticConfigAlways);
 });
 
 XPCOMUtils.defineLazyGetter(StaticConfig, "location", function() {
