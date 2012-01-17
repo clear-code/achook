@@ -1,5 +1,3 @@
-"use strict";
-
 window.addEventListener("load", function ACHook_triggerOverlay_init() {
   window.removeEventListener("load", ACHook_triggerOverlay_init, false);
 
@@ -34,3 +32,9 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
     staticConfigItem.setAttribute("hidden", true);
   }
 }, false);
+
+// initial wizard should use static config
+eval("window.AutoConfigWizard = "+window.AutoConfigWizard.toSource().replace(
+  /(NewMailAccount\([^;]+okCallback)(\))/g,
+  "$1, { __achook__staticConfig : true }$2"
+));
