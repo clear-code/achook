@@ -41,11 +41,52 @@
     get statusMessage() $("#status_msg")
   };
 
-  var domain = preferences.get(PreferenceNames.emailDomainPart);
-  var domainIsGiven = !!domain;
+  var existingAccountRemoved = false;
+  var lastConfigXML = null;
 
-  var staticConfigURL = preferences.get(PreferenceNames.staticConfigURL);
-  var staticConfigIsGiven = !!staticConfigURL;
+  var staticConfigFile = preferences.get(PreferenceNames.staticConfigFile);
+  var staticConfigIsGiven = !!staticConfigFile;
+
+  if (staticConfigIsGiven) {
+    suppressBuiltinLecture();
+    useStaticConfigFile();
+  } else {
+    storeSourceXML();
+  }
+
+  var domain = preferences.get(PreferenceNames.staticConfigDomain);
+  if (!domain && staticConfigIsGiven) {
+    try {
+      domain = readStaticConfigXML().emailProvider.domain.text();
+    } catch (e) {
+    }
+  }
+  if (domain) {
+    buildFixedDomainView();
+    suppressSecurityWarning();
+    suppressAccountDuplicationCheck();
+  }
+
+  suppressAccountVerification();
+
+  if (DEBUG)
+    outputDebugMessages();
+
+  window.addEventListener("unload", function ACHook_onUnload() {
+    window.removeEventListener("unload", ACHook_onUnload, false);
+    overrideAccountConfig();
+    confirmRestart();
+  }, false);
+
+  const accountManager = Cc["@mozilla.org/messenger/account-manager;1"]
+                           .getService(Ci.nsIMsgAccountManager);
+  const smtpManager = Cc["@mozilla.org/messengercompose/smtp;1"]
+                        .getService(Ci.nsISmtpService);
+
+  var beforeAccountKeys = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map(function(account) account.key);
+  var afterSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer);
+  var beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function (server) server.key);
+
 
   function blurElement(element) {
     let { activeElement } = document;
@@ -141,8 +182,6 @@
     };
   }
 
-  var lastConfigXML = null;
-
   function storeSourceXML() {
     var originalReadFromXML = window.readFromXML;
     window.readFromXML = function ACHook_readFromXML(clientConfigXML) {
@@ -205,7 +244,6 @@
     };
   }
 
-  var existingAccountRemoved = false;
   function suppressAccountDuplicationCheck() {
     let validateAndFinish_original = EmailConfigWizard.prototype.validateAndFinish;
     EmailConfigWizard.prototype.validateAndFinish = function () {
@@ -258,15 +296,19 @@
     };
   }
 
-  function useStaticConfigURL() {
+  function readStaticConfigXML() {
+    var uri = Util.makeURIFromSpec(staticConfigFile);
+    var contents = readURLasUTF8(uri);
+    contents = contents.replace(/<\?xml[^>]*\?>/, "");
+    return new XML(contents);
+  }
+
+  function useStaticConfigFile() {
     var originalFetchConfigFromDisk = window.fetchConfigFromDisk;
     window.fetchConfigFromDisk = function ACHook_fetchConfigFromDisk(domain, successCallback, errorCallback) {
       return new TimeoutAbortable(runAsync(function ACHook_asyncFetchConfigCallback() {
         try {
-          var uri = Util.makeURIFromSpec(staticConfigURL);
-          var contents = readURLasUTF8(uri);
-          contents = contents.replace(/<\?xml[^>]*\?>/, "");
-          lastConfigXML = new XML(contents);
+          lastConfigXML = readStaticConfigXML();
           successCallback(readFromXML(lastConfigXML));
           elements.statusMessage.textContent = StringBundle.achook.GetStringFromName("accountCreationWizard.staticConfigUsed");
         } catch (e) {
@@ -276,21 +318,6 @@
       }));
     };
   }
-
-  if (domainIsGiven) {
-    buildFixedDomainView();
-    suppressSecurityWarning();
-    suppressAccountDuplicationCheck();
-  }
-
-  if (staticConfigIsGiven) {
-    suppressBuiltinLecture();
-    useStaticConfigURL();
-  } else {
-    storeSourceXML();
-  }
-
-  suppressAccountVerification();
 
   function outputDebugMessages() {
     eval('EmailConfigWizard.prototype.findConfig = '+EmailConfigWizard.prototype.findConfig.toSource()
@@ -312,18 +339,6 @@
       )
     );
   }
-
-  if (DEBUG)
-    outputDebugMessages();
-
-  var accountManager = Cc["@mozilla.org/messenger/account-manager;1"]
-                         .getService(Ci.nsIMsgAccountManager);
-  var smtpManager = Cc["@mozilla.org/messengercompose/smtp;1"]
-                      .getService(Ci.nsISmtpService);
-
-  var beforeAccountKeys = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map(function(account) account.key);
-  var afterSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer);
-  var beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function (server) server.key);
 
   function setAccountValue(aTarget, aKey, aValue) {
     if (!(aKey in aTarget)) {
@@ -376,16 +391,8 @@
            }));
   }
 
-  function getPrettyNameForIncomingServer(incomingServer) {
-    let defaultFormat = "%username%@%hostname%%not_default_port_expression%";
-
-    var constructedPrettyName = preferences.get(
-      "extensions.achook.prettyNameFormat",
-      defaultFormat
-    );
-
-    if (!constructedPrettyName)
-      constructedPrettyName = defaultFormat;
+  function applyCustomPrettyName(incomingServer, format) {
+    let constructedPrettyName = String(format);
 
     let serverPort = incomingServer.port;
     let defaultServerPort = Services.imapProtocolInfo.getDefaultServerPort(false);
@@ -403,7 +410,7 @@
       constructedPrettyName = constructedPrettyName.replace(pattern, replacer);
     });
 
-    return constructedPrettyName;
+    incomingServer.prettyName = constructedPrettyName;
   }
 
   function overrideAccountConfig() {
@@ -455,8 +462,9 @@
     var createdSMTPServer = createdSMTPServers[0] || null;
     var createdAccountIncomingServer = createdAccount.incomingServer;
 
-    if (preferences.get("extensions.achook.prettyNameFormat"))
-      createdAccountIncomingServer.prettyName = getPrettyNameForIncomingServer(createdAccountIncomingServer);
+    var prettyNameFormat = config.emailProvider.ACHOOK::prettyNameFormat;
+    if (prettyNameFormat && prettyNameFormat.text())
+      applyCustomPrettyName(createdAccountIncomingServer, prettyNameFormat.text());
 
     dispatchAccountCreatedEvent(createdAccount, createdSMTPServer);
   }
@@ -476,10 +484,4 @@
       Util.restartApplication();
     }
   };
-
-  window.addEventListener("unload", function ACHook_onUnload() {
-    window.removeEventListener("unload", ACHook_onUnload, false);
-    overrideAccountConfig();
-    confirmRestart();
-  }, false);
 })(window);
