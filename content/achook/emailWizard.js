@@ -46,7 +46,7 @@
   var existingAccountRemoved = false;
   var lastConfigXML = null;
 
-  var staticConfigUsed = StaticConfig.available && shouldUseStaticConfig();
+  var staticConfigUsed = StaticConfig.strictlyAvailable && shouldUseStaticConfig();
   if (staticConfigUsed) {
     suppressBuiltinLecture();
     useStaticConfig();

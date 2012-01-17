@@ -43,6 +43,9 @@ var StaticConfig = {
   get available() {
     return !!this.source && !!this.xml;
   },
+  get strictlyAvailable() {
+    return !!this.source && !!this.xmlFromSource;
+  },
 
   get xml() {
     return this._lastXML || this.xmlFromSource;
