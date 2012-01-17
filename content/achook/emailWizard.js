@@ -45,30 +45,40 @@
   var existingAccountRemoved = false;
   var lastConfigXML = null;
 
-  if (StaticConfig.available && shouldUseStaticConfig()) {
+  var staticConfigUsed = StaticConfig.available && shouldUseStaticConfig();
+  if (staticConfigUsed) {
     suppressBuiltinLecture();
     useStaticConfig();
-    document.dispatchEvent(createDataContainerEvent(StaticConfig.EVENT_TYPE_STATIC_CONFIG_READY, {
-      location : StaticConfig.location
-    }));
   } else {
     storeSourceXML();
   }
 
-  if (StaticConfig.domain && shouldUseStaticConfig()) {
+  var staticDomainUsed = StaticConfig.domain && shouldUseStaticConfig();
+  if (staticDomainUsed) {
     let domain = StaticConfig.domain;
     buildFixedDomainView(domain);
     suppressSecurityWarning();
     suppressAccountDuplicationCheck();
-    document.dispatchEvent(createDataContainerEvent(StaticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
-      domain : domain
-    }));
   }
 
   suppressAccountVerification();
 
   if (DEBUG)
     outputDebugMessages();
+
+  window.addEventListener("DOMContentLoaded", function ACHook_onDOMContentLoaded() {
+    window.removeEventListener("DOMContentLoaded", ACHook_onDOMContentLoaded, false);
+
+    if (staticConfigUsed)
+      document.dispatchEvent(createDataContainerEvent(StaticConfig.EVENT_TYPE_STATIC_CONFIG_READY, {
+        location : StaticConfig.location
+      }));
+
+    if (staticDomainUsed)
+      document.dispatchEvent(createDataContainerEvent(StaticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
+        domain : domain
+      }));
+  }, false);
 
   window.addEventListener("unload", function ACHook_onUnload() {
     window.removeEventListener("unload", ACHook_onUnload, false);
