@@ -34,6 +34,16 @@ var StaticConfig = {
   EVENT_TYPE_STATIC_CONFIG_READY : "nsDOMAcHookStaticConfigReady",
   EVENT_TYPE_STATIC_DOMAIN_READY : "nsDOMAcHookStaticDomainReady",
 
+  get source() {
+    return preferences.get(PreferenceNames.staticConfigSource);
+  },
+  get always() {
+    return preferences.get(PreferenceNames.staticConfigAlways);
+  },
+  get available() {
+    return !!this.source && !!this.xml;
+  },
+
   get xml() {
     return this._lastXML || this.xmlFromSource;
   },
@@ -60,7 +70,7 @@ var StaticConfig = {
   get domainFromSource() {
     var domain = this._loadDomain();
     if (domain) this._lastDomain = domain;
-    return xml;
+    return domain;
   },
   _lastDomain : null,
   _loadDomain : function StaticConfig_loadDomain() {
@@ -74,15 +84,3 @@ var StaticConfig = {
     return domain;
   }
 };
-
-XPCOMUtils.defineLazyGetter(StaticConfig, "available", function StaticConfig_available() {
-  return !!this.source && !!this.xml;
-});
-
-XPCOMUtils.defineLazyGetter(StaticConfig, "always", function StaticConfig_always() {
-  return preferences.get(PreferenceNames.staticConfigAlways);
-});
-
-XPCOMUtils.defineLazyGetter(StaticConfig, "source", function StaticConfig_source() {
-  return preferences.get(PreferenceNames.staticConfigFile);
-});
