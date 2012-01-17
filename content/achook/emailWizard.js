@@ -53,7 +53,7 @@
     storeSourceXML();
   }
 
-  var staticDomainUsed = StaticConfig.domain && shouldUseStaticConfig();
+  var staticDomainUsed = StaticConfig.domainFromSource && shouldUseStaticConfig();
   if (staticDomainUsed) {
     let domain = StaticConfig.domain;
     buildFixedDomainView(domain);
@@ -317,11 +317,17 @@
     window.fetchConfigFromDisk = function ACHook_fetchConfigFromDisk(domain, successCallback, errorCallback) {
       return new TimeoutAbortable(runAsync(function ACHook_asyncFetchConfigCallback() {
         try {
-          successCallback(readFromXML(lastConfigXML = StaticConfig.xml));
+          lastConfigXML = StaticConfig.xml;
+          if (!lastConfigXML)
+            throw new Error("failed to load static config file");
+          successCallback(readFromXML(lastConfigXML));
           elements.statusMessage.textContent = StringBundle.achook.GetStringFromName("accountCreationWizard.staticConfigUsed");
         } catch (e) {
           dump(e+'\n');
-          return originalFetchConfigFromDisk.apply(this, arguments);
+          if (preferences.get(PreferenceNames.staticConfigRequired))
+            errorCallback(e);
+          else
+            originalFetchConfigFromDisk.apply(this, arguments);
         }
       }));
     };
