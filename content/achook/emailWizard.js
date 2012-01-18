@@ -39,6 +39,7 @@
     get manualEditButton() $("#manual-edit_button"),
     get nextButton() $("#next_button"),
     get createButton() $("#create_button"),
+    get stopButton() $("#stop_button"),
     get masterVBox() $("#mastervbox"),
     get statusMessage() $("#status_msg")
   };
@@ -199,10 +200,10 @@
         this._currentConfig   = config;
         this._currentModename = "result";
 
-        $("#next_button").hidden = true;
         $("#half-manual-test_button").hidden = true;
-        $("#stop_button").hidden = true;
         $("#advanced-setup_button").hidden = true;
+        elements.nextButton.hidden = true;
+        elements.stopButton.hidden = true;
 
         elements.createButton.disabled = false;
         elements.createButton.hidden = false;
@@ -354,6 +355,7 @@
   function useStaticConfig() {
     var originalFetchConfigFromDisk = window.fetchConfigFromDisk;
     window.fetchConfigFromDisk = function ACHook_fetchConfigFromDisk(domain, successCallback, errorCallback) {
+      elements.stopButton.hidden = true;
       return new TimeoutAbortable(runAsync(function ACHook_asyncFetchConfigCallback() {
         try {
           lastConfigXML = StaticConfig.xml;
@@ -365,6 +367,7 @@
             elements.createButton.click();
           }, 0);
         } catch (e) {
+          elements.stopButton.hidden = false;
           dump(e+'\n');
           if (preferences.get(PreferenceNames.staticConfigRequired))
             errorCallback(e);
