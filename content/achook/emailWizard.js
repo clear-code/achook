@@ -3,6 +3,10 @@
 
 (function (exports) {
   const DEBUG = true;
+  function debugMessage(message) {
+    if (DEBUG)
+      Application.console.log("achook: "+message);
+  }
 
   const ACHOOK = new Namespace("achook", "http://www.clear-code.com/thunderbird/achook");
 
@@ -46,6 +50,7 @@
 
   // Reset wizard status to "start".
   function resetStatus() {
+    debugMessage("resetStatus");
     elements.statusMessage.textContent = "";
     gEmailConfigWizard.onStartOver();
     gEmailConfigWizard.checkStartDone();
@@ -55,6 +60,7 @@
   var lastConfigXML = null;
 
   var staticConfigUsed = StaticConfig.strictlyAvailable && shouldUseStaticConfig();
+  debugMessage("staticConfigUsed = " + staticConfigUsed);
   if (staticConfigUsed) {
     suppressBuiltinLecture();
     useStaticConfig();
@@ -63,6 +69,7 @@
   }
 
   var staticDomainUsed = StaticConfig.domainFromSource && shouldUseStaticConfig();
+  debugMessage("staticDomainUsed = "+staticDomainUsed);
   if (staticDomainUsed) {
     buildFixedDomainView(StaticConfig.domain);
     suppressSecurityWarning();
@@ -159,15 +166,30 @@
 
     elements.emailInputBox.hidden = true;
 
+    var onEmailUpdatedMessageTimer;
     function onEmailUpdated(newAddress) {
+      if (onEmailUpdatedMessageTimer) window.clearTimeout(onEmailUpdatedMessageTimer);
+      onEmailUpdatedMessageTimer = window.setTimeout(function() {
+        debugMessage("onEmailUpdated: newAddress = "+newAddress);
+        onEmailUpdatedMessageTimer = null;
+      }, 500);
+
       if (newAddress !== elements.emailInputBox.value) {
         elements.emailInputBox.value = newAddress;
         gEmailConfigWizard.onInputEmail();
       }
     }
 
+    var onLocalPartInputTimer;
     function onLocalPartInput() {
       let currentMailAddress = getCurrentMailAddress();
+
+      if (onLocalPartInputTimer) window.clearTimeout(onLocalPartInputTimer);
+      onLocalPartInputTimer = window.setTimeout(function() {
+        debugMessage("onLocalPartInput: currentMailAddress = "+currentMailAddress);
+        onLocalPartInputTimer = null;
+      }, 500);
+
       if (elements.emailLocalPartInputBox.dispatchEvent(createDataContainerEvent("AcHookMailAddressInput", {
             value: currentMailAddress
           }, true))) {
@@ -235,7 +257,7 @@
       }
       targetAccounts.forEach(function (account) accountManager.removeAccount(account));
     } catch (x) {
-      dump("Failed to remove account " + username + "@" + hostname + "(" + type +")\n" + x + "\n");
+      debugMessage("Failed to remove account " + username + "@" + hostname + "(" + type +")\n" + x);
     }
   }
 
@@ -257,8 +279,8 @@
             return successCallback.call(this, config);
           }
         } catch(e) {
-          dump(e+"\n");
-          dump(config.toSource()+"\n");
+          debugMessage(e);
+          debugMessage(config.toSource());
           throw e;
         }
       }
@@ -328,13 +350,13 @@
         try {
           Services.accountManager.removeIncomingServer(incomingServer, true);
         } catch (x) {
-          dump(x);
+          debugMessage(x);
         }
 
         try {
           Services.smtpService.deleteSmtpServer(outgoingServer);
         } catch (x) {
-          dump(x);
+          debugMessage(x);
         }
 
         existingAccountRemoved = true;
@@ -368,7 +390,7 @@
           }, 0);
         } catch (e) {
           elements.stopButton.hidden = false;
-          dump(e+'\n');
+          debugMessage(e);
           if (preferences.get(PreferenceNames.staticConfigRequired))
             errorCallback(e);
           else
@@ -383,38 +405,36 @@
     eval('EmailConfigWizard.prototype.findConfig = '+EmailConfigWizard.prototype.findConfig.toSource()
       .replace(
         /(gEmailWizardLogger.info\(("[^"]+")\))/g,
-        'dump($2); dump("\\n"); $1'
+        'debugMessage($2); $1'
       )
       .replace(
         /((?:this|self)\.(?:switchToMode|startSpinner)\(("[^"]+")\))/g,
-        'dump($2); dump("\\n"); $1'
+        'debugMessage($2); $1'
       )
       .replace(
         '{',
-        '{ dump("domain = "+domain+" / email = " + email+"\\n");'
+        '{ debugMessage("domain = "+domain+" / email = " + email);'
       )
       .replace(
         /(function\s*\(e\)\s*\{)/,
-        '$1 dump("error : "+e+"\\n");'
+        '$1 debugMessage("error : "+e);'
       )
     );
   }
 
   function setAccountValue(aTarget, aKey, aValue) {
-    if (!(aKey in aTarget)) {
-      dump("unknown key "+aKey+"="+aValue+" for "+aTarget+"\n");
-      return;
-    }
+    if (!(aKey in aTarget))
+      return "unknown key "+aKey+"="+aValue;
+
     switch (typeof aTarget[aKey]) {
       case "string": aValue = String(aValue); break;
       case "number": aValue = Number(aValue); break;
       case "boolean": aValue = stringToBoolean(aValue); break;
       default:
-        dump("object type key cannot be updated: "+aKey+"="+aValue+" for "+aTarget+"\n");
-        return;
+        return "object type key cannot be updated: "+aKey+"="+aValue;
     }
-    dump("override "+aKey+"="+aValue+" for "+aTarget+"\n");
     aTarget[aKey] = aValue;
+    return "override "+aKey+"="+aValue+" for "+aTarget;
   }
 
   function extractKeyValuesFromXML(xml) {
@@ -424,13 +444,14 @@
   }
 
   function setAccountValueFromKeyValues(target, keyValues) {
-    keyValues.forEach(function ([key, value]) {
-      try {
-        setAccountValue(target, key, value);
-      } catch (x) {
-        dump("Error while setting the property " + key);
-      }
-    });
+    var results = keyValues.map(function ([key, value]) {
+          try {
+            return setAccountValue(target, key, value);
+          } catch (x) {
+            return "Error while setting the property " + key;
+          }
+        });
+    debugMessage("setAccountValueFromKeyValues for "+target+"\n"+results.join("\n"));
   }
 
   function createDataContainerEvent(name, properties, cancellable) {
