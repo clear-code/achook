@@ -169,10 +169,10 @@
     var onEmailUpdatedMessageTimer;
     function onEmailUpdated(newAddress) {
       if (onEmailUpdatedMessageTimer) window.clearTimeout(onEmailUpdatedMessageTimer);
-      onEmailUpdatedMessageTimer = window.setTimeout(function() {
-        debugMessage("onEmailUpdated: newAddress = "+newAddress);
+      onEmailUpdatedMessageTimer = window.setTimeout(function(aStack) {
+        debugMessage("onEmailUpdated: newAddress = "+newAddress+"\n"+aStack);
         onEmailUpdatedMessageTimer = null;
-      }, 500);
+      }, 500, (new Error()).stack);
 
       if (newAddress !== elements.emailInputBox.value) {
         elements.emailInputBox.value = newAddress;
@@ -185,10 +185,10 @@
       let currentMailAddress = getCurrentMailAddress();
 
       if (onLocalPartInputTimer) window.clearTimeout(onLocalPartInputTimer);
-      onLocalPartInputTimer = window.setTimeout(function() {
-        debugMessage("onLocalPartInput: currentMailAddress = "+currentMailAddress);
+      onLocalPartInputTimer = window.setTimeout(function(aStack) {
+        debugMessage("onLocalPartInput: currentMailAddress = "+currentMailAddress+"\n"+aStack);
         onLocalPartInputTimer = null;
-      }, 500);
+      }, 500, (new Error()).stack);
 
       if (elements.emailLocalPartInputBox.dispatchEvent(createDataContainerEvent("AcHookMailAddressInput", {
             value: currentMailAddress
