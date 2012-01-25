@@ -313,6 +313,31 @@
       );
     };
   };
+  // clear testing account for the "cancel" button
+  let (verifyLogon_original = window.verifyLogon) {
+    window.verifyLogon = function ACHook_verifyLogon(config, inServer, alter, msgWindow, successCallback, errorCallback) {
+      let onUnload = function() {
+        debugMessage('clear temporary incoming server');
+        Services.accountManager.removeIncomingServer(inServer, true);
+        window.removeEventListener('unload', onUnload, false);
+      };
+      window.addEventListener('unload', onUnload, false);
+
+      let successCallback_original = successCallback;
+      successCallback = function() {
+        successCallback_original.apply(this, arguments);
+        window.removeEventListener('unload', onUnload, false);
+      };
+
+      let errorCallback_original = errorCallback;
+      errorCallback = function() {
+        errorCallback_original.apply(this, arguments);
+        window.removeEventListener('unload', onUnload, false);
+      };
+
+      return verifyLogon_original.call(this, config, inServer, alter, msgWindow, successCallback, errorCallback);
+    };
+  }
 
   function suppressAccountDuplicationCheck() {
     let validateAndFinish_original = EmailConfigWizard.prototype.validateAndFinish;
