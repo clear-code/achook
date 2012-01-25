@@ -317,7 +317,7 @@
   let (verifyLogon_original = window.verifyLogon) {
     window.verifyLogon = function ACHook_verifyLogon(config, inServer, alter, msgWindow, successCallback, errorCallback) {
       let onUnload = function() {
-        debugMessage('clear temporary incoming server');
+        debugMessage('clear temporary incoming server (dialog is closed)');
         Services.accountManager.removeIncomingServer(inServer, true);
         window.removeEventListener('unload', onUnload, false);
       };
@@ -335,7 +335,12 @@
         window.removeEventListener('unload', onUnload, false);
       };
 
-      return verifyLogon_original.call(this, config, inServer, alter, msgWindow, successCallback, errorCallback);
+      try {
+        return verifyLogon_original.call(this, config, inServer, alter, msgWindow, successCallback, errorCallback);
+      } catch(e) {
+        debugMessage('clear temporary incoming server (unknown error occurded):\n'+e+'\n'+e.stack);
+        Services.accountManager.removeIncomingServer(inServer, true);
+      }
     };
   }
 
