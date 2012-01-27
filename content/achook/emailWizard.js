@@ -353,38 +353,48 @@
       let outgoingServer = checkOutgoingServerAlreadyExists(config);
 
       if (incomingServer || outgoingServer) {
-        if (preferences.get(PreferenceNames.overwriteExistingAccount, true)) {
-          const removeButtonIndex = 0;
-          if (Util.confirmEx(
-                window,
-                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.title"),
-                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.text"),
-                Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
-                Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
-                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.remove"),
-                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers.keep"),
-                null
-              ) != removeButtonIndex) {
-            // nothing to do
-            return resetStatus();
-          }
-        } else {
+        debugMessage("incomingServer = "+incomingServer+" (override:"+preferences.get(PreferenceNames.overwriteExistingAccount_incomingServer, true)+")\n"+
+                     "outgoingServer = "+outgoingServer+" (override:"+preferences.get(PreferenceNames.overwriteExistingAccount_outgoingServer, true)+")");
+        if (incomingServer && !preferences.get(PreferenceNames.overwriteExistingAccount_incomingServer, true) ||
+            outgoingServer && !preferences.get(PreferenceNames.overwriteExistingAccount_outgoingServer, true)) {
           Util.alert(
             Messages.getLocalized("alertExistingServers.title"),
             Messages.getLocalized("alertExistingServers.text"),
             window
           );
           return resetStatus();
+        } else {
+          const removeButtonIndex = 0;
+          let serverType = incomingServer ? "all" : "outgoingServer" ;
+          if (Util.confirmEx(
+                window,
+                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers."+serverType+".title"),
+                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers."+serverType+".text"),
+                Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
+                Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
+                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers."+serverType+".remove"),
+                StringBundle.achook.GetStringFromName("confirmRemoveExistingServers."+serverType+".keep"),
+                null
+              ) != removeButtonIndex) {
+            // nothing to do
+            return resetStatus();
+          }
         }
 
         try {
-          Services.accountManager.removeIncomingServer(incomingServer, true);
+          if (incomingServer) {
+            debugMessage("deleting existing incoming server");
+            Services.accountManager.removeIncomingServer(incomingServer, true);
+          }
         } catch (x) {
           debugMessage(x);
         }
 
         try {
-          Services.smtpService.deleteSmtpServer(outgoingServer);
+          if (outgoingServer) {
+            debugMessage("deleting existing outgoing server");
+            Services.smtpService.deleteSmtpServer(outgoingServer);
+          }
         } catch (x) {
           debugMessage(x);
         }
