@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./makexpi.sh -n achook -o
+./makexpi.sh "$@" -n achook -o
