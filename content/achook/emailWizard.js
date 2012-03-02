@@ -123,7 +123,6 @@
                         .getService(Ci.nsISmtpService);
 
   var beforeAccountKeys = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map(function(account) account.key);
-  var afterSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer);
   var beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function (server) server.key);
 
 
@@ -394,6 +393,7 @@
           if (outgoingServer) {
             debugMessage("deleting existing outgoing server");
             Services.smtpService.deleteSmtpServer(outgoingServer);
+            beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function (server) server.key);
           }
         } catch (x) {
           debugMessage(x);
