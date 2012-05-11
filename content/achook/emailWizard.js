@@ -462,16 +462,33 @@
     );
   }
 
-  function setAccountValue(aTarget, aKey, aValue) {
+  function concreteValue(aValue, aVariables) {
+    Object.keys(aVariables).forEach(function(aKey) {
+      aValue = aValue.replace(new RegExp("%"+aKey+"%", "gi"), aVariables[aKey]);
+    });
+    return aValue;
+  }
+
+  function setAccountValue(aTarget, aKey, aValue, aVariables) {
     if (!(aKey in aTarget))
       return "unknown key "+aKey+"="+aValue;
 
     switch (typeof aTarget[aKey]) {
-      case "string": aValue = String(aValue); break;
-      case "number": aValue = Number(aValue); break;
-      case "boolean": aValue = stringToBoolean(aValue); break;
+      case "object":
+        if (aTarget[aKey] !== null)
+          return "object type key cannot be updated: "+aKey+"="+aValue+" ("+aTarget[aKey]+")";
+      case "string":
+        aValue = String(aValue);
+        aValue = concreteValue(aValue, aVariables);
+        break;
+      case "number":
+        aValue = Number(aValue);
+        break;
+      case "boolean":
+        aValue = stringToBoolean(aValue);
+        break;
       default:
-        return "object type key cannot be updated: "+aKey+"="+aValue;
+        return "object type key cannot be updated: "+aKey+"="+aValue+" ("+(typeof aTarget[aKey])+")";
     }
     aTarget[aKey] = aValue;
     return "override "+aKey+"="+aValue+" for "+aTarget;
@@ -483,12 +500,12 @@
             if (property.children().length())];
   }
 
-  function setAccountValueFromKeyValues(target, keyValues) {
+  function setAccountValueFromKeyValues(target, keyValues, aVariables) {
     var results = keyValues.map(function ([key, value]) {
           try {
-            return setAccountValue(target, key, value);
+            return setAccountValue(target, key, value, aVariables);
           } catch (x) {
-            return "Error while setting the property " + key;
+            return "Error while setting the property " + key + ":\n" + x;
           }
         });
     debugMessage("setAccountValueFromKeyValues for "+target+"\n"+results.join("\n"));
@@ -540,6 +557,8 @@
     var afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
     var createdAccounts = afterAccounts.filter(function (account) beforeAccountKeys.indexOf(account.key) < 0);
 
+    var variables = {};
+
     createdAccounts.forEach(function (account) {
       if (!account.defaultIdentity) // ignore local folder account
         return;
@@ -557,15 +576,22 @@
         break;
       }
 
+      var identity = account.defaultIdentity.QueryInterface(Ci.nsIMsgIdentity);
+      variables.EMAILADDRESS = identity.email;
+      variables.EMAILLOCALPART = identity.email.split("@")[0];
+      variables.EMAILDOMAIN = identity.email.split("@")[1];
+      variables.REALNAME = identity.fullName;
+
       setAccountValueFromKeyValues(
         incomingServer,
-        extractKeyValuesFromXML(config..incomingServer.ACHOOK::*)
+        extractKeyValuesFromXML(config..incomingServer.ACHOOK::*),
+        variables
       );
 
-      var identity = account.defaultIdentity.QueryInterface(Ci.nsIMsgIdentity);
       setAccountValueFromKeyValues(
         identity,
-        extractKeyValuesFromXML(config..identity.ACHOOK::*)
+        extractKeyValuesFromXML(config..identity.ACHOOK::*),
+        variables
       );
     });
 
@@ -575,7 +601,8 @@
       server = server.QueryInterface(Ci.nsISmtpServer);
       setAccountValueFromKeyValues(
         server,
-        extractKeyValuesFromXML(config..outgoingServer.ACHOOK::*)
+        extractKeyValuesFromXML(config..outgoingServer.ACHOOK::*),
+        variables
       );
     });
 
