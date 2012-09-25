@@ -18,25 +18,31 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
     }
   };
 
-  var plainItem = document.getElementById("newMailAccountMenuItem");
+  var newAccountItem = document.getElementById("newMailAccountMenuItem");
+  var newCreateAccountItem = document.getElementById("newCreateEmailAccountMenuItem");
   var staticConfigItem = document.getElementById("newMailAccountMenuItem_achook_staticConfig");
 
-  if ((StaticConfig.available || StaticConfig.domain) && !plainItem.hidden) {
+  if ((StaticConfig.available || StaticConfig.domain) && !newAccountItem.hidden) {
     if (preferences.get(PreferenceNames.disableGenericWizard)) {
       // Hide the custom menu item, because the default wizard is always overridden.
       staticConfigItem.setAttribute("hidden", true);
+      if (newCreateAccountItem)
+        newCreateAccountItem.setAttribute("hidden", true);
     } else {
       let label = Messages.getLocalized("newMailAccountMenuItem.label");
       let accesskey = Messages.getLocalized("newMailAccountMenuItem.accesskey");
       staticConfigItem.setAttribute("label", label.replace(/%domain%/gi, StaticConfig.domain));
       staticConfigItem.setAttribute("accesskey", accesskey.replace(/%domain%/gi, StaticConfig.domain).charAt(0));
       staticConfigItem.removeAttribute("hidden");
+      if (newCreateAccountItem)
+        newCreateAccountItem.removeAttribute("hidden");
     }
   } else {
     Application.console.log("achook: static config is not used. "+{
-                              "StaticConfig.available" : StaticConfig.available,
-                              "StaticConfig.domain"    : StaticConfig.domain,
-                              "plainItem.hidden"       : plainItem.hidden
+                              "StaticConfig.available"      : StaticConfig.available,
+                              "StaticConfig.domain"         : StaticConfig.domain,
+                              "newAccountItem.hidden"       : newAccountItem.hidden,
+                              "newCreateAccountItem.hidden" : newCreateAccountItem && newCreateAccountItem.hidden
                             }.toSource());
     staticConfigItem.setAttribute("hidden", true);
   }
