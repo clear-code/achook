@@ -422,7 +422,7 @@
           lastConfigXML = StaticConfig.xml;
           if (!lastConfigXML)
             throw new Error("failed to load static config file");
-          successCallback(readFromXML(lastConfigXML));
+          successCallback(readFromXML(lastConfigXML = new XML(lastConfigXML)));
           elements.statusMessage.textContent = "";
           window.setTimeout(function() {
             elements.createButton.click();

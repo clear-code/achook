@@ -58,8 +58,8 @@ var StaticConfig = {
     try {
       var uri = Util.makeURIFromSpec(this.source);
       var contents = Util.readFromURI(uri, "UTF-8");
-      contents = contents.replace(/<\?xml[^>]*\?>/, "");
-      return new XML(contents);
+      contents = contents.replace(/<\?xml[^>]*\?>|<!--.*\?-->/g, "");
+      return contents;
     } catch(e) {
       return null;
     }
