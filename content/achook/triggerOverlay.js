@@ -1,3 +1,28 @@
+window.addEventListener("DOMContentLoaded", function ACHook_triggerOverlay_pre_init() {
+  window.removeEventListener("DOMContentLoaded", ACHook_triggerOverlay_pre_init, false);
+
+  const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
+  const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
+  const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
+  const preferences = new Preferences("");
+
+  const mailProvisionerPref = "mail.provider.enabled";
+  if (preferences.get(PreferenceNames.disableGenericWizard) &&
+      preferences.get(mailProvisionerPref)) {
+    preferences.set(mailProvisionerPref, false);
+  }
+
+  // initial wizard should use static config
+  if ("AutoConfigWizard" in window) {
+    eval("window.AutoConfigWizard = "+window.AutoConfigWizard.toSource().replace(
+      /(NewMailAccount\([^;]+okCallback)(\))/g,
+      "$1, { __achook__staticConfig : true }$2"
+    ));
+  } else {
+    Application.console.log("achook: AutoConfigWizard is not defined. I don't override the initial wizard.");
+  }
+}, false);
+
 window.addEventListener("load", function ACHook_triggerOverlay_init() {
   window.removeEventListener("load", ACHook_triggerOverlay_init, false);
 
@@ -22,38 +47,25 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
   var newCreateAccountItem = document.getElementById("newCreateEmailAccountMenuItem");
   var staticConfigItem = document.getElementById("newMailAccountMenuItem_achook_staticConfig");
 
-  if ((StaticConfig.available || StaticConfig.domain) && !newAccountItem.hidden) {
-    if (preferences.get(PreferenceNames.disableGenericWizard)) {
-      // Hide the custom menu item, because the default wizard is always overridden.
-      staticConfigItem.setAttribute("hidden", true);
-      if (newCreateAccountItem)
-        newCreateAccountItem.setAttribute("hidden", true);
-    } else {
-      let label = Messages.getLocalized("newMailAccountMenuItem.label");
-      let accesskey = Messages.getLocalized("newMailAccountMenuItem.accesskey");
-      staticConfigItem.setAttribute("label", label.replace(/%domain%/gi, StaticConfig.domain));
-      staticConfigItem.setAttribute("accesskey", accesskey.replace(/%domain%/gi, StaticConfig.domain).charAt(0));
-      staticConfigItem.removeAttribute("hidden");
-      if (newCreateAccountItem)
-        newCreateAccountItem.removeAttribute("hidden");
-    }
-  } else {
-    Application.console.log("achook: static config is not used. "+{
-                              "StaticConfig.available"      : StaticConfig.available,
-                              "StaticConfig.domain"         : StaticConfig.domain,
-                              "newAccountItem.hidden"       : newAccountItem.hidden,
-                              "newCreateAccountItem.hidden" : newCreateAccountItem && newCreateAccountItem.hidden
-                            }.toSource());
+  if (preferences.get(PreferenceNames.disableGenericWizard)) {
+    // Hide the custom menu item, because the default wizard is always overridden.
     staticConfigItem.setAttribute("hidden", true);
+    if (newCreateAccountItem)
+      newCreateAccountItem.setAttribute("hidden", true);
+  } else {
+    let label = Messages.getLocalized("newMailAccountMenuItem.label");
+    let accesskey = Messages.getLocalized("newMailAccountMenuItem.accesskey");
+    staticConfigItem.setAttribute("label", label.replace(/%domain%/gi, StaticConfig.domain));
+    staticConfigItem.setAttribute("accesskey", accesskey.replace(/%domain%/gi, StaticConfig.domain).charAt(0));
+    staticConfigItem.removeAttribute("hidden");
+    if (newCreateAccountItem)
+      newCreateAccountItem.removeAttribute("hidden");
+  }
+
+  if (!StaticConfig.available) {
+    Application.console.log("achook: static config is not used. "+{
+                              "StaticConfig.available" : StaticConfig.available,
+                              "StaticConfig.domain"    : StaticConfig.domain,
+                            }.toSource());
   }
 }, false);
-
-// initial wizard should use static config
-if ("AutoConfigWizard" in window) {
-  eval("window.AutoConfigWizard = "+window.AutoConfigWizard.toSource().replace(
-    /(NewMailAccount\([^;]+okCallback)(\))/g,
-    "$1, { __achook__staticConfig : true }$2"
-  ));
-} else {
-  Application.console.log("achook: AutoConfigWizard is not defined. I don't override the initial wizard.");
-}
