@@ -5,6 +5,6 @@ overlay	chrome://messenger/content/accountcreation/emailWizard.xul	chrome://acho
 
 overlay	chrome://messenger/content/messenger.xul	chrome://achook/content/triggerOverlay.xul
 overlay	chrome://messenger/content/messageWindow.xul	chrome://achook/content/triggerOverlay.xul
-overlay	chrome://messenger/content/AccountManager.xul	chrome://achook/content/triggerOverlay.xul
+overlay	chrome://messenger/content/AccountManager.xul	chrome://achook/content/triggerOverlayAccountWizard.xul
 
 resource achook-modules modules/

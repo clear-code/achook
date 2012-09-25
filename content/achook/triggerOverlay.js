@@ -11,16 +11,6 @@ window.addEventListener("DOMContentLoaded", function ACHook_triggerOverlay_pre_i
       preferences.get(mailProvisionerPref)) {
     preferences.set(mailProvisionerPref, false);
   }
-
-  // initial wizard should use static config
-  if ("AutoConfigWizard" in window) {
-    eval("window.AutoConfigWizard = "+window.AutoConfigWizard.toSource().replace(
-      /(NewMailAccount\([^;]+okCallback)(\))/g,
-      "$1, { __achook__staticConfig : true }$2"
-    ));
-  } else {
-    Application.console.log("achook: AutoConfigWizard is not defined. I don't override the initial wizard.");
-  }
 }, false);
 
 window.addEventListener("load", function ACHook_triggerOverlay_init() {
@@ -43,7 +33,8 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
     }
   };
 
-  var newAccountItem = document.getElementById("newMailAccountMenuItem");
+  var newAccountItem = document.getElementById("newMailAccountMenuItem") || // main window
+                       document.getElementById("accountActionsAddMailAccount"); // account settings window
   var newCreateAccountItem = document.getElementById("newCreateEmailAccountMenuItem");
   var staticConfigItem = document.getElementById("newMailAccountMenuItem_achook_staticConfig");
 

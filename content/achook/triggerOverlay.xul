@@ -1,6 +1,17 @@
 <?xml version="1.0"?>
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="./triggerOverlay.js" />
+  <script type="application/x-javascriot"><![CDATA[
+    // initial wizard should use static config
+    if ("AutoConfigWizard" in window) {
+      eval("window.AutoConfigWizard = "+window.AutoConfigWizard.toSource().replace(
+        /(NewMailAccount\([^;]+okCallback)(\))/g,
+        "$1, { __achook__staticConfig : true }$2"
+      ));
+    } else {
+      Application.console.log("achook: both AutoConfigWizard and AddMailAccount are not defined!");
+    }
+  ]]></script>
   <menupopup id="menu_NewPopup">
     <menuitem id="newMailAccountMenuItem_achook_staticConfig"
               insertafter="newMailAccountMenuItem"
