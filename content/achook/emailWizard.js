@@ -406,7 +406,7 @@
   }
 
   function shouldUseStaticConfig() {
-    if (StaticConfig.always)
+    if (preferences.get(PreferenceNames.disableGenericWizard))
       return true;
 
     var arg = window.arguments && window.arguments.length > 0 && window.arguments[0];

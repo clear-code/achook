@@ -37,8 +37,8 @@ var StaticConfig = {
   get source() {
     return preferences.get(PreferenceNames.staticConfigSource);
   },
-  get always() {
-    return preferences.get(PreferenceNames.staticConfigAlways);
+  get disableGenericWizard() {
+    return preferences.get(PreferenceNames.disableGenericWizard);
   },
   get available() {
     return !!this.source && !!this.xml;

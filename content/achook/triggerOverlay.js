@@ -5,6 +5,9 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
 
   const { StaticConfig } = Cu.import("resource://achook-modules/StaticConfig.js", {});
   const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
+  const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
+
+  const preferences = new Preferences("");
 
   const Messages = {
     _messages : new Preferences("extensions.achook."),
@@ -19,7 +22,8 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
   var staticConfigItem = document.getElementById("newMailAccountMenuItem_achook_staticConfig");
 
   if ((StaticConfig.available || StaticConfig.domain) && !plainItem.hidden) {
-    if (StaticConfig.always) {
+    if (preferences.get(PreferenceNames.disableGenericWizard)) {
+      // Hide the custom menu item, because the default wizard is always overridden.
       staticConfigItem.setAttribute("hidden", true);
     } else {
       let label = Messages.getLocalized("newMailAccountMenuItem.label");
