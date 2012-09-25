@@ -95,8 +95,7 @@
       }));
 
     if (!StaticConfig.available &&
-        shouldUseStaticConfig() &&
-        preferences.get(PreferenceNames.staticConfigRequired)) {
+        shouldUseStaticConfig()) {
         window.addEventListener("load", function ACHook_onLoad() {
           window.removeEventListener("load", ACHook_onLoad, false);
           window.setTimeout(function() {
@@ -431,10 +430,7 @@
         } catch (e) {
           elements.stopButton.hidden = false;
           debugMessage(e);
-          if (preferences.get(PreferenceNames.staticConfigRequired))
-            errorCallback(e);
-          else
-            originalFetchConfigFromDisk.apply(this, arguments);
+          errorCallback(e);
         }
       }));
     };
