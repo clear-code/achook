@@ -47,16 +47,21 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
   var newCreateAccountItem = document.getElementById("newCreateEmailAccountMenuItem");
   var staticConfigItem = document.getElementById("newMailAccountMenuItem_achook_staticConfig");
 
+  let label = Messages.getLocalized("newMailAccountMenuItem.label");
+  label = label.replace(/%domain%/gi, StaticConfig.domain);
+  let accesskey = Messages.getLocalized("newMailAccountMenuItem.accesskey");
+  accesskey = accesskey.replace(/%domain%/gi, StaticConfig.domain).charAt(0);
+
   if (preferences.get(PreferenceNames.disableGenericWizard)) {
     // Hide the custom menu item, because the default wizard is always overridden.
     staticConfigItem.setAttribute("hidden", true);
     if (newCreateAccountItem)
       newCreateAccountItem.setAttribute("hidden", true);
+    // Use the menu item for the generic wizard to start the custom wizard (but don't override the access key!)
+    newAccountItem.setAttribute("label", label);
   } else {
-    let label = Messages.getLocalized("newMailAccountMenuItem.label");
-    let accesskey = Messages.getLocalized("newMailAccountMenuItem.accesskey");
-    staticConfigItem.setAttribute("label", label.replace(/%domain%/gi, StaticConfig.domain));
-    staticConfigItem.setAttribute("accesskey", accesskey.replace(/%domain%/gi, StaticConfig.domain).charAt(0));
+    staticConfigItem.setAttribute("label", label);
+    staticConfigItem.setAttribute("accesskey", accesskey);
     staticConfigItem.removeAttribute("hidden");
     if (newCreateAccountItem)
       newCreateAccountItem.removeAttribute("hidden");
