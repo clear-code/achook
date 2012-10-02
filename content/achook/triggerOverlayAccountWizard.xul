@@ -2,7 +2,7 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="./triggerOverlay.js" />
   <script type="application/x-javascriot"><![CDATA[
-    function AddCustomMailAccount = function() {
+    function AddCustomMailAccount() {
       NewMailAccount(MailServices.mailSession.topmostMsgWindow, null, { __achook__staticConfig : true });
     }
   ]]></script>
