@@ -3,7 +3,9 @@
   <script type="application/x-javascript" src="./triggerOverlay.js" />
   <script type="application/x-javascript"><![CDATA[
     function AddCustomMailAccount() {
-      NewMailAccount(MailServices.mailSession.topmostMsgWindow, null, { __achook__staticConfig : true });
+      var mailSession = Components.classes["@mozilla.org/messenger/services/session;1"]
+            .getService(Components.interfaces.nsIMsgMailSession);
+      NewMailAccount(mailSession.topmostMsgWindow, null, { __achook__staticConfig : true });
     }
   ]]></script>
   <menupopup id="accountActionsDropdown">
