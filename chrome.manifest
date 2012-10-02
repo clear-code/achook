@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 content	achook	content/achook/
+locale	achook	en-US	locale/en-US/achook/
 locale	achook	ja	locale/ja/achook/
 
 overlay	chrome://messenger/content/accountcreation/emailWizard.xul	chrome://achook/content/emailWizard.xul
