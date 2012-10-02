@@ -1,0 +1,80 @@
+achook のドキュメント。
+
+h1. 概要
+
+Thunderbird 3.1 より導入されたアカウント情報の自動設定システムを使うと、あらかじめメールサーバなどの情報をプリセットしておき、ユーザ名などの限られた情報をユーザに入力させるだけでアカウントのセットアップを完了することができます。しかし、このシステムで自動設定できる項目は限られており、ケースによっては要求を達成できないこともありました。この問題に対し、本アドオンはThunderbirdでアカウントに対して設定可能なほぼ全ての項目を自動設定できるようにした独自のウィザードを提供します。
+
+h1. 専用アカウントの作成機能
+
+管理者は専用アカウントのプリセット値を設定ファイル (XML 形式) として用意し、社内サーバなど特定の場所に配置します。すると、本アドオンをインストールしたユーザのアカウント作成メニューに、専用アカウントを作成するメニュー項目が出現します。このメニュー項目をクリックすれば、自動設定の済んだ専用アカウントを作成するための、独自ウィザードが開始されます。
+
+以下で、実際の環境で専用アカウントの作成機能を利用するための手順を説明します。
+
+h2. 設定ファイルの用意
+
+はじめに、自動設定する項目を記述した設定ファイルを用意し、適当な場所へ配置します。ファイルはユーザのマシンから見てリモートにあっても、ローカルにあっても構いません。
+
+設定ファイルのフォーマットがどのようなものになっているかについては、アドオンに同梱されている example.com.xml をご覧ください。Autoconfiguration のドキュメントも参考になることでしょう（下記）。
+
+https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
+
+なお、設定ファイル内では以下に示すいくつかの特殊なテンプレート変数を使
+用することができます。
+
+|_. 変数名                      |_. 展開後の値                                           |
+| %real_username%               | ユーザの入力した名前                                   |
+| %username%                    | メールアドレスのユーザ名部分                           |
+| %hostname%                    | メールアドレスのホスト名部分                           |
+| %port%                        | メール受信サーバのポート番号 (例 "12345")              |
+| %not_default_port_expression% | コロン付きのメール受信サーバのポート番号 (例 ":12345") |
+
+h2. 設定ファイルの場所指定
+
+つぎに、ユーザの Thunderbird へ achook をインストールした上で、Thunderbird の設定値 @extensions.achook.staticConfig.source@ に設定ファイルの場所を設定します。
+
+h2. ドメインの設定
+
+最後に、ユーザの Thunderbird の設定値 @extensions.achook.staticConfig.domain@ へ、専用アカウントで使うドメインを設定して下さい。これは、メニュー項目のラベルとして利用されます。
+
+h1. 通常アカウント作成機能の無効化
+
+企業内での導入などで社内で利用するメールアカウントを社内のものに統一したい場合、その他のアカウントの作成を禁止する必要があります。本アドオンの設定項目値 @extensions.achook.disableGenericWizard@ を true に設定すると、そうしたその他のアカウント作成機能が無効化され、ユーザに社内メールアカウントの利用を強制することができます。
+
+h1. Abstract
+
+Autoconfiguration, which is introduced in Thunderbird 3.1, allows system administrators to arrange already configured mail accounts where user have to input only few things such as username. However, the number of configurable account information in autoconfiguration is limited, and thus it cannot be used in some cases. To address this problem, achook provides features that allow system administrators to configure most account information.
+
+h1. Pre-configured account creation
+
+A system administrator arranges preset values of account information as a setting file (in XML format), and place it to the certain place such as a server in his company's network. After that, in Thunderbird with achook, pre-configured account creation menu item appears, and when an user clicks the item, pre-configured account creation wizard starts.
+
+The remainder of this document shows the steps to use achook in real-systems.
+
+h2. Arranging a setting file
+
+First, we need a setting file that contains pre-configured setting values. Setting files can be placed in local place or remote place from user environments.
+
+Setting files are written in XML, and example.com.xml packed in achook is a good example for writing setting files. You may find useful information in a documentation of autoconfiguration.
+
+https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
+
+You can use following several template variables in setting files.
+
+|_. Variable name               |_. Expanded into                                                       |
+| %real_username%               | Full name of the user                                                 |
+| %username%                    | User name part of the e-mail address                                  |
+| %hostname%                    | Host name part of the e-mail address                                  |
+| %port%                        | Port number of the mail receive server  (e.g., "12345")               |
+| %not_default_port_expression% | Port number of the mail receive server with a colon  (e.g., ":12345") |
+
+h2. Specifying the location of the setting file
+
+Second, install achook into user Thunderbird, and specify the location of the setting file via @extensions.achook.staticConfig.source@.
+
+h2. Specifying the domain name
+
+Optionally, system administrator can specify the domain name of pre-configured accounts via @extensions.achook.staticConfig.domain@. This value is used as a label of a menu item.
+
+h1. Disable default account creation wizard
+
+System administrators can limit mail-accounts used in users Thunderbird to inter-company accounts, by setting @extensions.achook.disableGenericWizard@ to true. This customization disables default account creation wizard, and force users to use pre-configured mail accounts.
