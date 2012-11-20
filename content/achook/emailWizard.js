@@ -607,14 +607,17 @@
     });
 
     var createdAccount = createdAccounts[0] || null;
-    var createdSMTPServer = createdSMTPServers[0] || null;
-    var createdAccountIncomingServer = createdAccount.incomingServer;
+    if (createdAccount) {
+      // When accounts are created, dispatch account-created event for the first account.
+      var createdSMTPServer = createdSMTPServers[0] || null;
+      var createdAccountIncomingServer = createdAccount.incomingServer;
 
-    var prettyNameFormat = config.emailProvider.ACHOOK::prettyNameFormat;
-    if (prettyNameFormat && prettyNameFormat.text())
-      applyCustomPrettyName(createdAccountIncomingServer, prettyNameFormat.text());
+      var prettyNameFormat = config.emailProvider.ACHOOK::prettyNameFormat;
+      if (prettyNameFormat && prettyNameFormat.text())
+        applyCustomPrettyName(createdAccountIncomingServer, prettyNameFormat.text());
 
-    dispatchAccountCreatedEvent(createdAccount, createdSMTPServer);
+      dispatchAccountCreatedEvent(createdAccount, createdSMTPServer);
+    }
   }
 
   function confirmRestart() {
