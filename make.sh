@@ -1,3 +1,5 @@
 #!/bin/sh
 
-./makexpi.sh "$@" -n achook -o
+cp buildscript/makexpi.sh ./
+./makexpi.sh -n achook -o
+rm ./makexpi.sh
