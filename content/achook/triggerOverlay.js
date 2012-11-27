@@ -37,10 +37,19 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
     }
   };
 
-  var newAccountItem = document.getElementById("newMailAccountMenuItem") || // main window
-                       document.getElementById("accountActionsAddMailAccount"); // account settings window
-  var newCreateAccountItem = document.getElementById("newCreateEmailAccountMenuItem");
-  var staticConfigItem = document.getElementById("newMailAccountMenuItem_achook_staticConfig");
+  var newAccountItems = [
+        document.getElementById("newMailAccountMenuItem"), // main window, menu bar
+        document.getElementById("appmenu_newMailAccountMenuItem"), // main window, application menu
+        document.getElementById("accountActionsAddMailAccount")
+      ]; // account settings window
+  var newCreateAccountItems = [
+        document.getElementById("newCreateEmailAccountMenuItem"), // menu bar
+        document.getElementById("appmenu_newCreateEmailAccountMenuItem") // application menu
+      ];
+  var staticConfigItems = [
+        document.getElementById("newMailAccountMenuItem_achook_staticConfig"), // menu bar
+        document.getElementById("appmenu_newMailAccountMenuItem_achook_staticConfig") // application menu
+      ];
 
   let label = Messages.getLocalized("newMailAccountMenuItem.label");
   label = label.replace(/%domain%/gi, StaticConfig.domain);
@@ -49,17 +58,26 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
 
   if (preferences.get(PreferenceNames.disableGenericWizard)) {
     // Hide the custom menu item, because the default wizard is always overridden.
-    staticConfigItem.setAttribute("hidden", true);
-    if (newCreateAccountItem)
-      newCreateAccountItem.setAttribute("hidden", true);
+    staticConfigItems.forEach(function(item) {
+      if (item) item.setAttribute("hidden", true);
+    });
+    newCreateAccountItems.forEach(function(item) {
+      if (item) item.setAttribute("hidden", true);
+    });
     // Use the menu item for the generic wizard to start the custom wizard (but don't override the access key!)
-    newAccountItem.setAttribute("label", label);
+    newAccountItems.forEach(function(item) {
+      if (item) aItem.setAttribute("label", label);
+    });
   } else {
-    staticConfigItem.setAttribute("label", label);
-    staticConfigItem.setAttribute("accesskey", accesskey);
-    staticConfigItem.removeAttribute("hidden");
-    if (newCreateAccountItem)
-      newCreateAccountItem.removeAttribute("hidden");
+    staticConfigItems.forEach(function(item) {
+      if (!item) return;
+      item.setAttribute("label", label);
+      item.setAttribute("accesskey", accesskey);
+      item.removeAttribute("hidden");
+    });
+    newCreateAccountItems.forEach(function(item) {
+      if (item) item.removeAttribute("hidden");
+    });
   }
 
   if (!StaticConfig.available) {

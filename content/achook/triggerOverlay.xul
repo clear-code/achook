@@ -21,4 +21,10 @@
               hidden="true"
               oncommand="NewMailAccount(msgWindow, null, { __achook__staticConfig : true });"/>
   </menupopup>
+  <menupopup id="appmenu_newMenupopup">
+    <menuitem id="appmenu_newMailAccountMenuItem_achook_staticConfig"
+              insertafter="appmenu_newMailAccountMenuItem"
+              hidden="true"
+              oncommand="NewMailAccount(msgWindow, null, { __achook__staticConfig : true });"/>
+  </menupopup>
 </overlay>
