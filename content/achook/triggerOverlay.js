@@ -61,9 +61,6 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
     staticConfigItems.forEach(function(item) {
       if (item) item.setAttribute("hidden", true);
     });
-    newCreateAccountItems.forEach(function(item) {
-      if (item) item.setAttribute("hidden", true);
-    });
     // Use the menu item for the generic wizard to start the custom wizard (but don't override the access key!)
     newAccountItems.forEach(function(item) {
       if (item) aItem.setAttribute("label", label);
@@ -75,6 +72,14 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
       item.setAttribute("accesskey", accesskey);
       item.removeAttribute("hidden");
     });
+  }
+
+  if (preferences.get(PreferenceNames.disableGenericWizard) ||
+      preferences.get(PreferenceNames.disableNewEmailAccountCreation)) {
+    newCreateAccountItems.forEach(function(item) {
+      if (item) item.setAttribute("hidden", true);
+    });
+  } else {
     newCreateAccountItems.forEach(function(item) {
       if (item) item.removeAttribute("hidden");
     });
