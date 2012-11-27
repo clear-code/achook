@@ -2,6 +2,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+// initial wizard should use static config
+if ("AutoConfigWizard" in window) {
+  eval("window.AutoConfigWizard = "+window.AutoConfigWizard.toSource().replace(
+    /(NewMailAccount\([^;]+okCallback)(\))/g,
+    "$1, { __achook__staticConfig : true }$2"
+  ));
+} else {
+  Application.console.log("achook: AutoConfigWizard is not defined!");
+}
+
 window.addEventListener("DOMContentLoaded", function ACHook_triggerOverlay_pre_init() {
   window.removeEventListener("DOMContentLoaded", ACHook_triggerOverlay_pre_init, false);
 
