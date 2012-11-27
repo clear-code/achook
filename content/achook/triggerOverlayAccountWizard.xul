@@ -5,7 +5,7 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="./triggerOverlay.js" />
   <script type="application/x-javascript"><![CDATA[
-    function AddCustomMailAccount() {
+    function AchookAddCustomMailAccount() {
       var mailSession = Components.classes["@mozilla.org/messenger/services/session;1"]
             .getService(Components.interfaces.nsIMsgMailSession);
       NewMailAccount(mailSession.topmostMsgWindow, null, { __achook__staticConfig : true });
@@ -15,6 +15,6 @@
     <menuitem id="newMailAccountMenuItem_achook_staticConfig"
               insertafter="accountActionsAddMailAccount"
               hidden="true"
-              oncommand="AddCustomMailAccount(); event.stopPropagation();"/>
+              oncommand="AchookAddCustomMailAccount(); event.stopPropagation();"/>
   </menupopup>
 </overlay>

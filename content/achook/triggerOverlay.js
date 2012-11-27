@@ -2,16 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-// initial wizard should use static config
-if ("AutoConfigWizard" in window) {
-  eval("window.AutoConfigWizard = "+window.AutoConfigWizard.toSource().replace(
-    /(NewMailAccount\([^;]+okCallback)(\))/g,
-    "$1, { __achook__staticConfig : true }$2"
-  ));
-} else {
-  Application.console.log("achook: AutoConfigWizard is not defined!");
-}
-
 window.addEventListener("DOMContentLoaded", function ACHook_triggerOverlay_pre_init() {
   window.removeEventListener("DOMContentLoaded", ACHook_triggerOverlay_pre_init, false);
 
@@ -51,7 +41,8 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
   var newAccountItems = [
         document.getElementById("newMailAccountMenuItem"), // main window, menu bar
         document.getElementById("appmenu_newMailAccountMenuItem"), // main window, application menu
-        document.getElementById("accountActionsAddMailAccount") // account settings window
+        document.getElementById("accountActionsAddMailAccount"), // account settings window
+        document.querySelector("#CreateAccount .acctCentralText.acctCentralLinkText:not(#newMailAccountItem_achook_staticConfig)") // account central
       ];
   var newCreateAccountItems = [
         document.getElementById("newCreateEmailAccountMenuItem"), // menu bar
@@ -59,7 +50,8 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
       ];
   var staticConfigItems = [
         document.getElementById("newMailAccountMenuItem_achook_staticConfig"), // menu bar
-        document.getElementById("appmenu_newMailAccountMenuItem_achook_staticConfig") // application menu
+        document.getElementById("appmenu_newMailAccountMenuItem_achook_staticConfig"), // application menu
+        document.getElementById("newMailAccountItem_achook_staticConfig") // account central
       ];
 
   let label = Messages.getLocalized("newMailAccountMenuItem.label");
@@ -74,13 +66,22 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
     });
     // Use the menu item for the generic wizard to start the custom wizard (but don't override the access key!)
     newAccountItems.forEach(function(item) {
-      if (item) aItem.setAttribute("label", label);
+      if (!item) return;
+      if (item.localName == "label") {
+        item.setAttribute("value", label);
+      } else {
+        item.setAttribute("label", label);
+      }
     });
   } else {
     staticConfigItems.forEach(function(item) {
       if (!item) return;
-      item.setAttribute("label", label);
-      item.setAttribute("accesskey", accesskey);
+      if (item.localName == "label") {
+        item.setAttribute("value", label);
+      } else {
+        item.setAttribute("label", label);
+        item.setAttribute("accesskey", accesskey);
+      }
       item.removeAttribute("hidden");
     });
   }
