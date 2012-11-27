@@ -11,7 +11,8 @@ window.addEventListener("DOMContentLoaded", function ACHook_triggerOverlay_pre_i
   const preferences = new Preferences("");
 
   const mailProvisionerPref = "mail.provider.enabled";
-  if (preferences.get(PreferenceNames.disableGenericWizard) &&
+  if ((preferences.get(PreferenceNames.disableGenericWizard) ||
+       preferences.get(PreferenceNames.disableNewEmailAccountCreation)) &&
       preferences.get(mailProvisionerPref)) {
     preferences.set(mailProvisionerPref, false);
   }
