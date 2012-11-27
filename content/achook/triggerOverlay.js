@@ -40,8 +40,8 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
   var newAccountItems = [
         document.getElementById("newMailAccountMenuItem"), // main window, menu bar
         document.getElementById("appmenu_newMailAccountMenuItem"), // main window, application menu
-        document.getElementById("accountActionsAddMailAccount")
-      ]; // account settings window
+        document.getElementById("accountActionsAddMailAccount") // account settings window
+      ];
   var newCreateAccountItems = [
         document.getElementById("newCreateEmailAccountMenuItem"), // menu bar
         document.getElementById("appmenu_newCreateEmailAccountMenuItem") // application menu
