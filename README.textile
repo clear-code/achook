@@ -30,7 +30,7 @@ https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
 
 h2. 設定ファイルの場所指定
 
-つぎに、ユーザの Thunderbird へ achook をインストールした上で、Thunderbird の設定値 @extensions.achook.staticConfig.source@ に設定ファイルの場所を設定します。
+つぎに、ユーザの Thunderbird へ achook をインストールした上で、Thunderbird の設定値 @extensions.achook.staticConfig.source@ に設定ファイルの場所をURI形式（ファイルURLなど）で設定します。
 
 h2. ドメインの設定
 
@@ -69,7 +69,7 @@ You can use following several template variables in setting files.
 
 h2. Specifying the location of the setting file
 
-Second, install achook into user Thunderbird, and specify the location of the setting file via @extensions.achook.staticConfig.source@.
+Second, install achook into user Thunderbird, and specify the location of the setting file via @extensions.achook.staticConfig.source@ as an URI string (ex. File URL).
 
 h2. Specifying the domain name
 
