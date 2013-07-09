@@ -85,5 +85,16 @@ var StaticConfig = {
       }
     }
     return domain;
+  },
+
+  get useSeparatedUsername() {
+    var shouldUse = preferences.get(PreferenceNames.staticConfigSeparatedUsername);
+    if (shouldUse === null) {
+      try {
+        shouldUse = this.xml.emailProvider.incomingServer.username.text() != '%EMAILLOCALPART%';
+      } catch (e) {
+      }
+    }
+    return shouldUse;
   }
 };

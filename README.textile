@@ -32,6 +32,10 @@ h2. 設定ファイルの場所指定
 
 つぎに、ユーザの Thunderbird へ achook をインストールした上で、Thunderbird の設定値 @extensions.achook.staticConfig.source@ に設定ファイルの場所をURI形式（ファイルURLなど）で設定します。
 
+h2. メールアドレスと異なるアカウントIDを使用するかどうかの設定
+
+通常、メールサーバにログインする際のユーザアカウントIDは、メールアドレスのローカルパートが使われます。メールアドレスのローカルパートとは異なるアカウントIDを使ってログインする必要がある場合は、Thunderbird の設定値 @extensions.achook.staticConfig.separatedUsername@ を @true@ （真偽値）に設定します。
+
 h2. ドメインの設定
 
 最後に、ユーザの Thunderbird の設定値 @extensions.achook.staticConfig.domain@ へ、専用アカウントで使うドメインを設定して下さい。これは、メニュー項目のラベルとして利用されます。
@@ -70,6 +74,10 @@ You can use following several template variables in setting files.
 h2. Specifying the location of the setting file
 
 Second, install achook into user Thunderbird, and specify the location of the setting file via @extensions.achook.staticConfig.source@ as an URI string (ex. File URL).
+
+h2. Specifying to use separated account ID or don't
+
+By default, Thunderbird creates a mail account with an account ID same to the local part of the mail address. If you have to use an account ID different from the local part of the address, then set the preference @extensions.achook.staticConfig.separatedUsername@ to @true@ (boolean).
 
 h2. Specifying the domain name
 

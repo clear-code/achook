@@ -75,7 +75,7 @@
   var staticDomainUsed = StaticConfig.domainFromSource && shouldUseStaticConfig();
   debugMessage("staticDomainUsed = "+staticDomainUsed);
   if (staticDomainUsed) {
-    buildFixedDomainView(StaticConfig.domain);
+    buildFixedDomainView(StaticConfig.domain, StaticConfig.useSeparatedUsername);
     suppressSecurityWarning();
     suppressAccountDuplicationCheck();
   }
@@ -137,13 +137,42 @@
       activeElement.focus();
   }
 
-  function buildFixedDomainView(domain) {
+  function buildFixedDomainView(domain, useSeparatedUsername) {
     function getCurrentMailAddress() elements.emailLocalPartInputBox.value
       + "@" + domain;
 
     elements.emailInfoContainer = elements.emailInputBox.parentNode;
     elements.accountInfoContainer = elements.emailInfoContainer.parentNode;
     elements.emailNewElementsBase = elements.emailInputBox.nextSibling;
+
+    // Create user id input box (it can be hidden)
+    elements.accountInfoContainer.insertBefore(
+      elements.accountIdRow = createElement(
+        elements.emailInfoContainer.nextSibling.localName,
+        { align : "center", id: "accountIdRow" },
+        [
+          createElement("label", {
+            "class"   : "autoconfigLabel",
+            accesskey : StringBundle.achook.GetStringFromName("accountCreationWizard.accountIdField.accessKey"),
+            value     : StringBundle.achook.GetStringFromName("accountCreationWizard.accountIdField"),
+            control   : "accountIdField"
+          }),
+          elements.accountIdInputBox = createElement("textbox", {
+            id          : "accountIdField",
+            "class"     : "padded",
+            placeholder : StringBundle.achook.GetStringFromName("accountCreationWizard.inputAccountId"),
+            emptytext   : StringBundle.achook.GetStringFromName("accountCreationWizard.inputAccountId")
+          }),
+          createElement("label", {
+            "class"   : "initialDesc",
+            value     : StringBundle.achook.GetStringFromName("accountCreationWizard.accountIdDescription"),
+            control   : "accountIdField"
+          })
+        ]
+      ),
+      elements.emailInfoContainer.nextSibling
+    );
+    elements.accountIdRow.hidden = !useSeparatedUsername;
 
     // Create mail address input box
 
@@ -167,6 +196,17 @@
     // Hide default input box and arrange event listeners
 
     elements.emailInputBox.hidden = true;
+
+    var onAccountIdInputTimer;
+    function onAccountIdInput() {
+      notifyOverrideEmail(updateEmail());
+      if (onAccountIdInputTimer) window.clearTimeout(onAccountIdInputTimer);
+      onAccountIdInputTimer = window.setTimeout(function(aStack) {
+        debugMessage("onAccountIdInput: account id = "+elements.accountIdInputBox.value+"\n"+aStack);
+        onAccountIdInputTimer = null;
+      }, 500, (new Error()).stack);
+    }
+    elements.accountIdInputBox.addEventListener("input", onAccountIdInput, false);
 
     var onEmailUpdatedMessageTimer;
     function onEmailUpdated(newAddress) {
