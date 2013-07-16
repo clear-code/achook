@@ -147,32 +147,32 @@
 
     // Create user id input box (it can be hidden)
     elements.accountInfoContainer.insertBefore(
-      elements.accountIdRow = createElement(
+      elements.usernameRow = createElement(
         elements.emailInfoContainer.nextSibling.localName,
-        { align : "center", id: "accountIdRow" },
+        { align : "center", id: "usernameRow" },
         [
           createElement("label", {
             "class"   : "autoconfigLabel",
-            accesskey : StringBundle.achook.GetStringFromName("accountCreationWizard.accountIdField.accessKey"),
-            value     : StringBundle.achook.GetStringFromName("accountCreationWizard.accountIdField"),
-            control   : "accountIdField"
+            accesskey : StringBundle.achook.GetStringFromName("accountCreationWizard.username.accessKey"),
+            value     : StringBundle.achook.GetStringFromName("accountCreationWizard.username"),
+            control   : "username"
           }),
-          elements.accountIdInputBox = createElement("textbox", {
-            id          : "accountIdField",
+          elements.usernameInputBox = createElement("textbox", {
+            id          : "username",
             "class"     : "padded",
-            placeholder : StringBundle.achook.GetStringFromName("accountCreationWizard.inputAccountId"),
-            emptytext   : StringBundle.achook.GetStringFromName("accountCreationWizard.inputAccountId")
+            placeholder : StringBundle.achook.GetStringFromName("accountCreationWizard.username.placeholder"),
+            emptytext   : StringBundle.achook.GetStringFromName("accountCreationWizard.username.placeholder")
           }),
           createElement("label", {
             "class"   : "initialDesc",
-            value     : StringBundle.achook.GetStringFromName("accountCreationWizard.accountIdDescription"),
-            control   : "accountIdField"
+            value     : StringBundle.achook.GetStringFromName("accountCreationWizard.username.description"),
+            control   : "username"
           })
         ]
       ),
       elements.emailInfoContainer.nextSibling
     );
-    elements.accountIdRow.hidden = !useSeparatedUsername;
+    elements.usernameRow.hidden = !useSeparatedUsername;
 
     // Create mail address input box
 
@@ -197,16 +197,16 @@
 
     elements.emailInputBox.hidden = true;
 
-    var onAccountIdInputTimer;
-    function onAccountIdInput() {
+    var onUsernameInputTimer;
+    function onUsernameInput() {
       notifyOverrideEmail(updateEmail());
-      if (onAccountIdInputTimer) window.clearTimeout(onAccountIdInputTimer);
-      onAccountIdInputTimer = window.setTimeout(function(aStack) {
-        debugMessage("onAccountIdInput: account id = "+elements.accountIdInputBox.value+"\n"+aStack);
-        onAccountIdInputTimer = null;
+      if (onUsernameInputTimer) window.clearTimeout(onUsernameInputTimer);
+      onUsernameInputTimer = window.setTimeout(function(aStack) {
+        debugMessage("onUsernameInput: username = "+elements.usernameInputBox.value+"\n"+aStack);
+        onUsernameInputTimer = null;
       }, 500, (new Error()).stack);
     }
-    elements.accountIdInputBox.addEventListener("input", onAccountIdInput, false);
+    elements.usernameInputBox.addEventListener("input", onUsernameInput, false);
 
     var onEmailUpdatedMessageTimer;
     function onEmailUpdated(newAddress) {
