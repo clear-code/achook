@@ -19,7 +19,8 @@
       <port>143</port>
       <!-- "plain", "SSL" or "STARTTLS" -->
       <socketType>plain</socketType>
-      <username>%EMAILLOCALPART%</username>
+      <!-- "%EMAILADDRESS%", "%EMAILLOCALPART%", "%EMAILDOMAIN%", "%REALNAME%", or "%USERNAME%" (* it is achook specific) -->
+      <username>%USERNAME%</username>
       <!-- "password-cleartext", "password-encrypted", "NTLM", "GSSAPI", "client-IP-address", "TLS-client-cert" or "none" -->
       <authentication>password-cleartext</authentication>
 
