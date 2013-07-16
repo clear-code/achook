@@ -16,7 +16,8 @@ Setting files are written in XML, and example.com.xml packed in achook is a good
 
 https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
 
-You can use following several template variables in setting files.
+You can customize the pretty name of the created account by <achook:prettyNameFormat>.
+There are some template variables for the field:
 
 |_. Variable name               |_. Expanded into                                                       |
 | %real_username%               | Full name of the user                                                 |
@@ -24,6 +25,8 @@ You can use following several template variables in setting files.
 | %hostname%                    | Host name part of the e-mail address                                  |
 | %port%                        | Port number of the mail receive server  (e.g., "12345")               |
 | %not_default_port_expression% | Port number of the mail receive server with a colon  (e.g., ":12345") |
+
+If you don't specify <achook:prettyNameFormat>, the result becomes "%username%@%hostname%%not_default_port_expression%".
 
 h2. Specifying the location of the setting file
 

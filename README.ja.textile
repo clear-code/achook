@@ -16,8 +16,8 @@ h2. 設定ファイルの用意
 
 https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
 
-なお、設定ファイル内では以下に示すいくつかの特殊なテンプレート変数を使
-用することができます。
+作成されるアカウントの名前は、設定ファイル内の <achook:prettyNameFormat> でカスタマイズできます。
+ここでは以下に示すいくつかの特殊なテンプレート変数を利用できます。
 
 |_. 変数名                      |_. 展開後の値                                           |
 | %real_username%               | ユーザの入力した名前                                   |
@@ -25,6 +25,8 @@ https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
 | %hostname%                    | メールアドレスのホスト名部分                           |
 | %port%                        | メール受信サーバのポート番号 (例 "12345")              |
 | %not_default_port_expression% | コロン付きのメール受信サーバのポート番号 (例 ":12345") |
+
+<achook:prettyNameFormat> を省略した場合は、%username%@%hostname%%not_default_port_expression% に相当する内容になります。
 
 h2. 設定ファイルの場所指定
 
