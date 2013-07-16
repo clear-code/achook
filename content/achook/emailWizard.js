@@ -80,6 +80,7 @@
     suppressAccountDuplicationCheck();
   }
 
+  activateUsernamePlaceholder();
   suppressAccountVerification();
 
   if (DEBUG)
@@ -306,6 +307,17 @@
   function stringToBoolean(aString, aDefault) {
     aString = String(aString);
     return aString ? /^\s*(yes|true|1)\s*$/i.test(aString) : aDefault ;
+  }
+
+  function activateUsernamePlaceholder() {
+    var originalReplaceVariable = window._replaceVariable;
+    window._replaceVariable = function ACHook_readFromXML(variable, values) {
+      var username = '';
+      if (elements.usernameInputBox)
+        username = elements.usernameInputBox.value.replace(/^\s+|\s+$/g, '');
+      values.USERNAME = username || values.EMAILLOCALPART;
+      return originalReplaceVariable.apply(this, arguments);
+    };
   }
 
   function suppressAccountVerification() {
@@ -617,6 +629,7 @@
       }
 
       var identity = account.defaultIdentity.QueryInterface(Ci.nsIMsgIdentity);
+      variables.USERNAME = incomingServer.username;
       variables.EMAILADDRESS = identity.email;
       variables.EMAILLOCALPART = identity.email.split("@")[0];
       variables.EMAILDOMAIN = identity.email.split("@")[1];
