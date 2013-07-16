@@ -16,6 +16,8 @@ Setting files are written in XML, and example.com.xml packed in achook is a good
 
 https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
 
+An extra placeholder @%USERNAME%@ is available in the configuration file. If the secret preference @extensions.achook.staticConfig.separatedUsername@ is @true@ and the input field for the account ID has any value, then the placeholder will be replaced to the value of the field. Otherwise, it will be replaced to the value same to @%EMAILLOCALPART%@ .
+
 You can customize the pretty name of the created account by <achook:prettyNameFormat>.
 There are some template variables for the field:
 

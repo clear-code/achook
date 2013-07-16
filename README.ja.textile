@@ -16,6 +16,10 @@ h2. 設定ファイルの用意
 
 https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
 
+設定ファイル内では既定のプレースホルダに加えて、 @%USERNAME%@ というプレースホルダを利用できます。
+後述する @extensions.achook.staticConfig.separatedUsername@ の値が @true@ である場合は、 @%USERNAME%@ はアカウントID専用の入力欄の値で置き換えられます。
+アカウントID専用の入力欄が使われない場合や、入力欄が空の場合は、 @%EMAILLOCALPART%@ の値が代わりに使われます。
+
 作成されるアカウントの名前は、設定ファイル内の <achook:prettyNameFormat> でカスタマイズできます。
 ここでは以下に示すいくつかの特殊なテンプレート変数を利用できます。
 
