@@ -11,8 +11,16 @@
     <displayName>Example Mail</displayName>
     <displayShortName>Example Mail</displayShortName>
 
-    <achook:prettyNameFormat>%username%</achook:prettyNameFormat>
-    <!-- defualt: %username%@%hostname%%not_default_port_expression% -->
+    <!--
+     "%USERNAME%"      local part of the incomintServer.username
+     "%REAL_USERNAME%" incomintServer.username
+     "%HOSTNAME%"      incomingServer.hostName
+     "%PORT%"          incomingServer.port
+     "%NOT_DEFAULT_PORT_EXPRESSION%" ":8080" etc.
+
+     defualt: %USERNAME%@%HOSTNAME%%NOT_DEFAULT_PORT_EXPRESSION% 
+    -->
+    <achook:prettyNameFormat>%USERNAME%</achook:prettyNameFormat>
 
     <incomingServer type="imap">
       <hostname>imap.example.com</hostname>
