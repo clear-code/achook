@@ -581,7 +581,7 @@
            }));
   }
 
-  function applyCustomPrettyName(incomingServer, format) {
+  function applyCustomPrettyName(incomingServer, identity, format) {
     let constructedPrettyName = String(format);
 
     let serverPort = incomingServer.port;
@@ -589,6 +589,7 @@
     let isDefaultPort = serverPort == defaultServerPort;
 
     let replacePairs = [
+      [/%emailaddress%/gi, identity.email,
       [/%username%/gi, incomingServer.username.split("@")[0]],
       [/%real_username%/gi, incomingServer.username],
       [/%hostname%/gi, incomingServer.hostName],
@@ -667,7 +668,11 @@
 
       var prettyNameFormat = config.emailProvider.ACHOOK::prettyNameFormat;
       if (prettyNameFormat && prettyNameFormat.text())
-        applyCustomPrettyName(createdAccountIncomingServer, prettyNameFormat.text());
+        applyCustomPrettyName(
+          createdAccountIncomingServer,
+          createdAccount.defaultIdentity.QueryInterface(Ci.nsIMsgIdentity),
+          prettyNameFormat.text()
+        );
 
       dispatchAccountCreatedEvent(createdAccount, createdSMTPServer);
     }
