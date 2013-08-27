@@ -589,7 +589,7 @@
     let isDefaultPort = serverPort == defaultServerPort;
 
     let replacePairs = [
-      [/%emailaddress%/gi, identity.email,
+      [/%emailaddress%/gi, identity.email],
       [/%username%/gi, incomingServer.username.split("@")[0]],
       [/%real_username%/gi, incomingServer.username],
       [/%hostname%/gi, incomingServer.hostName],
