@@ -618,6 +618,9 @@
 
     var variables = {};
 
+    var defaultAccount = accountManager.defaultAccount;
+    var existingDefaultIncomingServer = defaultAccount && defaultAccount.incomingServer;
+    var existingDefaultIdentity = defaultAccount && defaultAccount.defaultIdentity;
     createdAccounts.forEach(function (account) {
       if (!account.defaultIdentity) // ignore local folder account
         return;
@@ -642,16 +645,18 @@
       variables.EMAILDOMAIN = identity.email.split("@")[1];
       variables.REALNAME = identity.fullName;
 
+      
+
       setAccountValueFromKeyValues(
         incomingServer,
-        null, // incoming server of the default account
+        existingDefaultIncomingServer,
         extractKeyValuesFromXML(config..incomingServer.ACHOOK::*),
         variables
       );
 
       setAccountValueFromKeyValues(
         identity,
-        null, // default identity of the default account
+        existingDefaultIdentity,
         extractKeyValuesFromXML(config..identity.ACHOOK::*),
         variables
       );
