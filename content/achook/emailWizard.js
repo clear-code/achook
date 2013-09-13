@@ -521,9 +521,15 @@
     return aValue;
   }
 
-  function setAccountValue(aTarget, aKey, aValue, aVariables) {
+  function setAccountValue(aTarget, aBaseTarget, aKey, aValue, aVariables) {
     if (!(aKey in aTarget))
       return "unknown key "+aKey+"="+aValue;
+
+    if (/^\%inherit\%$/i.test(aValue)) {
+      if (!aBaseTarget)
+        return "missing base to inherit " + aKey;
+      aValue = aBaseTarget[aKey];
+    }
 
     switch (typeof aTarget[aKey]) {
       case "object":
@@ -552,10 +558,10 @@
             if (property.children().length())];
   }
 
-  function setAccountValueFromKeyValues(target, keyValues, aVariables) {
+  function setAccountValueFromKeyValues(target, baseTarget, keyValues, aVariables) {
     var results = keyValues.map(function ([key, value]) {
           try {
-            return setAccountValue(target, key, value, aVariables);
+            return setAccountValue(target, baseTarget, key, value, aVariables);
           } catch (x) {
             return "Error while setting the property " + key + ":\n" + x;
           }
@@ -638,12 +644,14 @@
 
       setAccountValueFromKeyValues(
         incomingServer,
+        null, // incoming server of the default account
         extractKeyValuesFromXML(config..incomingServer.ACHOOK::*),
         variables
       );
 
       setAccountValueFromKeyValues(
         identity,
+        null, // default identity of the default account
         extractKeyValuesFromXML(config..identity.ACHOOK::*),
         variables
       );

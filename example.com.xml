@@ -94,20 +94,22 @@
 
     <identity>
       <!-- from nsIMsgIdentity -->
+      <!-- You can use the value "%INHERIT%" to inherit settings from the existing default account.
+           If there is no default account, it means nothing. -->
       <achook:fullName/>
       <achook:email/>
       <achook:replyTo/>
       <achook:organization/>
       <achook:composeHtml>false</achook:composeHtml>
-      <achook:attachSignature>false</achook:attachSignature>
+      <achook:attachSignature>%INHERIT%</achook:attachSignature>
       <achook:attachVCard/>
       <achook:autoQuote/>
       <achook:replyOnTop/>
       <achook:sigBottom/>
       <achook:sigOnForward/>
       <achook:sigOnReply/>
-      <achook:htmlSigText/>
-      <achook:htmlSigFormat/>
+      <achook:htmlSigText>%INHERIT%</achook:htmlSigText>
+      <achook:htmlSigFormat>%INHERIT%</achook:htmlSigFormat>
       <achook:suppressSigSep/>
       <achook:escapedVCard/>
       <achook:doFcc>true</achook:doFcc>
