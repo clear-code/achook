@@ -518,12 +518,19 @@
       if (!aBaseTarget)
         return "missing base to inherit " + aKey;
       aValue = aBaseTarget[aKey];
+      if (aValue) {
+        // Reusing XPCOM objects is dangerous, ex. signature file.
+        // So I create new instance for the new account.
+        if (aValue instanceof Components.interfaces.nsILocalFile)
+          aValue = aValue.clone();
+      }
     }
 
     switch (typeof aTarget[aKey]) {
       case "object":
         if (aTarget[aKey] !== null)
           return "object type key cannot be updated: "+aKey+"="+aValue+" ("+aTarget[aKey]+")";
+        break;
       case "string":
         aValue = String(aValue);
         aValue = concreteValue(aValue, aVariables);
@@ -537,7 +544,11 @@
       default:
         return "object type key cannot be updated: "+aKey+"="+aValue+" ("+(typeof aTarget[aKey])+")";
     }
-    aTarget[aKey] = aValue;
+    try {
+      aTarget[aKey] = aValue;
+    } catch(x) {
+      throw aKey + " <= " + aValue + " as " + (typeof aTarget[aKey]) + "\n" + x;
+    }
     return "override "+aKey+"="+aValue+" for "+aTarget;
   }
 
