@@ -200,7 +200,6 @@
 
     var onUsernameInputTimer;
     function onUsernameInput() {
-      notifyOverrideEmail(updateEmail());
       if (onUsernameInputTimer) window.clearTimeout(onUsernameInputTimer);
       onUsernameInputTimer = window.setTimeout(function(aStack) {
         debugMessage("onUsernameInput: username = "+elements.usernameInputBox.value+"\n"+aStack);
