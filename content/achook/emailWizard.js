@@ -621,6 +621,9 @@
     var defaultAccount = accountManager.defaultAccount;
     var existingDefaultIncomingServer = defaultAccount && defaultAccount.incomingServer;
     var existingDefaultIdentity = defaultAccount && defaultAccount.defaultIdentity;
+    var existingDefaultOutgoingServer = existingDefaultIdentity &&
+          existingDefaultIdentity.smtpServerKey &&
+          smtpManager.getServerByKey(existingDefaultIdentity.smtpServerKey);
     createdAccounts.forEach(function (account) {
       if (!account.defaultIdentity) // ignore local folder account
         return;
@@ -668,6 +671,7 @@
       server = server.QueryInterface(Ci.nsISmtpServer);
       setAccountValueFromKeyValues(
         server,
+        existingDefaultOutgoingServer,
         extractKeyValuesFromXML(config..outgoingServer.ACHOOK::*),
         variables
       );
