@@ -198,16 +198,6 @@
 
     elements.emailInputBox.hidden = true;
 
-    var onUsernameInputTimer;
-    function onUsernameInput() {
-      if (onUsernameInputTimer) window.clearTimeout(onUsernameInputTimer);
-      onUsernameInputTimer = window.setTimeout(function(aStack) {
-        debugMessage("onUsernameInput: username = "+elements.usernameInputBox.value+"\n"+aStack);
-        onUsernameInputTimer = null;
-      }, 500, (new Error()).stack);
-    }
-    elements.usernameInputBox.addEventListener("input", onUsernameInput, false);
-
     var onEmailUpdatedMessageTimer;
     function onEmailUpdated(newAddress) {
       if (onEmailUpdatedMessageTimer) window.clearTimeout(onEmailUpdatedMessageTimer);
