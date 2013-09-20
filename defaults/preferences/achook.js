@@ -8,6 +8,7 @@
 // pref("extensions.achook.disableNewEmailAccountCreation", true);
 // pref("extensions.achook.overwriteExistingAccount.incomingServer", true);
 // pref("extensions.achook.overwriteExistingAccount.outgoingServer", true);
+// pref("extensions.achook.forceRestartAfterOverwrite", false);
 pref("extensions.achook.newMailAccountMenuItem.label", "chrome://achook/locale/achook.properties");
 pref("extensions.achook.newMailAccountMenuItem.accesskey", "chrome://achook/locale/achook.properties");
 pref("extensions.achook.wizard.missingStaticConfig.title", "chrome://achook/locale/achook.properties");

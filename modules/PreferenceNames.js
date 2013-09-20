@@ -11,5 +11,6 @@ let PreferenceNames = {
   disableGenericWizard: "extensions.achook.disableGenericWizard",
   disableNewEmailAccountCreation: "extensions.achook.disableNewEmailAccountCreation",
   overwriteExistingAccount_incomingServer: "extensions.achook.overwriteExistingAccount.incomingServer",
-  overwriteExistingAccount_outgoingServer: "extensions.achook.overwriteExistingAccount.outgoingServer"
+  overwriteExistingAccount_outgoingServer: "extensions.achook.overwriteExistingAccount.outgoingServer",
+  forceRestartAfterOverwrite: "extensions.achook.forceRestartAfterOverwrite"
 };

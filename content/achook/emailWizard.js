@@ -697,17 +697,29 @@
 
   function confirmRestart() {
     const restartButtonIndex = 0;
-    if (existingAccountRemoved && (Util.confirmEx(
-          window,
-          StringBundle.achook.GetStringFromName("confirmRestartNow.title"),
-          StringBundle.achook.GetStringFromName("confirmRestartNow.text"),
-          Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
-          Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
-          StringBundle.achook.GetStringFromName("confirmRestartNow.restart"),
-          StringBundle.achook.GetStringFromName("confirmRestartNow.later"),
-          null
-        ) == restartButtonIndex)) {
-      Util.restartApplication();
+    if (existingAccountRemoved) {
+      if (preferences.get(PreferenceNames.forceRestartAfterOverwrite, false)) {
+        Util.alert(
+          StringBundle.achook.GetStringFromName("alertRestartNow.title"),
+          StringBundle.achook.GetStringFromName("alertRestartNow.text"),
+          window
+        );
+        Util.restartApplication();
+        return;
+      }
+
+      var pressedButtonIndex = Util.confirmEx(
+            window,
+            StringBundle.achook.GetStringFromName("confirmRestartNow.title"),
+            StringBundle.achook.GetStringFromName("confirmRestartNow.text"),
+            Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
+            Ci.nsIPromptService.BUTTON_POS_1 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING,
+            StringBundle.achook.GetStringFromName("confirmRestartNow.restart"),
+            StringBundle.achook.GetStringFromName("confirmRestartNow.later"),
+            null
+          );
+      if (pressedButtonIndex == restartButtonIndex)
+        Util.restartApplication();
     }
   };
 })(window);
