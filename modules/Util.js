@@ -744,6 +744,10 @@ var Util = {
       let count = enumerator.Count();
       for (let i = 0; i < count; ++i)
         array.push(enumerator.QueryElementAt(i, iface));
+    } else if (enumerator instanceof Ci.nsIArray) {
+      let count = enumerator.length;
+      for (let i = 0; i < count; ++i)
+        array.push(enumerator.queryElementAt(i, iface));
     } else if (enumerator instanceof Ci.nsISimpleEnumerator) {
       while (enumerator.hasMoreElements())
         array.push(enumerator.getNext().QueryInterface(iface));
