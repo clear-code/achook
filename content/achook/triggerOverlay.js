@@ -101,6 +101,8 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
     Application.console.log("achook: static config is not used. "+{
                               "StaticConfig.available" : StaticConfig.available,
                               "StaticConfig.domain"    : StaticConfig.domain,
+                              "StaticConfig.source"    : !!StaticConfig.source,
+                              "StaticConfig.xml"       : !!StaticConfig.xml,
                             }.toSource());
   }
 }, false);
