@@ -12,8 +12,6 @@
       Application.console.log("achook: "+message);
   }
 
-  const ACHOOK = new Namespace("achook", "http://www.clear-code.com/thunderbird/achook");
-
   const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
 
   const { Util } = Cu.import('resource://achook-modules/Util.js', {});
