@@ -565,11 +565,10 @@
       })
       .filter(function(key) {
         // reject "{}" case
-        var value = parent[key];
-        return !value || typeof value != 'object' || Object.keys(value).length;
+        return 'value' in parent[key];
       })
       .map(function(key) {
-        return [key.replace('achook:', ''), parent[key]];
+        return [key.replace('achook:', ''), parent[key].value];
       });
   }
 
