@@ -316,8 +316,8 @@
       ensureNoDuplicatedOldAccount(config.incoming.username, config.incoming.hostname, config.incoming.type); // XXX for debugging!
       if (lastConfigXML) {
         try{
-          let incomingServer = lastConfigXML..incomingServer;
-          let requireVerification = incomingServer && lastConfigXML..incomingServer.ACHOOK::requireVerification;
+          let incomingServer = lastConfigXML.clientConfig.mailProvider.incomingServer;
+          let requireVerification = incomingServer && incomingServer['achook:requireVerification'];
           if (requireVerification && !stringToBoolean(requireVerification.text(), true)) {
             accountManager.removeIncomingServer(inServer, true);
             return successCallback.call(this, config);
@@ -468,7 +468,11 @@
           lastConfigXML = StaticConfig.xml;
           if (!lastConfigXML)
             throw new Error("failed to load static config file");
-          successCallback(readFromXML(lastConfigXML = new XML(lastConfigXML)));
+          var DOMParser = Cc['@mozilla.org/xmlextras/domparser;1']
+                           .createInstance(Ci.nsIDOMParser);
+          lastConfigXML = DOMParser.parseFromString(lastConfigXML, 'text/xml');
+          lastConfigXML = JXON.build(lastConfigXML);
+          successCallback(readFromXML(lastConfigXML));
           elements.statusMessage.textContent = "";
           window.setTimeout(function() {
             elements.createButton.click();
@@ -553,10 +557,14 @@
     return "override "+aKey+"="+aValue+" for "+aTarget;
   }
 
-  function extractKeyValuesFromXML(xml) {
-    return [[property.localName(), property.text()]
-            for each (property in xml)
-            if (property.children().length())];
+  function extractAchookKeyValues(parent) {
+    return Object.keys(parent)
+      .filter(function(key) {
+        return key.indexOf('achook:') == 0;
+      })
+      .map(function(key) {
+        return [key, parent[key]];
+      });
   }
 
   function setAccountValueFromKeyValues(target, baseTarget, keyValues, aVariables) {
@@ -649,19 +657,18 @@
       variables.EMAILDOMAIN = identity.email.split("@")[1];
       variables.REALNAME = identity.fullName;
 
-      
 
       setAccountValueFromKeyValues(
         incomingServer,
         existingDefaultIncomingServer,
-        extractKeyValuesFromXML(config..incomingServer.ACHOOK::*),
+        extractAchookKeyValues(lastConfigXML.clientConfig.mailProvider.incomingServer),
         variables
       );
 
       setAccountValueFromKeyValues(
         identity,
         existingDefaultIdentity,
-        extractKeyValuesFromXML(config..identity.ACHOOK::*),
+        extractAchookKeyValues(lastConfigXML.clientConfig.mailProvider.identity),
         variables
       );
     });
@@ -673,7 +680,7 @@
       setAccountValueFromKeyValues(
         server,
         existingDefaultOutgoingServer,
-        extractKeyValuesFromXML(config..outgoingServer.ACHOOK::*),
+        extractAchookKeyValues(lastConfigXML.clientConfig.mailProvider.outgoingServer),
         variables
       );
     });
@@ -684,7 +691,7 @@
       var createdSMTPServer = createdSMTPServers[0] || null;
       var createdAccountIncomingServer = createdAccount.incomingServer;
 
-      var prettyNameFormat = config.emailProvider.ACHOOK::prettyNameFormat;
+      var prettyNameFormat = config.emailProvider['achook:prettyNameFormat'];
       if (prettyNameFormat && prettyNameFormat.text())
         applyCustomPrettyName(
           createdAccountIncomingServer,
