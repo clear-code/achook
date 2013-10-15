@@ -565,7 +565,7 @@
       .filter(function(key) {
         // reject "{}" case
         var value = parent[key];
-        return !value || typeof value != 'object' && Object.keys(value).length;
+        return !value || typeof value != 'object' || Object.keys(value).length;
       })
       .map(function(key) {
         return [key.replace('achook:', ''), parent[key]];
