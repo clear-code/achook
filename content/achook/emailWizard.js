@@ -469,7 +469,9 @@
           var DOMParser = Cc['@mozilla.org/xmlextras/domparser;1']
                            .createInstance(Ci.nsIDOMParser);
           lastConfigXML = DOMParser.parseFromString(lastConfigXML, 'text/xml');
-          lastConfigXML = JXON.build(lastConfigXML);
+          // Verbose level = 2 or high, because low verbose level (1=default) parses
+          // an empty node to "true" unexepctedly.
+          lastConfigXML = JXON.build(lastConfigXML, 2);
           successCallback(readFromXML(lastConfigXML));
           elements.statusMessage.textContent = "";
           window.setTimeout(function() {
@@ -559,6 +561,11 @@
     return Object.keys(parent)
       .filter(function(key) {
         return key.indexOf('achook:') == 0;
+      })
+      .filter(function(key) {
+        // reject "{}" case
+        var value = parent[key];
+        return !value || typeof value != 'object' && Object.keys(value).length;
       })
       .map(function(key) {
         return [key.replace('achook:', ''), parent[key]];
