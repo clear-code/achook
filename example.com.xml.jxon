@@ -1,0 +1,3154 @@
+{
+  "clientConfig": {
+    "emailProvider": {
+      "domain": "example.com",
+      "$domain": [
+        "example.com"
+      ],
+      "displayName": "Example Mail",
+      "$displayName": [
+        "Example Mail"
+      ],
+      "displayShortName": "Example Mail",
+      "$displayShortName": [
+        "Example Mail"
+      ],
+      "achook:prettyNameFormat": "%USERNAME%",
+      "$achook:prettyNameFormat": [
+        "%USERNAME%"
+      ],
+      "incomingServer": {
+        "hostname": "imap.example.com",
+        "$hostname": [
+          "imap.example.com"
+        ],
+        "port": 143,
+        "$port": [
+          143
+        ],
+        "socketType": "plain",
+        "$socketType": [
+          "plain"
+        ],
+        "username": "%USERNAME%",
+        "$username": [
+          "%USERNAME%"
+        ],
+        "authentication": "password-cleartext",
+        "$authentication": [
+          "password-cleartext"
+        ],
+        "achook:downloadOnBiff": true,
+        "$achook:downloadOnBiff": [
+          true
+        ],
+        "achook:doBiff": true,
+        "$achook:doBiff": [
+          true
+        ],
+        "achook:biffMinutes": true,
+        "$achook:biffMinutes": [
+          true
+        ],
+        "achook:emptyTrashOnExit": true,
+        "$achook:emptyTrashOnExit": [
+          true
+        ],
+        "achook:loginAtStartUp": true,
+        "$achook:loginAtStartUp": [
+          true
+        ],
+        "achook:limitOfflineMessageSize": true,
+        "$achook:limitOfflineMessageSize": [
+          true
+        ],
+        "achook:maxMessageSize": true,
+        "$achook:maxMessageSize": [
+          true
+        ],
+        "achook:offlineSupportLevel": true,
+        "$achook:offlineSupportLevel": [
+          true
+        ],
+        "achook:defaultCopiesAndFoldersPrefsToServer": true,
+        "$achook:defaultCopiesAndFoldersPrefsToServer": [
+          true
+        ],
+        "achook:canCreateFoldersOnServer": true,
+        "$achook:canCreateFoldersOnServer": [
+          true
+        ],
+        "achook:canFileMessagesOnServer": true,
+        "$achook:canFileMessagesOnServer": [
+          true
+        ],
+        "achook:incomingDuplicateAction": true,
+        "$achook:incomingDuplicateAction": [
+          true
+        ],
+        "achook:maximumConnectionsNumber": true,
+        "$achook:maximumConnectionsNumber": [
+          true
+        ],
+        "achook:timeOutLimits": true,
+        "$achook:timeOutLimits": [
+          true
+        ],
+        "achook:adminUrl": true,
+        "$achook:adminUrl": [
+          true
+        ],
+        "achook:serverDirectory": true,
+        "$achook:serverDirectory": [
+          true
+        ],
+        "achook:capabilityPref": true,
+        "$achook:capabilityPref": [
+          true
+        ],
+        "achook:serverIDPref": true,
+        "$achook:serverIDPref": [
+          true
+        ],
+        "achook:cleanupInboxOnExit": true,
+        "$achook:cleanupInboxOnExit": [
+          true
+        ],
+        "achook:deleteModel": 0,
+        "$achook:deleteModel": [
+          0
+        ],
+        "achook:dualUseFolders": true,
+        "$achook:dualUseFolders": [
+          true
+        ],
+        "achook:emptyTrashThreshhold": true,
+        "$achook:emptyTrashThreshhold": [
+          true
+        ],
+        "achook:personalNamespace": true,
+        "$achook:personalNamespace": [
+          true
+        ],
+        "achook:publicNamespace": true,
+        "$achook:publicNamespace": [
+          true
+        ],
+        "achook:otherUsersNamespace": true,
+        "$achook:otherUsersNamespace": [
+          true
+        ],
+        "achook:offlineDownload": true,
+        "$achook:offlineDownload": [
+          true
+        ],
+        "achook:overrideNamespaces": true,
+        "$achook:overrideNamespaces": [
+          true
+        ],
+        "achook:usingSubscription": true,
+        "$achook:usingSubscription": [
+          true
+        ],
+        "achook:manageMailAccountUrl": true,
+        "$achook:manageMailAccountUrl": [
+          true
+        ],
+        "achook:fetchByChunks": true,
+        "$achook:fetchByChunks": [
+          true
+        ],
+        "achook:mimePartsOnDemand": true,
+        "$achook:mimePartsOnDemand": [
+          true
+        ],
+        "achook:sendID": true,
+        "$achook:sendID": [
+          true
+        ],
+        "achook:isAOLServer": true,
+        "$achook:isAOLServer": [
+          true
+        ],
+        "achook:useIdle": true,
+        "$achook:useIdle": [
+          true
+        ],
+        "achook:checkAllFoldersForNew": true,
+        "$achook:checkAllFoldersForNew": [
+          true
+        ],
+        "achook:isGMailServer": true,
+        "$achook:isGMailServer": [
+          true
+        ],
+        "achook:useCondStore": true,
+        "$achook:useCondStore": [
+          true
+        ],
+        "achook:useCompressDeflate": true,
+        "$achook:useCompressDeflate": [
+          true
+        ],
+        "achook:trashFolderName": true,
+        "$achook:trashFolderName": [
+          true
+        ],
+        "achook:downloadBodiesOnGetNewMail": true,
+        "$achook:downloadBodiesOnGetNewMail": [
+          true
+        ],
+        "achook:autoSyncOfflineStores": true,
+        "$achook:autoSyncOfflineStores": [
+          true
+        ],
+        "achook:autoSyncMaxAgeDays": true,
+        "$achook:autoSyncMaxAgeDays": [
+          true
+        ],
+        "@type": "imap",
+        "value": null
+      },
+      "$incomingServer": [
+        {
+          "hostname": "imap.example.com",
+          "$hostname": [
+            "imap.example.com"
+          ],
+          "port": 143,
+          "$port": [
+            143
+          ],
+          "socketType": "plain",
+          "$socketType": [
+            "plain"
+          ],
+          "username": "%USERNAME%",
+          "$username": [
+            "%USERNAME%"
+          ],
+          "authentication": "password-cleartext",
+          "$authentication": [
+            "password-cleartext"
+          ],
+          "achook:downloadOnBiff": true,
+          "$achook:downloadOnBiff": [
+            true
+          ],
+          "achook:doBiff": true,
+          "$achook:doBiff": [
+            true
+          ],
+          "achook:biffMinutes": true,
+          "$achook:biffMinutes": [
+            true
+          ],
+          "achook:emptyTrashOnExit": true,
+          "$achook:emptyTrashOnExit": [
+            true
+          ],
+          "achook:loginAtStartUp": true,
+          "$achook:loginAtStartUp": [
+            true
+          ],
+          "achook:limitOfflineMessageSize": true,
+          "$achook:limitOfflineMessageSize": [
+            true
+          ],
+          "achook:maxMessageSize": true,
+          "$achook:maxMessageSize": [
+            true
+          ],
+          "achook:offlineSupportLevel": true,
+          "$achook:offlineSupportLevel": [
+            true
+          ],
+          "achook:defaultCopiesAndFoldersPrefsToServer": true,
+          "$achook:defaultCopiesAndFoldersPrefsToServer": [
+            true
+          ],
+          "achook:canCreateFoldersOnServer": true,
+          "$achook:canCreateFoldersOnServer": [
+            true
+          ],
+          "achook:canFileMessagesOnServer": true,
+          "$achook:canFileMessagesOnServer": [
+            true
+          ],
+          "achook:incomingDuplicateAction": true,
+          "$achook:incomingDuplicateAction": [
+            true
+          ],
+          "achook:maximumConnectionsNumber": true,
+          "$achook:maximumConnectionsNumber": [
+            true
+          ],
+          "achook:timeOutLimits": true,
+          "$achook:timeOutLimits": [
+            true
+          ],
+          "achook:adminUrl": true,
+          "$achook:adminUrl": [
+            true
+          ],
+          "achook:serverDirectory": true,
+          "$achook:serverDirectory": [
+            true
+          ],
+          "achook:capabilityPref": true,
+          "$achook:capabilityPref": [
+            true
+          ],
+          "achook:serverIDPref": true,
+          "$achook:serverIDPref": [
+            true
+          ],
+          "achook:cleanupInboxOnExit": true,
+          "$achook:cleanupInboxOnExit": [
+            true
+          ],
+          "achook:deleteModel": 0,
+          "$achook:deleteModel": [
+            0
+          ],
+          "achook:dualUseFolders": true,
+          "$achook:dualUseFolders": [
+            true
+          ],
+          "achook:emptyTrashThreshhold": true,
+          "$achook:emptyTrashThreshhold": [
+            true
+          ],
+          "achook:personalNamespace": true,
+          "$achook:personalNamespace": [
+            true
+          ],
+          "achook:publicNamespace": true,
+          "$achook:publicNamespace": [
+            true
+          ],
+          "achook:otherUsersNamespace": true,
+          "$achook:otherUsersNamespace": [
+            true
+          ],
+          "achook:offlineDownload": true,
+          "$achook:offlineDownload": [
+            true
+          ],
+          "achook:overrideNamespaces": true,
+          "$achook:overrideNamespaces": [
+            true
+          ],
+          "achook:usingSubscription": true,
+          "$achook:usingSubscription": [
+            true
+          ],
+          "achook:manageMailAccountUrl": true,
+          "$achook:manageMailAccountUrl": [
+            true
+          ],
+          "achook:fetchByChunks": true,
+          "$achook:fetchByChunks": [
+            true
+          ],
+          "achook:mimePartsOnDemand": true,
+          "$achook:mimePartsOnDemand": [
+            true
+          ],
+          "achook:sendID": true,
+          "$achook:sendID": [
+            true
+          ],
+          "achook:isAOLServer": true,
+          "$achook:isAOLServer": [
+            true
+          ],
+          "achook:useIdle": true,
+          "$achook:useIdle": [
+            true
+          ],
+          "achook:checkAllFoldersForNew": true,
+          "$achook:checkAllFoldersForNew": [
+            true
+          ],
+          "achook:isGMailServer": true,
+          "$achook:isGMailServer": [
+            true
+          ],
+          "achook:useCondStore": true,
+          "$achook:useCondStore": [
+            true
+          ],
+          "achook:useCompressDeflate": true,
+          "$achook:useCompressDeflate": [
+            true
+          ],
+          "achook:trashFolderName": true,
+          "$achook:trashFolderName": [
+            true
+          ],
+          "achook:downloadBodiesOnGetNewMail": true,
+          "$achook:downloadBodiesOnGetNewMail": [
+            true
+          ],
+          "achook:autoSyncOfflineStores": true,
+          "$achook:autoSyncOfflineStores": [
+            true
+          ],
+          "achook:autoSyncMaxAgeDays": true,
+          "$achook:autoSyncMaxAgeDays": [
+            true
+          ],
+          "@type": "imap",
+          "value": null
+        }
+      ],
+      "outgoingServer": {
+        "hostname": "smtp.example.com",
+        "$hostname": [
+          "smtp.example.com"
+        ],
+        "port": 25,
+        "$port": [
+          25
+        ],
+        "socketType": "plain",
+        "$socketType": [
+          "plain"
+        ],
+        "username": "%EMAILLOCALPART%",
+        "$username": [
+          "%EMAILLOCALPART%"
+        ],
+        "authentication": "password-cleartext",
+        "$authentication": [
+          "password-cleartext"
+        ],
+        "@type": "smtp",
+        "value": null
+      },
+      "$outgoingServer": [
+        {
+          "hostname": "smtp.example.com",
+          "$hostname": [
+            "smtp.example.com"
+          ],
+          "port": 25,
+          "$port": [
+            25
+          ],
+          "socketType": "plain",
+          "$socketType": [
+            "plain"
+          ],
+          "username": "%EMAILLOCALPART%",
+          "$username": [
+            "%EMAILLOCALPART%"
+          ],
+          "authentication": "password-cleartext",
+          "$authentication": [
+            "password-cleartext"
+          ],
+          "@type": "smtp",
+          "value": null
+        }
+      ],
+      "identity": {
+        "achook:fullName": true,
+        "$achook:fullName": [
+          true
+        ],
+        "achook:email": true,
+        "$achook:email": [
+          true
+        ],
+        "achook:replyTo": true,
+        "$achook:replyTo": [
+          true
+        ],
+        "achook:organization": true,
+        "$achook:organization": [
+          true
+        ],
+        "achook:composeHtml": false,
+        "$achook:composeHtml": [
+          false
+        ],
+        "achook:attachSignature": "%INHERIT%",
+        "$achook:attachSignature": [
+          "%INHERIT%"
+        ],
+        "achook:attachVCard": true,
+        "$achook:attachVCard": [
+          true
+        ],
+        "achook:autoQuote": true,
+        "$achook:autoQuote": [
+          true
+        ],
+        "achook:replyOnTop": true,
+        "$achook:replyOnTop": [
+          true
+        ],
+        "achook:sigBottom": true,
+        "$achook:sigBottom": [
+          true
+        ],
+        "achook:sigOnForward": true,
+        "$achook:sigOnForward": [
+          true
+        ],
+        "achook:sigOnReply": true,
+        "$achook:sigOnReply": [
+          true
+        ],
+        "achook:htmlSigText": "%INHERIT%",
+        "$achook:htmlSigText": [
+          "%INHERIT%"
+        ],
+        "achook:htmlSigFormat": "%INHERIT%",
+        "$achook:htmlSigFormat": [
+          "%INHERIT%"
+        ],
+        "achook:suppressSigSep": true,
+        "$achook:suppressSigSep": [
+          true
+        ],
+        "achook:escapedVCard": true,
+        "$achook:escapedVCard": [
+          true
+        ],
+        "achook:doFcc": true,
+        "$achook:doFcc": [
+          true
+        ],
+        "achook:fccFolder": "mailbox:\/\/nobody@Local%20Folders\/Sent",
+        "$achook:fccFolder": [
+          "mailbox:\/\/nobody@Local%20Folders\/Sent"
+        ],
+        "achook:fccReplyFollowsParent": true,
+        "$achook:fccReplyFollowsParent": [
+          true
+        ],
+        "achook:fccFolderPickerMode": true,
+        "$achook:fccFolderPickerMode": [
+          true
+        ],
+        "achook:draftsFolderPickerMode": true,
+        "$achook:draftsFolderPickerMode": [
+          true
+        ],
+        "achook:archivesFolderPickerMode": true,
+        "$achook:archivesFolderPickerMode": [
+          true
+        ],
+        "achook:tmplFolderPickerMode": true,
+        "$achook:tmplFolderPickerMode": [
+          true
+        ],
+        "achook:doCc": true,
+        "$achook:doCc": [
+          true
+        ],
+        "achook:doCcList": true,
+        "$achook:doCcList": [
+          true
+        ],
+        "achook:doBcc": true,
+        "$achook:doBcc": [
+          true
+        ],
+        "achook:doBccList": true,
+        "$achook:doBccList": [
+          true
+        ],
+        "achook:draftFolder": "mailbox:\/\/nobody@Local%20Folders\/Drafts",
+        "$achook:draftFolder": [
+          "mailbox:\/\/nobody@Local%20Folders\/Drafts"
+        ],
+        "achook:archiveFolder": "mailbox:\/\/nobody@Local%20Folders\/Archives",
+        "$achook:archiveFolder": [
+          "mailbox:\/\/nobody@Local%20Folders\/Archives"
+        ],
+        "achook:stationeryFolder": "mailbox:\/\/nobody@Local%20Folders\/Templates",
+        "$achook:stationeryFolder": [
+          "mailbox:\/\/nobody@Local%20Folders\/Templates"
+        ],
+        "achook:archiveEnabled": true,
+        "$achook:archiveEnabled": [
+          true
+        ],
+        "achook:archiveGranularity": true,
+        "$achook:archiveGranularity": [
+          true
+        ],
+        "achook:archiveKeepFolderStructure": true,
+        "$achook:archiveKeepFolderStructure": [
+          true
+        ],
+        "achook:showSaveMsgDlg": true,
+        "$achook:showSaveMsgDlg": [
+          true
+        ],
+        "achook:directoryServer": true,
+        "$achook:directoryServer": [
+          true
+        ],
+        "achook:overrideGlobalPref": true,
+        "$achook:overrideGlobalPref": [
+          true
+        ],
+        "achook:autocompleteToMyDomain": true,
+        "$achook:autocompleteToMyDomain": [
+          true
+        ],
+        "achook:requestReturnReceipt": true,
+        "$achook:requestReturnReceipt": [
+          true
+        ],
+        "achook:receiptHeaderType": true,
+        "$achook:receiptHeaderType": [
+          true
+        ],
+        "achook:requestDSN": true,
+        "$achook:requestDSN": [
+          true
+        ],
+        "value": null
+      },
+      "$identity": [
+        {
+          "achook:fullName": true,
+          "$achook:fullName": [
+            true
+          ],
+          "achook:email": true,
+          "$achook:email": [
+            true
+          ],
+          "achook:replyTo": true,
+          "$achook:replyTo": [
+            true
+          ],
+          "achook:organization": true,
+          "$achook:organization": [
+            true
+          ],
+          "achook:composeHtml": false,
+          "$achook:composeHtml": [
+            false
+          ],
+          "achook:attachSignature": "%INHERIT%",
+          "$achook:attachSignature": [
+            "%INHERIT%"
+          ],
+          "achook:attachVCard": true,
+          "$achook:attachVCard": [
+            true
+          ],
+          "achook:autoQuote": true,
+          "$achook:autoQuote": [
+            true
+          ],
+          "achook:replyOnTop": true,
+          "$achook:replyOnTop": [
+            true
+          ],
+          "achook:sigBottom": true,
+          "$achook:sigBottom": [
+            true
+          ],
+          "achook:sigOnForward": true,
+          "$achook:sigOnForward": [
+            true
+          ],
+          "achook:sigOnReply": true,
+          "$achook:sigOnReply": [
+            true
+          ],
+          "achook:htmlSigText": "%INHERIT%",
+          "$achook:htmlSigText": [
+            "%INHERIT%"
+          ],
+          "achook:htmlSigFormat": "%INHERIT%",
+          "$achook:htmlSigFormat": [
+            "%INHERIT%"
+          ],
+          "achook:suppressSigSep": true,
+          "$achook:suppressSigSep": [
+            true
+          ],
+          "achook:escapedVCard": true,
+          "$achook:escapedVCard": [
+            true
+          ],
+          "achook:doFcc": true,
+          "$achook:doFcc": [
+            true
+          ],
+          "achook:fccFolder": "mailbox:\/\/nobody@Local%20Folders\/Sent",
+          "$achook:fccFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Sent"
+          ],
+          "achook:fccReplyFollowsParent": true,
+          "$achook:fccReplyFollowsParent": [
+            true
+          ],
+          "achook:fccFolderPickerMode": true,
+          "$achook:fccFolderPickerMode": [
+            true
+          ],
+          "achook:draftsFolderPickerMode": true,
+          "$achook:draftsFolderPickerMode": [
+            true
+          ],
+          "achook:archivesFolderPickerMode": true,
+          "$achook:archivesFolderPickerMode": [
+            true
+          ],
+          "achook:tmplFolderPickerMode": true,
+          "$achook:tmplFolderPickerMode": [
+            true
+          ],
+          "achook:doCc": true,
+          "$achook:doCc": [
+            true
+          ],
+          "achook:doCcList": true,
+          "$achook:doCcList": [
+            true
+          ],
+          "achook:doBcc": true,
+          "$achook:doBcc": [
+            true
+          ],
+          "achook:doBccList": true,
+          "$achook:doBccList": [
+            true
+          ],
+          "achook:draftFolder": "mailbox:\/\/nobody@Local%20Folders\/Drafts",
+          "$achook:draftFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Drafts"
+          ],
+          "achook:archiveFolder": "mailbox:\/\/nobody@Local%20Folders\/Archives",
+          "$achook:archiveFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Archives"
+          ],
+          "achook:stationeryFolder": "mailbox:\/\/nobody@Local%20Folders\/Templates",
+          "$achook:stationeryFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Templates"
+          ],
+          "achook:archiveEnabled": true,
+          "$achook:archiveEnabled": [
+            true
+          ],
+          "achook:archiveGranularity": true,
+          "$achook:archiveGranularity": [
+            true
+          ],
+          "achook:archiveKeepFolderStructure": true,
+          "$achook:archiveKeepFolderStructure": [
+            true
+          ],
+          "achook:showSaveMsgDlg": true,
+          "$achook:showSaveMsgDlg": [
+            true
+          ],
+          "achook:directoryServer": true,
+          "$achook:directoryServer": [
+            true
+          ],
+          "achook:overrideGlobalPref": true,
+          "$achook:overrideGlobalPref": [
+            true
+          ],
+          "achook:autocompleteToMyDomain": true,
+          "$achook:autocompleteToMyDomain": [
+            true
+          ],
+          "achook:requestReturnReceipt": true,
+          "$achook:requestReturnReceipt": [
+            true
+          ],
+          "achook:receiptHeaderType": true,
+          "$achook:receiptHeaderType": [
+            true
+          ],
+          "achook:requestDSN": true,
+          "$achook:requestDSN": [
+            true
+          ],
+          "value": null
+        }
+      ],
+      "@id": "example.com",
+      "value": null
+    },
+    "$emailProvider": [
+      {
+        "domain": "example.com",
+        "$domain": [
+          "example.com"
+        ],
+        "displayName": "Example Mail",
+        "$displayName": [
+          "Example Mail"
+        ],
+        "displayShortName": "Example Mail",
+        "$displayShortName": [
+          "Example Mail"
+        ],
+        "achook:prettyNameFormat": "%USERNAME%",
+        "$achook:prettyNameFormat": [
+          "%USERNAME%"
+        ],
+        "incomingServer": {
+          "hostname": "imap.example.com",
+          "$hostname": [
+            "imap.example.com"
+          ],
+          "port": 143,
+          "$port": [
+            143
+          ],
+          "socketType": "plain",
+          "$socketType": [
+            "plain"
+          ],
+          "username": "%USERNAME%",
+          "$username": [
+            "%USERNAME%"
+          ],
+          "authentication": "password-cleartext",
+          "$authentication": [
+            "password-cleartext"
+          ],
+          "achook:downloadOnBiff": true,
+          "$achook:downloadOnBiff": [
+            true
+          ],
+          "achook:doBiff": true,
+          "$achook:doBiff": [
+            true
+          ],
+          "achook:biffMinutes": true,
+          "$achook:biffMinutes": [
+            true
+          ],
+          "achook:emptyTrashOnExit": true,
+          "$achook:emptyTrashOnExit": [
+            true
+          ],
+          "achook:loginAtStartUp": true,
+          "$achook:loginAtStartUp": [
+            true
+          ],
+          "achook:limitOfflineMessageSize": true,
+          "$achook:limitOfflineMessageSize": [
+            true
+          ],
+          "achook:maxMessageSize": true,
+          "$achook:maxMessageSize": [
+            true
+          ],
+          "achook:offlineSupportLevel": true,
+          "$achook:offlineSupportLevel": [
+            true
+          ],
+          "achook:defaultCopiesAndFoldersPrefsToServer": true,
+          "$achook:defaultCopiesAndFoldersPrefsToServer": [
+            true
+          ],
+          "achook:canCreateFoldersOnServer": true,
+          "$achook:canCreateFoldersOnServer": [
+            true
+          ],
+          "achook:canFileMessagesOnServer": true,
+          "$achook:canFileMessagesOnServer": [
+            true
+          ],
+          "achook:incomingDuplicateAction": true,
+          "$achook:incomingDuplicateAction": [
+            true
+          ],
+          "achook:maximumConnectionsNumber": true,
+          "$achook:maximumConnectionsNumber": [
+            true
+          ],
+          "achook:timeOutLimits": true,
+          "$achook:timeOutLimits": [
+            true
+          ],
+          "achook:adminUrl": true,
+          "$achook:adminUrl": [
+            true
+          ],
+          "achook:serverDirectory": true,
+          "$achook:serverDirectory": [
+            true
+          ],
+          "achook:capabilityPref": true,
+          "$achook:capabilityPref": [
+            true
+          ],
+          "achook:serverIDPref": true,
+          "$achook:serverIDPref": [
+            true
+          ],
+          "achook:cleanupInboxOnExit": true,
+          "$achook:cleanupInboxOnExit": [
+            true
+          ],
+          "achook:deleteModel": 0,
+          "$achook:deleteModel": [
+            0
+          ],
+          "achook:dualUseFolders": true,
+          "$achook:dualUseFolders": [
+            true
+          ],
+          "achook:emptyTrashThreshhold": true,
+          "$achook:emptyTrashThreshhold": [
+            true
+          ],
+          "achook:personalNamespace": true,
+          "$achook:personalNamespace": [
+            true
+          ],
+          "achook:publicNamespace": true,
+          "$achook:publicNamespace": [
+            true
+          ],
+          "achook:otherUsersNamespace": true,
+          "$achook:otherUsersNamespace": [
+            true
+          ],
+          "achook:offlineDownload": true,
+          "$achook:offlineDownload": [
+            true
+          ],
+          "achook:overrideNamespaces": true,
+          "$achook:overrideNamespaces": [
+            true
+          ],
+          "achook:usingSubscription": true,
+          "$achook:usingSubscription": [
+            true
+          ],
+          "achook:manageMailAccountUrl": true,
+          "$achook:manageMailAccountUrl": [
+            true
+          ],
+          "achook:fetchByChunks": true,
+          "$achook:fetchByChunks": [
+            true
+          ],
+          "achook:mimePartsOnDemand": true,
+          "$achook:mimePartsOnDemand": [
+            true
+          ],
+          "achook:sendID": true,
+          "$achook:sendID": [
+            true
+          ],
+          "achook:isAOLServer": true,
+          "$achook:isAOLServer": [
+            true
+          ],
+          "achook:useIdle": true,
+          "$achook:useIdle": [
+            true
+          ],
+          "achook:checkAllFoldersForNew": true,
+          "$achook:checkAllFoldersForNew": [
+            true
+          ],
+          "achook:isGMailServer": true,
+          "$achook:isGMailServer": [
+            true
+          ],
+          "achook:useCondStore": true,
+          "$achook:useCondStore": [
+            true
+          ],
+          "achook:useCompressDeflate": true,
+          "$achook:useCompressDeflate": [
+            true
+          ],
+          "achook:trashFolderName": true,
+          "$achook:trashFolderName": [
+            true
+          ],
+          "achook:downloadBodiesOnGetNewMail": true,
+          "$achook:downloadBodiesOnGetNewMail": [
+            true
+          ],
+          "achook:autoSyncOfflineStores": true,
+          "$achook:autoSyncOfflineStores": [
+            true
+          ],
+          "achook:autoSyncMaxAgeDays": true,
+          "$achook:autoSyncMaxAgeDays": [
+            true
+          ],
+          "@type": "imap",
+          "value": null
+        },
+        "$incomingServer": [
+          {
+            "hostname": "imap.example.com",
+            "$hostname": [
+              "imap.example.com"
+            ],
+            "port": 143,
+            "$port": [
+              143
+            ],
+            "socketType": "plain",
+            "$socketType": [
+              "plain"
+            ],
+            "username": "%USERNAME%",
+            "$username": [
+              "%USERNAME%"
+            ],
+            "authentication": "password-cleartext",
+            "$authentication": [
+              "password-cleartext"
+            ],
+            "achook:downloadOnBiff": true,
+            "$achook:downloadOnBiff": [
+              true
+            ],
+            "achook:doBiff": true,
+            "$achook:doBiff": [
+              true
+            ],
+            "achook:biffMinutes": true,
+            "$achook:biffMinutes": [
+              true
+            ],
+            "achook:emptyTrashOnExit": true,
+            "$achook:emptyTrashOnExit": [
+              true
+            ],
+            "achook:loginAtStartUp": true,
+            "$achook:loginAtStartUp": [
+              true
+            ],
+            "achook:limitOfflineMessageSize": true,
+            "$achook:limitOfflineMessageSize": [
+              true
+            ],
+            "achook:maxMessageSize": true,
+            "$achook:maxMessageSize": [
+              true
+            ],
+            "achook:offlineSupportLevel": true,
+            "$achook:offlineSupportLevel": [
+              true
+            ],
+            "achook:defaultCopiesAndFoldersPrefsToServer": true,
+            "$achook:defaultCopiesAndFoldersPrefsToServer": [
+              true
+            ],
+            "achook:canCreateFoldersOnServer": true,
+            "$achook:canCreateFoldersOnServer": [
+              true
+            ],
+            "achook:canFileMessagesOnServer": true,
+            "$achook:canFileMessagesOnServer": [
+              true
+            ],
+            "achook:incomingDuplicateAction": true,
+            "$achook:incomingDuplicateAction": [
+              true
+            ],
+            "achook:maximumConnectionsNumber": true,
+            "$achook:maximumConnectionsNumber": [
+              true
+            ],
+            "achook:timeOutLimits": true,
+            "$achook:timeOutLimits": [
+              true
+            ],
+            "achook:adminUrl": true,
+            "$achook:adminUrl": [
+              true
+            ],
+            "achook:serverDirectory": true,
+            "$achook:serverDirectory": [
+              true
+            ],
+            "achook:capabilityPref": true,
+            "$achook:capabilityPref": [
+              true
+            ],
+            "achook:serverIDPref": true,
+            "$achook:serverIDPref": [
+              true
+            ],
+            "achook:cleanupInboxOnExit": true,
+            "$achook:cleanupInboxOnExit": [
+              true
+            ],
+            "achook:deleteModel": 0,
+            "$achook:deleteModel": [
+              0
+            ],
+            "achook:dualUseFolders": true,
+            "$achook:dualUseFolders": [
+              true
+            ],
+            "achook:emptyTrashThreshhold": true,
+            "$achook:emptyTrashThreshhold": [
+              true
+            ],
+            "achook:personalNamespace": true,
+            "$achook:personalNamespace": [
+              true
+            ],
+            "achook:publicNamespace": true,
+            "$achook:publicNamespace": [
+              true
+            ],
+            "achook:otherUsersNamespace": true,
+            "$achook:otherUsersNamespace": [
+              true
+            ],
+            "achook:offlineDownload": true,
+            "$achook:offlineDownload": [
+              true
+            ],
+            "achook:overrideNamespaces": true,
+            "$achook:overrideNamespaces": [
+              true
+            ],
+            "achook:usingSubscription": true,
+            "$achook:usingSubscription": [
+              true
+            ],
+            "achook:manageMailAccountUrl": true,
+            "$achook:manageMailAccountUrl": [
+              true
+            ],
+            "achook:fetchByChunks": true,
+            "$achook:fetchByChunks": [
+              true
+            ],
+            "achook:mimePartsOnDemand": true,
+            "$achook:mimePartsOnDemand": [
+              true
+            ],
+            "achook:sendID": true,
+            "$achook:sendID": [
+              true
+            ],
+            "achook:isAOLServer": true,
+            "$achook:isAOLServer": [
+              true
+            ],
+            "achook:useIdle": true,
+            "$achook:useIdle": [
+              true
+            ],
+            "achook:checkAllFoldersForNew": true,
+            "$achook:checkAllFoldersForNew": [
+              true
+            ],
+            "achook:isGMailServer": true,
+            "$achook:isGMailServer": [
+              true
+            ],
+            "achook:useCondStore": true,
+            "$achook:useCondStore": [
+              true
+            ],
+            "achook:useCompressDeflate": true,
+            "$achook:useCompressDeflate": [
+              true
+            ],
+            "achook:trashFolderName": true,
+            "$achook:trashFolderName": [
+              true
+            ],
+            "achook:downloadBodiesOnGetNewMail": true,
+            "$achook:downloadBodiesOnGetNewMail": [
+              true
+            ],
+            "achook:autoSyncOfflineStores": true,
+            "$achook:autoSyncOfflineStores": [
+              true
+            ],
+            "achook:autoSyncMaxAgeDays": true,
+            "$achook:autoSyncMaxAgeDays": [
+              true
+            ],
+            "@type": "imap",
+            "value": null
+          }
+        ],
+        "outgoingServer": {
+          "hostname": "smtp.example.com",
+          "$hostname": [
+            "smtp.example.com"
+          ],
+          "port": 25,
+          "$port": [
+            25
+          ],
+          "socketType": "plain",
+          "$socketType": [
+            "plain"
+          ],
+          "username": "%EMAILLOCALPART%",
+          "$username": [
+            "%EMAILLOCALPART%"
+          ],
+          "authentication": "password-cleartext",
+          "$authentication": [
+            "password-cleartext"
+          ],
+          "@type": "smtp",
+          "value": null
+        },
+        "$outgoingServer": [
+          {
+            "hostname": "smtp.example.com",
+            "$hostname": [
+              "smtp.example.com"
+            ],
+            "port": 25,
+            "$port": [
+              25
+            ],
+            "socketType": "plain",
+            "$socketType": [
+              "plain"
+            ],
+            "username": "%EMAILLOCALPART%",
+            "$username": [
+              "%EMAILLOCALPART%"
+            ],
+            "authentication": "password-cleartext",
+            "$authentication": [
+              "password-cleartext"
+            ],
+            "@type": "smtp",
+            "value": null
+          }
+        ],
+        "identity": {
+          "achook:fullName": true,
+          "$achook:fullName": [
+            true
+          ],
+          "achook:email": true,
+          "$achook:email": [
+            true
+          ],
+          "achook:replyTo": true,
+          "$achook:replyTo": [
+            true
+          ],
+          "achook:organization": true,
+          "$achook:organization": [
+            true
+          ],
+          "achook:composeHtml": false,
+          "$achook:composeHtml": [
+            false
+          ],
+          "achook:attachSignature": "%INHERIT%",
+          "$achook:attachSignature": [
+            "%INHERIT%"
+          ],
+          "achook:attachVCard": true,
+          "$achook:attachVCard": [
+            true
+          ],
+          "achook:autoQuote": true,
+          "$achook:autoQuote": [
+            true
+          ],
+          "achook:replyOnTop": true,
+          "$achook:replyOnTop": [
+            true
+          ],
+          "achook:sigBottom": true,
+          "$achook:sigBottom": [
+            true
+          ],
+          "achook:sigOnForward": true,
+          "$achook:sigOnForward": [
+            true
+          ],
+          "achook:sigOnReply": true,
+          "$achook:sigOnReply": [
+            true
+          ],
+          "achook:htmlSigText": "%INHERIT%",
+          "$achook:htmlSigText": [
+            "%INHERIT%"
+          ],
+          "achook:htmlSigFormat": "%INHERIT%",
+          "$achook:htmlSigFormat": [
+            "%INHERIT%"
+          ],
+          "achook:suppressSigSep": true,
+          "$achook:suppressSigSep": [
+            true
+          ],
+          "achook:escapedVCard": true,
+          "$achook:escapedVCard": [
+            true
+          ],
+          "achook:doFcc": true,
+          "$achook:doFcc": [
+            true
+          ],
+          "achook:fccFolder": "mailbox:\/\/nobody@Local%20Folders\/Sent",
+          "$achook:fccFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Sent"
+          ],
+          "achook:fccReplyFollowsParent": true,
+          "$achook:fccReplyFollowsParent": [
+            true
+          ],
+          "achook:fccFolderPickerMode": true,
+          "$achook:fccFolderPickerMode": [
+            true
+          ],
+          "achook:draftsFolderPickerMode": true,
+          "$achook:draftsFolderPickerMode": [
+            true
+          ],
+          "achook:archivesFolderPickerMode": true,
+          "$achook:archivesFolderPickerMode": [
+            true
+          ],
+          "achook:tmplFolderPickerMode": true,
+          "$achook:tmplFolderPickerMode": [
+            true
+          ],
+          "achook:doCc": true,
+          "$achook:doCc": [
+            true
+          ],
+          "achook:doCcList": true,
+          "$achook:doCcList": [
+            true
+          ],
+          "achook:doBcc": true,
+          "$achook:doBcc": [
+            true
+          ],
+          "achook:doBccList": true,
+          "$achook:doBccList": [
+            true
+          ],
+          "achook:draftFolder": "mailbox:\/\/nobody@Local%20Folders\/Drafts",
+          "$achook:draftFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Drafts"
+          ],
+          "achook:archiveFolder": "mailbox:\/\/nobody@Local%20Folders\/Archives",
+          "$achook:archiveFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Archives"
+          ],
+          "achook:stationeryFolder": "mailbox:\/\/nobody@Local%20Folders\/Templates",
+          "$achook:stationeryFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Templates"
+          ],
+          "achook:archiveEnabled": true,
+          "$achook:archiveEnabled": [
+            true
+          ],
+          "achook:archiveGranularity": true,
+          "$achook:archiveGranularity": [
+            true
+          ],
+          "achook:archiveKeepFolderStructure": true,
+          "$achook:archiveKeepFolderStructure": [
+            true
+          ],
+          "achook:showSaveMsgDlg": true,
+          "$achook:showSaveMsgDlg": [
+            true
+          ],
+          "achook:directoryServer": true,
+          "$achook:directoryServer": [
+            true
+          ],
+          "achook:overrideGlobalPref": true,
+          "$achook:overrideGlobalPref": [
+            true
+          ],
+          "achook:autocompleteToMyDomain": true,
+          "$achook:autocompleteToMyDomain": [
+            true
+          ],
+          "achook:requestReturnReceipt": true,
+          "$achook:requestReturnReceipt": [
+            true
+          ],
+          "achook:receiptHeaderType": true,
+          "$achook:receiptHeaderType": [
+            true
+          ],
+          "achook:requestDSN": true,
+          "$achook:requestDSN": [
+            true
+          ],
+          "value": null
+        },
+        "$identity": [
+          {
+            "achook:fullName": true,
+            "$achook:fullName": [
+              true
+            ],
+            "achook:email": true,
+            "$achook:email": [
+              true
+            ],
+            "achook:replyTo": true,
+            "$achook:replyTo": [
+              true
+            ],
+            "achook:organization": true,
+            "$achook:organization": [
+              true
+            ],
+            "achook:composeHtml": false,
+            "$achook:composeHtml": [
+              false
+            ],
+            "achook:attachSignature": "%INHERIT%",
+            "$achook:attachSignature": [
+              "%INHERIT%"
+            ],
+            "achook:attachVCard": true,
+            "$achook:attachVCard": [
+              true
+            ],
+            "achook:autoQuote": true,
+            "$achook:autoQuote": [
+              true
+            ],
+            "achook:replyOnTop": true,
+            "$achook:replyOnTop": [
+              true
+            ],
+            "achook:sigBottom": true,
+            "$achook:sigBottom": [
+              true
+            ],
+            "achook:sigOnForward": true,
+            "$achook:sigOnForward": [
+              true
+            ],
+            "achook:sigOnReply": true,
+            "$achook:sigOnReply": [
+              true
+            ],
+            "achook:htmlSigText": "%INHERIT%",
+            "$achook:htmlSigText": [
+              "%INHERIT%"
+            ],
+            "achook:htmlSigFormat": "%INHERIT%",
+            "$achook:htmlSigFormat": [
+              "%INHERIT%"
+            ],
+            "achook:suppressSigSep": true,
+            "$achook:suppressSigSep": [
+              true
+            ],
+            "achook:escapedVCard": true,
+            "$achook:escapedVCard": [
+              true
+            ],
+            "achook:doFcc": true,
+            "$achook:doFcc": [
+              true
+            ],
+            "achook:fccFolder": "mailbox:\/\/nobody@Local%20Folders\/Sent",
+            "$achook:fccFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Sent"
+            ],
+            "achook:fccReplyFollowsParent": true,
+            "$achook:fccReplyFollowsParent": [
+              true
+            ],
+            "achook:fccFolderPickerMode": true,
+            "$achook:fccFolderPickerMode": [
+              true
+            ],
+            "achook:draftsFolderPickerMode": true,
+            "$achook:draftsFolderPickerMode": [
+              true
+            ],
+            "achook:archivesFolderPickerMode": true,
+            "$achook:archivesFolderPickerMode": [
+              true
+            ],
+            "achook:tmplFolderPickerMode": true,
+            "$achook:tmplFolderPickerMode": [
+              true
+            ],
+            "achook:doCc": true,
+            "$achook:doCc": [
+              true
+            ],
+            "achook:doCcList": true,
+            "$achook:doCcList": [
+              true
+            ],
+            "achook:doBcc": true,
+            "$achook:doBcc": [
+              true
+            ],
+            "achook:doBccList": true,
+            "$achook:doBccList": [
+              true
+            ],
+            "achook:draftFolder": "mailbox:\/\/nobody@Local%20Folders\/Drafts",
+            "$achook:draftFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Drafts"
+            ],
+            "achook:archiveFolder": "mailbox:\/\/nobody@Local%20Folders\/Archives",
+            "$achook:archiveFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Archives"
+            ],
+            "achook:stationeryFolder": "mailbox:\/\/nobody@Local%20Folders\/Templates",
+            "$achook:stationeryFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Templates"
+            ],
+            "achook:archiveEnabled": true,
+            "$achook:archiveEnabled": [
+              true
+            ],
+            "achook:archiveGranularity": true,
+            "$achook:archiveGranularity": [
+              true
+            ],
+            "achook:archiveKeepFolderStructure": true,
+            "$achook:archiveKeepFolderStructure": [
+              true
+            ],
+            "achook:showSaveMsgDlg": true,
+            "$achook:showSaveMsgDlg": [
+              true
+            ],
+            "achook:directoryServer": true,
+            "$achook:directoryServer": [
+              true
+            ],
+            "achook:overrideGlobalPref": true,
+            "$achook:overrideGlobalPref": [
+              true
+            ],
+            "achook:autocompleteToMyDomain": true,
+            "$achook:autocompleteToMyDomain": [
+              true
+            ],
+            "achook:requestReturnReceipt": true,
+            "$achook:requestReturnReceipt": [
+              true
+            ],
+            "achook:receiptHeaderType": true,
+            "$achook:receiptHeaderType": [
+              true
+            ],
+            "achook:requestDSN": true,
+            "$achook:requestDSN": [
+              true
+            ],
+            "value": null
+          }
+        ],
+        "@id": "example.com",
+        "value": null
+      }
+    ],
+    "@version": 1.1,
+    "@xmlns:achook": "http:\/\/www.clear-code.com\/thunderbird\/achook",
+    "value": null
+  },
+  "$clientConfig": [
+    {
+      "emailProvider": {
+        "domain": "example.com",
+        "$domain": [
+          "example.com"
+        ],
+        "displayName": "Example Mail",
+        "$displayName": [
+          "Example Mail"
+        ],
+        "displayShortName": "Example Mail",
+        "$displayShortName": [
+          "Example Mail"
+        ],
+        "achook:prettyNameFormat": "%USERNAME%",
+        "$achook:prettyNameFormat": [
+          "%USERNAME%"
+        ],
+        "incomingServer": {
+          "hostname": "imap.example.com",
+          "$hostname": [
+            "imap.example.com"
+          ],
+          "port": 143,
+          "$port": [
+            143
+          ],
+          "socketType": "plain",
+          "$socketType": [
+            "plain"
+          ],
+          "username": "%USERNAME%",
+          "$username": [
+            "%USERNAME%"
+          ],
+          "authentication": "password-cleartext",
+          "$authentication": [
+            "password-cleartext"
+          ],
+          "achook:downloadOnBiff": true,
+          "$achook:downloadOnBiff": [
+            true
+          ],
+          "achook:doBiff": true,
+          "$achook:doBiff": [
+            true
+          ],
+          "achook:biffMinutes": true,
+          "$achook:biffMinutes": [
+            true
+          ],
+          "achook:emptyTrashOnExit": true,
+          "$achook:emptyTrashOnExit": [
+            true
+          ],
+          "achook:loginAtStartUp": true,
+          "$achook:loginAtStartUp": [
+            true
+          ],
+          "achook:limitOfflineMessageSize": true,
+          "$achook:limitOfflineMessageSize": [
+            true
+          ],
+          "achook:maxMessageSize": true,
+          "$achook:maxMessageSize": [
+            true
+          ],
+          "achook:offlineSupportLevel": true,
+          "$achook:offlineSupportLevel": [
+            true
+          ],
+          "achook:defaultCopiesAndFoldersPrefsToServer": true,
+          "$achook:defaultCopiesAndFoldersPrefsToServer": [
+            true
+          ],
+          "achook:canCreateFoldersOnServer": true,
+          "$achook:canCreateFoldersOnServer": [
+            true
+          ],
+          "achook:canFileMessagesOnServer": true,
+          "$achook:canFileMessagesOnServer": [
+            true
+          ],
+          "achook:incomingDuplicateAction": true,
+          "$achook:incomingDuplicateAction": [
+            true
+          ],
+          "achook:maximumConnectionsNumber": true,
+          "$achook:maximumConnectionsNumber": [
+            true
+          ],
+          "achook:timeOutLimits": true,
+          "$achook:timeOutLimits": [
+            true
+          ],
+          "achook:adminUrl": true,
+          "$achook:adminUrl": [
+            true
+          ],
+          "achook:serverDirectory": true,
+          "$achook:serverDirectory": [
+            true
+          ],
+          "achook:capabilityPref": true,
+          "$achook:capabilityPref": [
+            true
+          ],
+          "achook:serverIDPref": true,
+          "$achook:serverIDPref": [
+            true
+          ],
+          "achook:cleanupInboxOnExit": true,
+          "$achook:cleanupInboxOnExit": [
+            true
+          ],
+          "achook:deleteModel": 0,
+          "$achook:deleteModel": [
+            0
+          ],
+          "achook:dualUseFolders": true,
+          "$achook:dualUseFolders": [
+            true
+          ],
+          "achook:emptyTrashThreshhold": true,
+          "$achook:emptyTrashThreshhold": [
+            true
+          ],
+          "achook:personalNamespace": true,
+          "$achook:personalNamespace": [
+            true
+          ],
+          "achook:publicNamespace": true,
+          "$achook:publicNamespace": [
+            true
+          ],
+          "achook:otherUsersNamespace": true,
+          "$achook:otherUsersNamespace": [
+            true
+          ],
+          "achook:offlineDownload": true,
+          "$achook:offlineDownload": [
+            true
+          ],
+          "achook:overrideNamespaces": true,
+          "$achook:overrideNamespaces": [
+            true
+          ],
+          "achook:usingSubscription": true,
+          "$achook:usingSubscription": [
+            true
+          ],
+          "achook:manageMailAccountUrl": true,
+          "$achook:manageMailAccountUrl": [
+            true
+          ],
+          "achook:fetchByChunks": true,
+          "$achook:fetchByChunks": [
+            true
+          ],
+          "achook:mimePartsOnDemand": true,
+          "$achook:mimePartsOnDemand": [
+            true
+          ],
+          "achook:sendID": true,
+          "$achook:sendID": [
+            true
+          ],
+          "achook:isAOLServer": true,
+          "$achook:isAOLServer": [
+            true
+          ],
+          "achook:useIdle": true,
+          "$achook:useIdle": [
+            true
+          ],
+          "achook:checkAllFoldersForNew": true,
+          "$achook:checkAllFoldersForNew": [
+            true
+          ],
+          "achook:isGMailServer": true,
+          "$achook:isGMailServer": [
+            true
+          ],
+          "achook:useCondStore": true,
+          "$achook:useCondStore": [
+            true
+          ],
+          "achook:useCompressDeflate": true,
+          "$achook:useCompressDeflate": [
+            true
+          ],
+          "achook:trashFolderName": true,
+          "$achook:trashFolderName": [
+            true
+          ],
+          "achook:downloadBodiesOnGetNewMail": true,
+          "$achook:downloadBodiesOnGetNewMail": [
+            true
+          ],
+          "achook:autoSyncOfflineStores": true,
+          "$achook:autoSyncOfflineStores": [
+            true
+          ],
+          "achook:autoSyncMaxAgeDays": true,
+          "$achook:autoSyncMaxAgeDays": [
+            true
+          ],
+          "@type": "imap",
+          "value": null
+        },
+        "$incomingServer": [
+          {
+            "hostname": "imap.example.com",
+            "$hostname": [
+              "imap.example.com"
+            ],
+            "port": 143,
+            "$port": [
+              143
+            ],
+            "socketType": "plain",
+            "$socketType": [
+              "plain"
+            ],
+            "username": "%USERNAME%",
+            "$username": [
+              "%USERNAME%"
+            ],
+            "authentication": "password-cleartext",
+            "$authentication": [
+              "password-cleartext"
+            ],
+            "achook:downloadOnBiff": true,
+            "$achook:downloadOnBiff": [
+              true
+            ],
+            "achook:doBiff": true,
+            "$achook:doBiff": [
+              true
+            ],
+            "achook:biffMinutes": true,
+            "$achook:biffMinutes": [
+              true
+            ],
+            "achook:emptyTrashOnExit": true,
+            "$achook:emptyTrashOnExit": [
+              true
+            ],
+            "achook:loginAtStartUp": true,
+            "$achook:loginAtStartUp": [
+              true
+            ],
+            "achook:limitOfflineMessageSize": true,
+            "$achook:limitOfflineMessageSize": [
+              true
+            ],
+            "achook:maxMessageSize": true,
+            "$achook:maxMessageSize": [
+              true
+            ],
+            "achook:offlineSupportLevel": true,
+            "$achook:offlineSupportLevel": [
+              true
+            ],
+            "achook:defaultCopiesAndFoldersPrefsToServer": true,
+            "$achook:defaultCopiesAndFoldersPrefsToServer": [
+              true
+            ],
+            "achook:canCreateFoldersOnServer": true,
+            "$achook:canCreateFoldersOnServer": [
+              true
+            ],
+            "achook:canFileMessagesOnServer": true,
+            "$achook:canFileMessagesOnServer": [
+              true
+            ],
+            "achook:incomingDuplicateAction": true,
+            "$achook:incomingDuplicateAction": [
+              true
+            ],
+            "achook:maximumConnectionsNumber": true,
+            "$achook:maximumConnectionsNumber": [
+              true
+            ],
+            "achook:timeOutLimits": true,
+            "$achook:timeOutLimits": [
+              true
+            ],
+            "achook:adminUrl": true,
+            "$achook:adminUrl": [
+              true
+            ],
+            "achook:serverDirectory": true,
+            "$achook:serverDirectory": [
+              true
+            ],
+            "achook:capabilityPref": true,
+            "$achook:capabilityPref": [
+              true
+            ],
+            "achook:serverIDPref": true,
+            "$achook:serverIDPref": [
+              true
+            ],
+            "achook:cleanupInboxOnExit": true,
+            "$achook:cleanupInboxOnExit": [
+              true
+            ],
+            "achook:deleteModel": 0,
+            "$achook:deleteModel": [
+              0
+            ],
+            "achook:dualUseFolders": true,
+            "$achook:dualUseFolders": [
+              true
+            ],
+            "achook:emptyTrashThreshhold": true,
+            "$achook:emptyTrashThreshhold": [
+              true
+            ],
+            "achook:personalNamespace": true,
+            "$achook:personalNamespace": [
+              true
+            ],
+            "achook:publicNamespace": true,
+            "$achook:publicNamespace": [
+              true
+            ],
+            "achook:otherUsersNamespace": true,
+            "$achook:otherUsersNamespace": [
+              true
+            ],
+            "achook:offlineDownload": true,
+            "$achook:offlineDownload": [
+              true
+            ],
+            "achook:overrideNamespaces": true,
+            "$achook:overrideNamespaces": [
+              true
+            ],
+            "achook:usingSubscription": true,
+            "$achook:usingSubscription": [
+              true
+            ],
+            "achook:manageMailAccountUrl": true,
+            "$achook:manageMailAccountUrl": [
+              true
+            ],
+            "achook:fetchByChunks": true,
+            "$achook:fetchByChunks": [
+              true
+            ],
+            "achook:mimePartsOnDemand": true,
+            "$achook:mimePartsOnDemand": [
+              true
+            ],
+            "achook:sendID": true,
+            "$achook:sendID": [
+              true
+            ],
+            "achook:isAOLServer": true,
+            "$achook:isAOLServer": [
+              true
+            ],
+            "achook:useIdle": true,
+            "$achook:useIdle": [
+              true
+            ],
+            "achook:checkAllFoldersForNew": true,
+            "$achook:checkAllFoldersForNew": [
+              true
+            ],
+            "achook:isGMailServer": true,
+            "$achook:isGMailServer": [
+              true
+            ],
+            "achook:useCondStore": true,
+            "$achook:useCondStore": [
+              true
+            ],
+            "achook:useCompressDeflate": true,
+            "$achook:useCompressDeflate": [
+              true
+            ],
+            "achook:trashFolderName": true,
+            "$achook:trashFolderName": [
+              true
+            ],
+            "achook:downloadBodiesOnGetNewMail": true,
+            "$achook:downloadBodiesOnGetNewMail": [
+              true
+            ],
+            "achook:autoSyncOfflineStores": true,
+            "$achook:autoSyncOfflineStores": [
+              true
+            ],
+            "achook:autoSyncMaxAgeDays": true,
+            "$achook:autoSyncMaxAgeDays": [
+              true
+            ],
+            "@type": "imap",
+            "value": null
+          }
+        ],
+        "outgoingServer": {
+          "hostname": "smtp.example.com",
+          "$hostname": [
+            "smtp.example.com"
+          ],
+          "port": 25,
+          "$port": [
+            25
+          ],
+          "socketType": "plain",
+          "$socketType": [
+            "plain"
+          ],
+          "username": "%EMAILLOCALPART%",
+          "$username": [
+            "%EMAILLOCALPART%"
+          ],
+          "authentication": "password-cleartext",
+          "$authentication": [
+            "password-cleartext"
+          ],
+          "@type": "smtp",
+          "value": null
+        },
+        "$outgoingServer": [
+          {
+            "hostname": "smtp.example.com",
+            "$hostname": [
+              "smtp.example.com"
+            ],
+            "port": 25,
+            "$port": [
+              25
+            ],
+            "socketType": "plain",
+            "$socketType": [
+              "plain"
+            ],
+            "username": "%EMAILLOCALPART%",
+            "$username": [
+              "%EMAILLOCALPART%"
+            ],
+            "authentication": "password-cleartext",
+            "$authentication": [
+              "password-cleartext"
+            ],
+            "@type": "smtp",
+            "value": null
+          }
+        ],
+        "identity": {
+          "achook:fullName": true,
+          "$achook:fullName": [
+            true
+          ],
+          "achook:email": true,
+          "$achook:email": [
+            true
+          ],
+          "achook:replyTo": true,
+          "$achook:replyTo": [
+            true
+          ],
+          "achook:organization": true,
+          "$achook:organization": [
+            true
+          ],
+          "achook:composeHtml": false,
+          "$achook:composeHtml": [
+            false
+          ],
+          "achook:attachSignature": "%INHERIT%",
+          "$achook:attachSignature": [
+            "%INHERIT%"
+          ],
+          "achook:attachVCard": true,
+          "$achook:attachVCard": [
+            true
+          ],
+          "achook:autoQuote": true,
+          "$achook:autoQuote": [
+            true
+          ],
+          "achook:replyOnTop": true,
+          "$achook:replyOnTop": [
+            true
+          ],
+          "achook:sigBottom": true,
+          "$achook:sigBottom": [
+            true
+          ],
+          "achook:sigOnForward": true,
+          "$achook:sigOnForward": [
+            true
+          ],
+          "achook:sigOnReply": true,
+          "$achook:sigOnReply": [
+            true
+          ],
+          "achook:htmlSigText": "%INHERIT%",
+          "$achook:htmlSigText": [
+            "%INHERIT%"
+          ],
+          "achook:htmlSigFormat": "%INHERIT%",
+          "$achook:htmlSigFormat": [
+            "%INHERIT%"
+          ],
+          "achook:suppressSigSep": true,
+          "$achook:suppressSigSep": [
+            true
+          ],
+          "achook:escapedVCard": true,
+          "$achook:escapedVCard": [
+            true
+          ],
+          "achook:doFcc": true,
+          "$achook:doFcc": [
+            true
+          ],
+          "achook:fccFolder": "mailbox:\/\/nobody@Local%20Folders\/Sent",
+          "$achook:fccFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Sent"
+          ],
+          "achook:fccReplyFollowsParent": true,
+          "$achook:fccReplyFollowsParent": [
+            true
+          ],
+          "achook:fccFolderPickerMode": true,
+          "$achook:fccFolderPickerMode": [
+            true
+          ],
+          "achook:draftsFolderPickerMode": true,
+          "$achook:draftsFolderPickerMode": [
+            true
+          ],
+          "achook:archivesFolderPickerMode": true,
+          "$achook:archivesFolderPickerMode": [
+            true
+          ],
+          "achook:tmplFolderPickerMode": true,
+          "$achook:tmplFolderPickerMode": [
+            true
+          ],
+          "achook:doCc": true,
+          "$achook:doCc": [
+            true
+          ],
+          "achook:doCcList": true,
+          "$achook:doCcList": [
+            true
+          ],
+          "achook:doBcc": true,
+          "$achook:doBcc": [
+            true
+          ],
+          "achook:doBccList": true,
+          "$achook:doBccList": [
+            true
+          ],
+          "achook:draftFolder": "mailbox:\/\/nobody@Local%20Folders\/Drafts",
+          "$achook:draftFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Drafts"
+          ],
+          "achook:archiveFolder": "mailbox:\/\/nobody@Local%20Folders\/Archives",
+          "$achook:archiveFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Archives"
+          ],
+          "achook:stationeryFolder": "mailbox:\/\/nobody@Local%20Folders\/Templates",
+          "$achook:stationeryFolder": [
+            "mailbox:\/\/nobody@Local%20Folders\/Templates"
+          ],
+          "achook:archiveEnabled": true,
+          "$achook:archiveEnabled": [
+            true
+          ],
+          "achook:archiveGranularity": true,
+          "$achook:archiveGranularity": [
+            true
+          ],
+          "achook:archiveKeepFolderStructure": true,
+          "$achook:archiveKeepFolderStructure": [
+            true
+          ],
+          "achook:showSaveMsgDlg": true,
+          "$achook:showSaveMsgDlg": [
+            true
+          ],
+          "achook:directoryServer": true,
+          "$achook:directoryServer": [
+            true
+          ],
+          "achook:overrideGlobalPref": true,
+          "$achook:overrideGlobalPref": [
+            true
+          ],
+          "achook:autocompleteToMyDomain": true,
+          "$achook:autocompleteToMyDomain": [
+            true
+          ],
+          "achook:requestReturnReceipt": true,
+          "$achook:requestReturnReceipt": [
+            true
+          ],
+          "achook:receiptHeaderType": true,
+          "$achook:receiptHeaderType": [
+            true
+          ],
+          "achook:requestDSN": true,
+          "$achook:requestDSN": [
+            true
+          ],
+          "value": null
+        },
+        "$identity": [
+          {
+            "achook:fullName": true,
+            "$achook:fullName": [
+              true
+            ],
+            "achook:email": true,
+            "$achook:email": [
+              true
+            ],
+            "achook:replyTo": true,
+            "$achook:replyTo": [
+              true
+            ],
+            "achook:organization": true,
+            "$achook:organization": [
+              true
+            ],
+            "achook:composeHtml": false,
+            "$achook:composeHtml": [
+              false
+            ],
+            "achook:attachSignature": "%INHERIT%",
+            "$achook:attachSignature": [
+              "%INHERIT%"
+            ],
+            "achook:attachVCard": true,
+            "$achook:attachVCard": [
+              true
+            ],
+            "achook:autoQuote": true,
+            "$achook:autoQuote": [
+              true
+            ],
+            "achook:replyOnTop": true,
+            "$achook:replyOnTop": [
+              true
+            ],
+            "achook:sigBottom": true,
+            "$achook:sigBottom": [
+              true
+            ],
+            "achook:sigOnForward": true,
+            "$achook:sigOnForward": [
+              true
+            ],
+            "achook:sigOnReply": true,
+            "$achook:sigOnReply": [
+              true
+            ],
+            "achook:htmlSigText": "%INHERIT%",
+            "$achook:htmlSigText": [
+              "%INHERIT%"
+            ],
+            "achook:htmlSigFormat": "%INHERIT%",
+            "$achook:htmlSigFormat": [
+              "%INHERIT%"
+            ],
+            "achook:suppressSigSep": true,
+            "$achook:suppressSigSep": [
+              true
+            ],
+            "achook:escapedVCard": true,
+            "$achook:escapedVCard": [
+              true
+            ],
+            "achook:doFcc": true,
+            "$achook:doFcc": [
+              true
+            ],
+            "achook:fccFolder": "mailbox:\/\/nobody@Local%20Folders\/Sent",
+            "$achook:fccFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Sent"
+            ],
+            "achook:fccReplyFollowsParent": true,
+            "$achook:fccReplyFollowsParent": [
+              true
+            ],
+            "achook:fccFolderPickerMode": true,
+            "$achook:fccFolderPickerMode": [
+              true
+            ],
+            "achook:draftsFolderPickerMode": true,
+            "$achook:draftsFolderPickerMode": [
+              true
+            ],
+            "achook:archivesFolderPickerMode": true,
+            "$achook:archivesFolderPickerMode": [
+              true
+            ],
+            "achook:tmplFolderPickerMode": true,
+            "$achook:tmplFolderPickerMode": [
+              true
+            ],
+            "achook:doCc": true,
+            "$achook:doCc": [
+              true
+            ],
+            "achook:doCcList": true,
+            "$achook:doCcList": [
+              true
+            ],
+            "achook:doBcc": true,
+            "$achook:doBcc": [
+              true
+            ],
+            "achook:doBccList": true,
+            "$achook:doBccList": [
+              true
+            ],
+            "achook:draftFolder": "mailbox:\/\/nobody@Local%20Folders\/Drafts",
+            "$achook:draftFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Drafts"
+            ],
+            "achook:archiveFolder": "mailbox:\/\/nobody@Local%20Folders\/Archives",
+            "$achook:archiveFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Archives"
+            ],
+            "achook:stationeryFolder": "mailbox:\/\/nobody@Local%20Folders\/Templates",
+            "$achook:stationeryFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Templates"
+            ],
+            "achook:archiveEnabled": true,
+            "$achook:archiveEnabled": [
+              true
+            ],
+            "achook:archiveGranularity": true,
+            "$achook:archiveGranularity": [
+              true
+            ],
+            "achook:archiveKeepFolderStructure": true,
+            "$achook:archiveKeepFolderStructure": [
+              true
+            ],
+            "achook:showSaveMsgDlg": true,
+            "$achook:showSaveMsgDlg": [
+              true
+            ],
+            "achook:directoryServer": true,
+            "$achook:directoryServer": [
+              true
+            ],
+            "achook:overrideGlobalPref": true,
+            "$achook:overrideGlobalPref": [
+              true
+            ],
+            "achook:autocompleteToMyDomain": true,
+            "$achook:autocompleteToMyDomain": [
+              true
+            ],
+            "achook:requestReturnReceipt": true,
+            "$achook:requestReturnReceipt": [
+              true
+            ],
+            "achook:receiptHeaderType": true,
+            "$achook:receiptHeaderType": [
+              true
+            ],
+            "achook:requestDSN": true,
+            "$achook:requestDSN": [
+              true
+            ],
+            "value": null
+          }
+        ],
+        "@id": "example.com",
+        "value": null
+      },
+      "$emailProvider": [
+        {
+          "domain": "example.com",
+          "$domain": [
+            "example.com"
+          ],
+          "displayName": "Example Mail",
+          "$displayName": [
+            "Example Mail"
+          ],
+          "displayShortName": "Example Mail",
+          "$displayShortName": [
+            "Example Mail"
+          ],
+          "achook:prettyNameFormat": "%USERNAME%",
+          "$achook:prettyNameFormat": [
+            "%USERNAME%"
+          ],
+          "incomingServer": {
+            "hostname": "imap.example.com",
+            "$hostname": [
+              "imap.example.com"
+            ],
+            "port": 143,
+            "$port": [
+              143
+            ],
+            "socketType": "plain",
+            "$socketType": [
+              "plain"
+            ],
+            "username": "%USERNAME%",
+            "$username": [
+              "%USERNAME%"
+            ],
+            "authentication": "password-cleartext",
+            "$authentication": [
+              "password-cleartext"
+            ],
+            "achook:downloadOnBiff": true,
+            "$achook:downloadOnBiff": [
+              true
+            ],
+            "achook:doBiff": true,
+            "$achook:doBiff": [
+              true
+            ],
+            "achook:biffMinutes": true,
+            "$achook:biffMinutes": [
+              true
+            ],
+            "achook:emptyTrashOnExit": true,
+            "$achook:emptyTrashOnExit": [
+              true
+            ],
+            "achook:loginAtStartUp": true,
+            "$achook:loginAtStartUp": [
+              true
+            ],
+            "achook:limitOfflineMessageSize": true,
+            "$achook:limitOfflineMessageSize": [
+              true
+            ],
+            "achook:maxMessageSize": true,
+            "$achook:maxMessageSize": [
+              true
+            ],
+            "achook:offlineSupportLevel": true,
+            "$achook:offlineSupportLevel": [
+              true
+            ],
+            "achook:defaultCopiesAndFoldersPrefsToServer": true,
+            "$achook:defaultCopiesAndFoldersPrefsToServer": [
+              true
+            ],
+            "achook:canCreateFoldersOnServer": true,
+            "$achook:canCreateFoldersOnServer": [
+              true
+            ],
+            "achook:canFileMessagesOnServer": true,
+            "$achook:canFileMessagesOnServer": [
+              true
+            ],
+            "achook:incomingDuplicateAction": true,
+            "$achook:incomingDuplicateAction": [
+              true
+            ],
+            "achook:maximumConnectionsNumber": true,
+            "$achook:maximumConnectionsNumber": [
+              true
+            ],
+            "achook:timeOutLimits": true,
+            "$achook:timeOutLimits": [
+              true
+            ],
+            "achook:adminUrl": true,
+            "$achook:adminUrl": [
+              true
+            ],
+            "achook:serverDirectory": true,
+            "$achook:serverDirectory": [
+              true
+            ],
+            "achook:capabilityPref": true,
+            "$achook:capabilityPref": [
+              true
+            ],
+            "achook:serverIDPref": true,
+            "$achook:serverIDPref": [
+              true
+            ],
+            "achook:cleanupInboxOnExit": true,
+            "$achook:cleanupInboxOnExit": [
+              true
+            ],
+            "achook:deleteModel": 0,
+            "$achook:deleteModel": [
+              0
+            ],
+            "achook:dualUseFolders": true,
+            "$achook:dualUseFolders": [
+              true
+            ],
+            "achook:emptyTrashThreshhold": true,
+            "$achook:emptyTrashThreshhold": [
+              true
+            ],
+            "achook:personalNamespace": true,
+            "$achook:personalNamespace": [
+              true
+            ],
+            "achook:publicNamespace": true,
+            "$achook:publicNamespace": [
+              true
+            ],
+            "achook:otherUsersNamespace": true,
+            "$achook:otherUsersNamespace": [
+              true
+            ],
+            "achook:offlineDownload": true,
+            "$achook:offlineDownload": [
+              true
+            ],
+            "achook:overrideNamespaces": true,
+            "$achook:overrideNamespaces": [
+              true
+            ],
+            "achook:usingSubscription": true,
+            "$achook:usingSubscription": [
+              true
+            ],
+            "achook:manageMailAccountUrl": true,
+            "$achook:manageMailAccountUrl": [
+              true
+            ],
+            "achook:fetchByChunks": true,
+            "$achook:fetchByChunks": [
+              true
+            ],
+            "achook:mimePartsOnDemand": true,
+            "$achook:mimePartsOnDemand": [
+              true
+            ],
+            "achook:sendID": true,
+            "$achook:sendID": [
+              true
+            ],
+            "achook:isAOLServer": true,
+            "$achook:isAOLServer": [
+              true
+            ],
+            "achook:useIdle": true,
+            "$achook:useIdle": [
+              true
+            ],
+            "achook:checkAllFoldersForNew": true,
+            "$achook:checkAllFoldersForNew": [
+              true
+            ],
+            "achook:isGMailServer": true,
+            "$achook:isGMailServer": [
+              true
+            ],
+            "achook:useCondStore": true,
+            "$achook:useCondStore": [
+              true
+            ],
+            "achook:useCompressDeflate": true,
+            "$achook:useCompressDeflate": [
+              true
+            ],
+            "achook:trashFolderName": true,
+            "$achook:trashFolderName": [
+              true
+            ],
+            "achook:downloadBodiesOnGetNewMail": true,
+            "$achook:downloadBodiesOnGetNewMail": [
+              true
+            ],
+            "achook:autoSyncOfflineStores": true,
+            "$achook:autoSyncOfflineStores": [
+              true
+            ],
+            "achook:autoSyncMaxAgeDays": true,
+            "$achook:autoSyncMaxAgeDays": [
+              true
+            ],
+            "@type": "imap",
+            "value": null
+          },
+          "$incomingServer": [
+            {
+              "hostname": "imap.example.com",
+              "$hostname": [
+                "imap.example.com"
+              ],
+              "port": 143,
+              "$port": [
+                143
+              ],
+              "socketType": "plain",
+              "$socketType": [
+                "plain"
+              ],
+              "username": "%USERNAME%",
+              "$username": [
+                "%USERNAME%"
+              ],
+              "authentication": "password-cleartext",
+              "$authentication": [
+                "password-cleartext"
+              ],
+              "achook:downloadOnBiff": true,
+              "$achook:downloadOnBiff": [
+                true
+              ],
+              "achook:doBiff": true,
+              "$achook:doBiff": [
+                true
+              ],
+              "achook:biffMinutes": true,
+              "$achook:biffMinutes": [
+                true
+              ],
+              "achook:emptyTrashOnExit": true,
+              "$achook:emptyTrashOnExit": [
+                true
+              ],
+              "achook:loginAtStartUp": true,
+              "$achook:loginAtStartUp": [
+                true
+              ],
+              "achook:limitOfflineMessageSize": true,
+              "$achook:limitOfflineMessageSize": [
+                true
+              ],
+              "achook:maxMessageSize": true,
+              "$achook:maxMessageSize": [
+                true
+              ],
+              "achook:offlineSupportLevel": true,
+              "$achook:offlineSupportLevel": [
+                true
+              ],
+              "achook:defaultCopiesAndFoldersPrefsToServer": true,
+              "$achook:defaultCopiesAndFoldersPrefsToServer": [
+                true
+              ],
+              "achook:canCreateFoldersOnServer": true,
+              "$achook:canCreateFoldersOnServer": [
+                true
+              ],
+              "achook:canFileMessagesOnServer": true,
+              "$achook:canFileMessagesOnServer": [
+                true
+              ],
+              "achook:incomingDuplicateAction": true,
+              "$achook:incomingDuplicateAction": [
+                true
+              ],
+              "achook:maximumConnectionsNumber": true,
+              "$achook:maximumConnectionsNumber": [
+                true
+              ],
+              "achook:timeOutLimits": true,
+              "$achook:timeOutLimits": [
+                true
+              ],
+              "achook:adminUrl": true,
+              "$achook:adminUrl": [
+                true
+              ],
+              "achook:serverDirectory": true,
+              "$achook:serverDirectory": [
+                true
+              ],
+              "achook:capabilityPref": true,
+              "$achook:capabilityPref": [
+                true
+              ],
+              "achook:serverIDPref": true,
+              "$achook:serverIDPref": [
+                true
+              ],
+              "achook:cleanupInboxOnExit": true,
+              "$achook:cleanupInboxOnExit": [
+                true
+              ],
+              "achook:deleteModel": 0,
+              "$achook:deleteModel": [
+                0
+              ],
+              "achook:dualUseFolders": true,
+              "$achook:dualUseFolders": [
+                true
+              ],
+              "achook:emptyTrashThreshhold": true,
+              "$achook:emptyTrashThreshhold": [
+                true
+              ],
+              "achook:personalNamespace": true,
+              "$achook:personalNamespace": [
+                true
+              ],
+              "achook:publicNamespace": true,
+              "$achook:publicNamespace": [
+                true
+              ],
+              "achook:otherUsersNamespace": true,
+              "$achook:otherUsersNamespace": [
+                true
+              ],
+              "achook:offlineDownload": true,
+              "$achook:offlineDownload": [
+                true
+              ],
+              "achook:overrideNamespaces": true,
+              "$achook:overrideNamespaces": [
+                true
+              ],
+              "achook:usingSubscription": true,
+              "$achook:usingSubscription": [
+                true
+              ],
+              "achook:manageMailAccountUrl": true,
+              "$achook:manageMailAccountUrl": [
+                true
+              ],
+              "achook:fetchByChunks": true,
+              "$achook:fetchByChunks": [
+                true
+              ],
+              "achook:mimePartsOnDemand": true,
+              "$achook:mimePartsOnDemand": [
+                true
+              ],
+              "achook:sendID": true,
+              "$achook:sendID": [
+                true
+              ],
+              "achook:isAOLServer": true,
+              "$achook:isAOLServer": [
+                true
+              ],
+              "achook:useIdle": true,
+              "$achook:useIdle": [
+                true
+              ],
+              "achook:checkAllFoldersForNew": true,
+              "$achook:checkAllFoldersForNew": [
+                true
+              ],
+              "achook:isGMailServer": true,
+              "$achook:isGMailServer": [
+                true
+              ],
+              "achook:useCondStore": true,
+              "$achook:useCondStore": [
+                true
+              ],
+              "achook:useCompressDeflate": true,
+              "$achook:useCompressDeflate": [
+                true
+              ],
+              "achook:trashFolderName": true,
+              "$achook:trashFolderName": [
+                true
+              ],
+              "achook:downloadBodiesOnGetNewMail": true,
+              "$achook:downloadBodiesOnGetNewMail": [
+                true
+              ],
+              "achook:autoSyncOfflineStores": true,
+              "$achook:autoSyncOfflineStores": [
+                true
+              ],
+              "achook:autoSyncMaxAgeDays": true,
+              "$achook:autoSyncMaxAgeDays": [
+                true
+              ],
+              "@type": "imap",
+              "value": null
+            }
+          ],
+          "outgoingServer": {
+            "hostname": "smtp.example.com",
+            "$hostname": [
+              "smtp.example.com"
+            ],
+            "port": 25,
+            "$port": [
+              25
+            ],
+            "socketType": "plain",
+            "$socketType": [
+              "plain"
+            ],
+            "username": "%EMAILLOCALPART%",
+            "$username": [
+              "%EMAILLOCALPART%"
+            ],
+            "authentication": "password-cleartext",
+            "$authentication": [
+              "password-cleartext"
+            ],
+            "@type": "smtp",
+            "value": null
+          },
+          "$outgoingServer": [
+            {
+              "hostname": "smtp.example.com",
+              "$hostname": [
+                "smtp.example.com"
+              ],
+              "port": 25,
+              "$port": [
+                25
+              ],
+              "socketType": "plain",
+              "$socketType": [
+                "plain"
+              ],
+              "username": "%EMAILLOCALPART%",
+              "$username": [
+                "%EMAILLOCALPART%"
+              ],
+              "authentication": "password-cleartext",
+              "$authentication": [
+                "password-cleartext"
+              ],
+              "@type": "smtp",
+              "value": null
+            }
+          ],
+          "identity": {
+            "achook:fullName": true,
+            "$achook:fullName": [
+              true
+            ],
+            "achook:email": true,
+            "$achook:email": [
+              true
+            ],
+            "achook:replyTo": true,
+            "$achook:replyTo": [
+              true
+            ],
+            "achook:organization": true,
+            "$achook:organization": [
+              true
+            ],
+            "achook:composeHtml": false,
+            "$achook:composeHtml": [
+              false
+            ],
+            "achook:attachSignature": "%INHERIT%",
+            "$achook:attachSignature": [
+              "%INHERIT%"
+            ],
+            "achook:attachVCard": true,
+            "$achook:attachVCard": [
+              true
+            ],
+            "achook:autoQuote": true,
+            "$achook:autoQuote": [
+              true
+            ],
+            "achook:replyOnTop": true,
+            "$achook:replyOnTop": [
+              true
+            ],
+            "achook:sigBottom": true,
+            "$achook:sigBottom": [
+              true
+            ],
+            "achook:sigOnForward": true,
+            "$achook:sigOnForward": [
+              true
+            ],
+            "achook:sigOnReply": true,
+            "$achook:sigOnReply": [
+              true
+            ],
+            "achook:htmlSigText": "%INHERIT%",
+            "$achook:htmlSigText": [
+              "%INHERIT%"
+            ],
+            "achook:htmlSigFormat": "%INHERIT%",
+            "$achook:htmlSigFormat": [
+              "%INHERIT%"
+            ],
+            "achook:suppressSigSep": true,
+            "$achook:suppressSigSep": [
+              true
+            ],
+            "achook:escapedVCard": true,
+            "$achook:escapedVCard": [
+              true
+            ],
+            "achook:doFcc": true,
+            "$achook:doFcc": [
+              true
+            ],
+            "achook:fccFolder": "mailbox:\/\/nobody@Local%20Folders\/Sent",
+            "$achook:fccFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Sent"
+            ],
+            "achook:fccReplyFollowsParent": true,
+            "$achook:fccReplyFollowsParent": [
+              true
+            ],
+            "achook:fccFolderPickerMode": true,
+            "$achook:fccFolderPickerMode": [
+              true
+            ],
+            "achook:draftsFolderPickerMode": true,
+            "$achook:draftsFolderPickerMode": [
+              true
+            ],
+            "achook:archivesFolderPickerMode": true,
+            "$achook:archivesFolderPickerMode": [
+              true
+            ],
+            "achook:tmplFolderPickerMode": true,
+            "$achook:tmplFolderPickerMode": [
+              true
+            ],
+            "achook:doCc": true,
+            "$achook:doCc": [
+              true
+            ],
+            "achook:doCcList": true,
+            "$achook:doCcList": [
+              true
+            ],
+            "achook:doBcc": true,
+            "$achook:doBcc": [
+              true
+            ],
+            "achook:doBccList": true,
+            "$achook:doBccList": [
+              true
+            ],
+            "achook:draftFolder": "mailbox:\/\/nobody@Local%20Folders\/Drafts",
+            "$achook:draftFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Drafts"
+            ],
+            "achook:archiveFolder": "mailbox:\/\/nobody@Local%20Folders\/Archives",
+            "$achook:archiveFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Archives"
+            ],
+            "achook:stationeryFolder": "mailbox:\/\/nobody@Local%20Folders\/Templates",
+            "$achook:stationeryFolder": [
+              "mailbox:\/\/nobody@Local%20Folders\/Templates"
+            ],
+            "achook:archiveEnabled": true,
+            "$achook:archiveEnabled": [
+              true
+            ],
+            "achook:archiveGranularity": true,
+            "$achook:archiveGranularity": [
+              true
+            ],
+            "achook:archiveKeepFolderStructure": true,
+            "$achook:archiveKeepFolderStructure": [
+              true
+            ],
+            "achook:showSaveMsgDlg": true,
+            "$achook:showSaveMsgDlg": [
+              true
+            ],
+            "achook:directoryServer": true,
+            "$achook:directoryServer": [
+              true
+            ],
+            "achook:overrideGlobalPref": true,
+            "$achook:overrideGlobalPref": [
+              true
+            ],
+            "achook:autocompleteToMyDomain": true,
+            "$achook:autocompleteToMyDomain": [
+              true
+            ],
+            "achook:requestReturnReceipt": true,
+            "$achook:requestReturnReceipt": [
+              true
+            ],
+            "achook:receiptHeaderType": true,
+            "$achook:receiptHeaderType": [
+              true
+            ],
+            "achook:requestDSN": true,
+            "$achook:requestDSN": [
+              true
+            ],
+            "value": null
+          },
+          "$identity": [
+            {
+              "achook:fullName": true,
+              "$achook:fullName": [
+                true
+              ],
+              "achook:email": true,
+              "$achook:email": [
+                true
+              ],
+              "achook:replyTo": true,
+              "$achook:replyTo": [
+                true
+              ],
+              "achook:organization": true,
+              "$achook:organization": [
+                true
+              ],
+              "achook:composeHtml": false,
+              "$achook:composeHtml": [
+                false
+              ],
+              "achook:attachSignature": "%INHERIT%",
+              "$achook:attachSignature": [
+                "%INHERIT%"
+              ],
+              "achook:attachVCard": true,
+              "$achook:attachVCard": [
+                true
+              ],
+              "achook:autoQuote": true,
+              "$achook:autoQuote": [
+                true
+              ],
+              "achook:replyOnTop": true,
+              "$achook:replyOnTop": [
+                true
+              ],
+              "achook:sigBottom": true,
+              "$achook:sigBottom": [
+                true
+              ],
+              "achook:sigOnForward": true,
+              "$achook:sigOnForward": [
+                true
+              ],
+              "achook:sigOnReply": true,
+              "$achook:sigOnReply": [
+                true
+              ],
+              "achook:htmlSigText": "%INHERIT%",
+              "$achook:htmlSigText": [
+                "%INHERIT%"
+              ],
+              "achook:htmlSigFormat": "%INHERIT%",
+              "$achook:htmlSigFormat": [
+                "%INHERIT%"
+              ],
+              "achook:suppressSigSep": true,
+              "$achook:suppressSigSep": [
+                true
+              ],
+              "achook:escapedVCard": true,
+              "$achook:escapedVCard": [
+                true
+              ],
+              "achook:doFcc": true,
+              "$achook:doFcc": [
+                true
+              ],
+              "achook:fccFolder": "mailbox:\/\/nobody@Local%20Folders\/Sent",
+              "$achook:fccFolder": [
+                "mailbox:\/\/nobody@Local%20Folders\/Sent"
+              ],
+              "achook:fccReplyFollowsParent": true,
+              "$achook:fccReplyFollowsParent": [
+                true
+              ],
+              "achook:fccFolderPickerMode": true,
+              "$achook:fccFolderPickerMode": [
+                true
+              ],
+              "achook:draftsFolderPickerMode": true,
+              "$achook:draftsFolderPickerMode": [
+                true
+              ],
+              "achook:archivesFolderPickerMode": true,
+              "$achook:archivesFolderPickerMode": [
+                true
+              ],
+              "achook:tmplFolderPickerMode": true,
+              "$achook:tmplFolderPickerMode": [
+                true
+              ],
+              "achook:doCc": true,
+              "$achook:doCc": [
+                true
+              ],
+              "achook:doCcList": true,
+              "$achook:doCcList": [
+                true
+              ],
+              "achook:doBcc": true,
+              "$achook:doBcc": [
+                true
+              ],
+              "achook:doBccList": true,
+              "$achook:doBccList": [
+                true
+              ],
+              "achook:draftFolder": "mailbox:\/\/nobody@Local%20Folders\/Drafts",
+              "$achook:draftFolder": [
+                "mailbox:\/\/nobody@Local%20Folders\/Drafts"
+              ],
+              "achook:archiveFolder": "mailbox:\/\/nobody@Local%20Folders\/Archives",
+              "$achook:archiveFolder": [
+                "mailbox:\/\/nobody@Local%20Folders\/Archives"
+              ],
+              "achook:stationeryFolder": "mailbox:\/\/nobody@Local%20Folders\/Templates",
+              "$achook:stationeryFolder": [
+                "mailbox:\/\/nobody@Local%20Folders\/Templates"
+              ],
+              "achook:archiveEnabled": true,
+              "$achook:archiveEnabled": [
+                true
+              ],
+              "achook:archiveGranularity": true,
+              "$achook:archiveGranularity": [
+                true
+              ],
+              "achook:archiveKeepFolderStructure": true,
+              "$achook:archiveKeepFolderStructure": [
+                true
+              ],
+              "achook:showSaveMsgDlg": true,
+              "$achook:showSaveMsgDlg": [
+                true
+              ],
+              "achook:directoryServer": true,
+              "$achook:directoryServer": [
+                true
+              ],
+              "achook:overrideGlobalPref": true,
+              "$achook:overrideGlobalPref": [
+                true
+              ],
+              "achook:autocompleteToMyDomain": true,
+              "$achook:autocompleteToMyDomain": [
+                true
+              ],
+              "achook:requestReturnReceipt": true,
+              "$achook:requestReturnReceipt": [
+                true
+              ],
+              "achook:receiptHeaderType": true,
+              "$achook:receiptHeaderType": [
+                true
+              ],
+              "achook:requestDSN": true,
+              "$achook:requestDSN": [
+                true
+              ],
+              "value": null
+            }
+          ],
+          "@id": "example.com",
+          "value": null
+        }
+      ],
+      "@version": 1.1,
+      "@xmlns:achook": "http:\/\/www.clear-code.com\/thunderbird\/achook",
+      "value": null
+    }
+  ]
+}
