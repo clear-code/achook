@@ -561,7 +561,7 @@
         return key.indexOf('achook:') == 0;
       })
       .map(function(key) {
-        return [key, parent[key]];
+        return [key.replace('achook:', ''), parent[key]];
       });
   }
 
