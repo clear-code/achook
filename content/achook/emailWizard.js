@@ -314,7 +314,7 @@
       ensureNoDuplicatedOldAccount(config.incoming.username, config.incoming.hostname, config.incoming.type); // XXX for debugging!
       if (lastConfigXML) {
         try{
-          let incomingServer = lastConfigXML.clientConfig.mailProvider.incomingServer;
+          let incomingServer = lastConfigXML.clientConfig.emailProvider.incomingServer;
           let requireVerification = incomingServer && incomingServer['achook:requireVerification'];
           if (requireVerification && !stringToBoolean(requireVerification.text(), true)) {
             accountManager.removeIncomingServer(inServer, true);
@@ -655,18 +655,17 @@
       variables.EMAILDOMAIN = identity.email.split("@")[1];
       variables.REALNAME = identity.fullName;
 
-
       setAccountValueFromKeyValues(
         incomingServer,
         existingDefaultIncomingServer,
-        extractAchookKeyValues(lastConfigXML.clientConfig.mailProvider.incomingServer),
+        extractAchookKeyValues(lastConfigXML.clientConfig.emailProvider.incomingServer),
         variables
       );
 
       setAccountValueFromKeyValues(
         identity,
         existingDefaultIdentity,
-        extractAchookKeyValues(lastConfigXML.clientConfig.mailProvider.identity),
+        extractAchookKeyValues(lastConfigXML.clientConfig.emailProvider.identity),
         variables
       );
     });
@@ -678,7 +677,7 @@
       setAccountValueFromKeyValues(
         server,
         existingDefaultOutgoingServer,
-        extractAchookKeyValues(lastConfigXML.clientConfig.mailProvider.outgoingServer),
+        extractAchookKeyValues(lastConfigXML.clientConfig.emailProvider.outgoingServer),
         variables
       );
     });
