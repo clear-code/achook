@@ -302,7 +302,8 @@
     var originalReplaceVariable = window._replaceVariable;
     window._replaceVariable = function ACHook_readFromXML(variable, values) {
       var username = '';
-      if (elements.usernameInputBox)
+      // if the box is hidden, it doesn't have the "value" property.
+      if (elements.usernameInputBox && 'value' in elements.usernameInputBox)
         username = elements.usernameInputBox.value.replace(/^\s+|\s+$/g, '');
       values.USERNAME = username || values.EMAILLOCALPART;
       return originalReplaceVariable.apply(this, arguments);
