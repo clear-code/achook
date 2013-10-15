@@ -510,6 +510,7 @@
   }
 
   function concreteValue(aValue, aVariables) {
+    aValue = String(aValue);
     Object.keys(aVariables).forEach(function(aKey) {
       aValue = aValue.replace(new RegExp("%"+aKey+"%", "gi"), aVariables[aKey]);
     });
@@ -531,6 +532,8 @@
           aValue = aValue.clone();
       }
     }
+    if (/\%[^\%]+\%/i.test(aValue))
+      aValue = concreteValue(aValue, aVariables);
 
     switch (typeof aTarget[aKey]) {
       case "object":
@@ -539,7 +542,6 @@
         break;
       case "string":
         aValue = String(aValue);
-        aValue = concreteValue(aValue, aVariables);
         break;
       case "number":
         aValue = Number(aValue);
