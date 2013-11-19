@@ -85,7 +85,7 @@
     <outgoingServer type="smtp">
       <hostname>smtp.example.com</hostname>
       <port>25</port>
-      <!-- "plain", "secure", "none", or "smtp-after-pop" -->
+      <!-- "plain", "SSL" or "STARTTLS" -->
       <socketType>plain</socketType>
       <username>%EMAILLOCALPART%</username>
       <!-- "password-cleartext", "password-encrypted", "NTLM", "GSSAPI", "client-IP-address", "TLS-client-cert" or "none" -->
