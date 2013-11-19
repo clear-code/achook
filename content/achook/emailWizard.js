@@ -353,6 +353,11 @@
         function error() {
           resetStatus();
           errorCallback.apply(this, arguments);
+          elements.nextButton.hidden = false;
+          elements.stopButton.hidden = true;
+          elements.createButton.disabled = true;
+          elements.createButton.hidden = true;
+          elements.nextButton.label = StringBundle.achook.GetStringFromName("accountCreationWizard.retry");
         }
       );
     };
