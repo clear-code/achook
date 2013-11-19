@@ -65,6 +65,7 @@ var StaticConfig = {
       contents = contents.replace(/<\?xml[^>]*\?>|<!--.*\?-->/g, "");
       return contents;
     } catch(e) {
+      Components.utils.reportError(e);
       return null;
     }
   },
@@ -82,6 +83,7 @@ var StaticConfig = {
       try {
         domain = this.xml.emailProvider.domain.text();
       } catch (e) {
+        Components.utils.reportError(e);
       }
     }
     return domain;
@@ -93,6 +95,7 @@ var StaticConfig = {
       try {
         shouldUse = this.xml.emailProvider.incomingServer.username.text() != '%EMAILLOCALPART%';
       } catch (e) {
+        Components.utils.reportError(e);
       }
     }
     return shouldUse;
