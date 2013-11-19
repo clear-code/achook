@@ -279,7 +279,7 @@
     try {
       server = accountManager.FindServer(username, hostname, type);
       let targetAccounts = [];
-      ket accounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
+      let accounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
       accounts.forEach(function(account) {
         if (account.incomingServer == server)
           targetAccounts.push(account);
