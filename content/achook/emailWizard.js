@@ -669,6 +669,16 @@
         extractKeyValuesFromXML(config..identity.ACHOOK::*),
         variables
       );
+
+      // INBOX of new IMAP accounts have "Offline" by default.
+      // We have to toggle the flag manually.
+      if (incomingServer.type == 'imap' && !incomingServer.offlineDownload) {
+        let offlineFolders = incomingServer.rootFolder.getFoldersWithFlags(Ci.nsMsgFolderFlags.Offline);
+        Util.toArray(offlineFolders, Ci.nsIMsgFolder).forEach(function(folder) {
+          if (folder.getFlag(Components.interfaces.nsMsgFolderFlags.Offline))
+            folder.toggleFlag(Components.interfaces.nsMsgFolderFlags.Offline);
+        });
+      }
     });
 
     var afterSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer);
