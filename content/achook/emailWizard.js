@@ -279,12 +279,11 @@
     try {
       server = accountManager.FindServer(username, hostname, type);
       let targetAccounts = [];
-      for (let i = 0; i < accountManager.accounts.Count(); ++i) {
-        let account = accountManager.accounts.QueryElementAt(i, Ci.nsISupports);
-        account.QueryInterface(Ci.nsIMsgAccount);
+      ket accounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
+      accounts.forEach(function(account) {
         if (account.incomingServer == server)
           targetAccounts.push(account);
-      }
+      });
       targetAccounts.forEach(function (account) accountManager.removeAccount(account));
     } catch (x) {
       debugMessage("Failed to remove account " + username + "@" + hostname + "(" + type +")\n" + x);
