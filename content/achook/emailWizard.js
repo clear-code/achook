@@ -315,7 +315,7 @@
         try{
           let incomingServer = lastConfigXML.clientConfig.emailProvider.incomingServer;
           let requireVerification = incomingServer && incomingServer['achook:requireVerification'];
-          if (requireVerification && !stringToBoolean(requireVerification.text(), true)) {
+          if (requireVerification && !stringToBoolean(requireVerification.value, true)) {
             accountManager.removeIncomingServer(inServer, true);
             return successCallback.call(this, config);
           }
@@ -697,11 +697,11 @@
       var createdAccountIncomingServer = createdAccount.incomingServer;
 
       var prettyNameFormat = config.emailProvider['achook:prettyNameFormat'];
-      if (prettyNameFormat && prettyNameFormat.text())
+      if (prettyNameFormat && prettyNameFormat.value)
         applyCustomPrettyName(
           createdAccountIncomingServer,
           createdAccount.defaultIdentity.QueryInterface(Ci.nsIMsgIdentity),
-          prettyNameFormat.text()
+          prettyNameFormat.value
         );
 
       dispatchAccountCreatedEvent(createdAccount, createdSMTPServer);
