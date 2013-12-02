@@ -402,10 +402,14 @@
       let outgoingServer = checkOutgoingServerAlreadyExists(config);
 
       if (incomingServer || outgoingServer) {
-        debugMessage("incomingServer = "+incomingServer+" (override:"+preferences.get(PreferenceNames.overwriteExistingAccount_incomingServer, true)+")\n"+
-                     "outgoingServer = "+outgoingServer+" (override:"+preferences.get(PreferenceNames.overwriteExistingAccount_outgoingServer, true)+")");
-        if (incomingServer && !preferences.get(PreferenceNames.overwriteExistingAccount_incomingServer, true) ||
-            outgoingServer && !preferences.get(PreferenceNames.overwriteExistingAccount_outgoingServer, true)) {
+        let overrideIncoming = preferences.get(PreferenceNames.overwriteExistingAccount_incomingServer, true);
+        let overrideOutgoing = preferences.get(PreferenceNames.overwriteExistingAccount_outgoingServer, false);
+        let reuseOutgoing = preferences.get(PreferenceNames.reuseExistingAccount_outgoingServer, true);
+        debugMessage("incomingServer = "+incomingServer+" (override:"+overrideIncoming+")\n"+
+                     "outgoingServer = "+outgoingServer+" (override:"+overrideOutgoing+")\n"+
+                     "reuseOutgoing = "+reuseOutgoing);
+        if (incomingServer && !overrideIncoming ||
+            outgoingServer && !overrideOutgoing && !reuseOutgoing) {
           Util.alert(
             Messages.getLocalized("alertExistingServers.title"),
             Messages.getLocalized("alertExistingServers.text"),
@@ -440,7 +444,7 @@
         }
 
         try {
-          if (outgoingServer) {
+          if (outgoingServer && !reuseOutgoing) {
             debugMessage("deleting existing outgoing server");
             Services.smtpService.deleteSmtpServer(outgoingServer);
             beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function (server) server.key);
