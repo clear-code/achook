@@ -436,6 +436,7 @@
           if (incomingServer) {
             debugMessage("deleting existing incoming server");
             Services.accountManager.removeIncomingServer(incomingServer, true);
+            existingAccountRemoved = true;
           }
         } catch (x) {
           debugMessage(x);
@@ -446,12 +447,11 @@
             debugMessage("deleting existing outgoing server");
             Services.smtpService.deleteSmtpServer(outgoingServer);
             beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function (server) server.key);
+            existingAccountRemoved = true;
           }
         } catch (x) {
           debugMessage(x);
         }
-
-        existingAccountRemoved = true;
       }
 
       return validateAndFinish_original.apply(this, arguments);
