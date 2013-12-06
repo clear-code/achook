@@ -117,8 +117,12 @@
 
   window.addEventListener("unload", function ACHook_onUnload() {
     window.removeEventListener("unload", ACHook_onUnload, false);
-    overrideAccountConfig();
-    confirmRestart();
+    try{
+      overrideAccountConfig();
+      confirmRestart();
+    } catch(error) {
+      debugMessage(error + '\n' + error.stack);
+    }
   }, false);
 
   const accountManager = Cc["@mozilla.org/messenger/account-manager;1"]
