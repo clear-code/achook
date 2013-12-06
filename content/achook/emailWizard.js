@@ -117,7 +117,7 @@
 
   window.addEventListener("unload", function ACHook_onUnload() {
     window.removeEventListener("unload", ACHook_onUnload, false);
-    try{
+    try {
       overrideAccountConfig();
       confirmRestart();
     } catch(error) {
@@ -319,7 +319,7 @@
     window.verifyLogon = function ACHook_verifyLogon(config, inServer, alter, msgWindow, successCallback, errorCallback) {
       ensureNoDuplicatedOldAccount(config.incoming.username, config.incoming.hostname, config.incoming.type); // XXX for debugging!
       if (lastConfigXML) {
-        try{
+        try {
           let incomingServer = lastConfigXML..incomingServer;
           let requireVerification = incomingServer && lastConfigXML..incomingServer.ACHOOK::requireVerification;
           if (requireVerification && !stringToBoolean(requireVerification.text(), true)) {
