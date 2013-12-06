@@ -746,7 +746,7 @@
       }
 
       var pressedButtonIndex = Util.confirmEx(
-            window,
+            window.opener || window,
             StringBundle.achook.GetStringFromName("confirmRestartNow.title"),
             StringBundle.achook.GetStringFromName("confirmRestartNow.text"),
             Ci.nsIPromptService.BUTTON_POS_0 * Ci.nsIPromptService.BUTTON_TITLE_IS_STRING |
