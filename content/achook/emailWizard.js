@@ -416,7 +416,8 @@
             window
           );
           return resetStatus();
-        } else {
+        } else if (incomingServer && overrideIncoming ||
+                   outgoingServer && overrideOutgoing) {
           const removeButtonIndex = 0;
           let serverType = incomingServer ? "all" : "outgoingServer" ;
           if (Util.confirmEx(
