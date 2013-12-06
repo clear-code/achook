@@ -640,7 +640,7 @@
   }
 
   function overrideAccountConfig() {
-    var config = lastConfigXML;
+    var config = lastConfigXML.clientConfig;
 
     var afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
     var createdAccounts = afterAccounts.filter(function (account) beforeAccountKeys.indexOf(account.key) < 0);
@@ -680,14 +680,14 @@
       setAccountValueFromKeyValues(
         incomingServer,
         existingDefaultIncomingServer,
-        extractAchookKeyValues(lastConfigXML.clientConfig.emailProvider.incomingServer),
+        extractAchookKeyValues(config.emailProvider.incomingServer),
         variables
       );
 
       setAccountValueFromKeyValues(
         identity,
         existingDefaultIdentity,
-        extractAchookKeyValues(lastConfigXML.clientConfig.emailProvider.identity),
+        extractAchookKeyValues(config.emailProvider.identity),
         variables
       );
 
@@ -709,7 +709,7 @@
       setAccountValueFromKeyValues(
         server,
         existingDefaultOutgoingServer,
-        extractAchookKeyValues(lastConfigXML.clientConfig.emailProvider.outgoingServer),
+        extractAchookKeyValues(config.emailProvider.outgoingServer),
         variables
       );
     });
