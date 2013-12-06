@@ -438,8 +438,8 @@
         try {
           if (incomingServer) {
             debugMessage("deleting existing incoming server");
-            Services.accountManager.removeIncomingServer(incomingServer, true);
             existingAccountRemoved = true;
+            Services.accountManager.removeIncomingServer(incomingServer, true);
           }
         } catch (x) {
           debugMessage(x);
@@ -448,9 +448,9 @@
         try {
           if (outgoingServer && !reuseOutgoing) {
             debugMessage("deleting existing outgoing server");
+            existingAccountRemoved = true;
             Services.smtpService.deleteSmtpServer(outgoingServer);
             beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function (server) server.key);
-            existingAccountRemoved = true;
           }
         } catch (x) {
           debugMessage(x);
