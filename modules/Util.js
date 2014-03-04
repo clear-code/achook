@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var EXPORTED_SYMBOLS = ["Util"];
+var EXPORTED_SYMBOLS = ['Util'];
 
 const Cc = Components.classes;
 const Ci = Components.interfaces;
@@ -10,11 +10,21 @@ const Cu = Components.utils;
 const Cr = Components.results;
 
 const { Browser } = Cu.import('resource://achook-modules/Browser.js', {});
-const { Deferred } = Cu.import('resource://achook-modules/jsdeferred.js', {});
-const { NetUtil } = Cu.import("resource://gre/modules/NetUtil.jsm", {});
+const { Promise } = Cu.import('resource://gre/modules/Promise.jsm', {});
+const { NetUtil } = Cu.import('resource://gre/modules/NetUtil.jsm', {});
 
 const Application = Cc['@mozilla.org/steel/application;1']
   .getService(Ci.steelIApplication);
+
+
+function setTimeout(aCallback, aInterval) {
+  let timer = Components
+                .classes['@mozilla.org/timer;1']
+                .createInstance(Components.interfaces.nsITimer);
+  timer.initWithCallback(aCallback, aInterval, timer.TYPE_ONE_SHOT);
+  timers.push(timer);
+  return timer;
+};
 
 var Util = {
   DEBUG: false,
@@ -150,16 +160,16 @@ var Util = {
   },
 
   deferredCopyFile: function (fromFile, toFile) {
-    var deferred = new Deferred();
+    var deferred = Promise.defer();
     Util.copyFileAsync(fromFile, toFile, function (succeeded) {
-      deferred.call(succeeded);
+      deferred.resolve(succeeded);
     });
-    return deferred;
+    return deferred.promise;
   },
 
   deferredCopyDirectory: function (fromDir, toDir, fileTransformer, onProgress) {
-    return Deferred.next(function () {
-      var deferreds = [];
+    return Promise.all([]).then(function () {
+      var promises = [];
       var entries = fromDir.directoryEntries;
 
       if (typeof onProgress === "function") {
@@ -187,25 +197,25 @@ var Util = {
         let nextFromFile = entries.getNext().QueryInterface(Ci.nsIFile);
         let nextToFile   = let (cloned = toDir.clone()) (cloned.append(nextFromFile.leafName), cloned);
         if (nextFromFile.isDirectory())
-          deferreds.push(Util.deferredCopyDirectory(nextFromFile, nextToFile, fileTransformer));
+          promises.push(Util.deferredCopyDirectory(nextFromFile, nextToFile, fileTransformer));
         else
-          deferreds.push(Util.deferredCopyFile(nextFromFile, nextToFile));
+          promises.push(Util.deferredCopyFile(nextFromFile, nextToFile));
       }
 
-      if (!deferreds.length)
+      if (!promises.length)
         return true;
 
-      var deferred = new Deferred();
+      var deferred = Promise.defer();
       // Call Util.deferredCopyDirectory() and Util.deferredCopyFile() asynchronously
-      Deferred.parallel(deferreds).next(function (results) {
+      Promise.all(promises).then(function (results) {
         // Because results and deferreds have different global object,
         // jsdeferred doesn't set "length" property of results.
         // We have to set results.length explicitly.
-        results.length = deferreds.length;
-        deferred.call(Array.every(results, function (result) result));
+        results.length = promises.length;
+        deferred.resolve(Array.every(results, function (result) result));
       });
 
-      return deferred;
+      return deferred.promise;
     });
   },
 
@@ -284,11 +294,11 @@ var Util = {
 
   deferredTraverseDirectory: function (directory, visitor, timeout) {
     if (!directory)
-      return Deferred.next(function() {
+      return Promise.all([]).then(function() {
                return true;
              });
 
-    return Deferred.next(function() {
+    return Promise.all([]).then(function() {
              var result;
              try {
                result = visitor(directory);
@@ -303,7 +313,7 @@ var Util = {
                if (!directory.isDirectory())
                  return result;
 
-               var deferreds = [];
+               var promises = [];
                var entries = directory.directoryEntries;
              } catch (x) {
                Util.log("deferredTraverseDirectory: " + x);
@@ -312,27 +322,27 @@ var Util = {
 
              while (entries.hasMoreElements()) {
                let nextDir = entries.getNext().QueryInterface(Ci.nsIFile);
-               deferreds.push(Util.deferredTraverseDirectory(nextDir, visitor));
+               promises.push(Util.deferredTraverseDirectory(nextDir, visitor));
              }
-             if (!deferreds.length)
+             if (!promises.length)
                return result;
 
-             var deferred = new Deferred();
+             var deferred = Promise.defer();
              var timer;
-             var traversing = Deferred.parallel(deferreds)
-                                .next(function(results) {
+             var traversing = Promise.all(promises)
+                                .then(function(results) {
                                   if (timer) timer.cancel();
-                                  results.length = deferreds.length;
-                                  deferred.call(Array.every(results, function(result) result ));
+                                  results.length = promises.length;
+                                  deferred.resolve(Array.every(results, function(result) result ));
                                 });
              if (timeout) {
                timer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
                timer.initWithCallback(function() {
                  if (traversing) traversing.cancel();
-                 deferred.call(false);
+                 deferred.resolve(false);
                }, timeout, timer.TYPE_ONE_SHOT);
              }
-             return deferred;
+             return deferred.promise;
            });
   },
 
@@ -506,69 +516,22 @@ var Util = {
     targetDirectory = Util.getFile(targetDirectory);
 
     let getDiskSpace = this.getDiskSpace;
-
-    if (!getDiskSpace)
-      return this.getDiskQuotaLegacy(targetDirectory);
-
     let tryCount = 0;
     const tryCountMax = 42;
-    return Deferred.next(function tryGetDiskSpace() {
+    return Promise.all([]).then(function tryGetDiskSpace() {
       tryCount++;
       let size = getDiskSpace(targetDirectory);
-      return size < 0 && tryCount < tryCountMax ? Deferred.wait(0.3).next(tryGetDiskSpace) : size;
+      if (size < 0 && tryCount < tryCountMax) {
+        let deferred = Promise.defer();
+        setTimeout(function() {
+          tryGetDiskSpace();
+          deferred.resolve(size);
+        }, 300);
+        return deferred.promise;
+      } else {
+        return size;
+      }
     });
-  },
-
-  // legacy version for Gecko 1.9.2 or olders
-  getDiskQuotaLegacy: function (targetDirectory) {
-    let tmpFile = Util.getSpecialDirectory("TmpD");
-    tmpFile.append(Util.generateUUID());
-    if (tmpFile.exists())
-      tmpFile.remove(true);
-
-    let args = [targetDirectory.path, tmpFile.path];
-    let process = Util.launchProcess(Util.diskFreeCommand, args);
-
-    return Deferred
-      .wait(0.1)
-      .next(function tryToGetResult() {
-        if (!tmpFile.exists())
-          return Deferred.wait(0.1).next(tryToGetResult);
-      })
-      .next(function () {
-        let tryCount = 0;
-        return Deferred.next(function tryToParseResult() {
-          tryCount++;
-          let resultString = Util.readFile(tmpFile, {
-            charset: "shift_jis"
-          });
-          let matchResult = resultString.match(/:[ \t]*([0-9]+)/);
-          if (!matchResult) {
-            if (tryCount < 50)
-              return Deferred.wait(0.1).next(tryToParseResult);
-          }
-          let [, quotaString] = matchResult;
-          return Number(quotaString);
-        });
-      })
-      .next(function (quota) {
-        let tryCount = 0;
-        Deferred.next(function tryRemoveTempFile() {
-          tryCount++;
-          try {
-            tmpFile.remove(true);
-          } catch([]) {
-            if (tryCount < 50)
-              Deferred.wait(0.1).next(tryRemoveTempFile);
-          }
-        });
-
-        return quota;
-      })
-      .error(function (error) {
-        Util.log(error);
-        return 0;
-      });
   },
 
   restartApplication: function () {
