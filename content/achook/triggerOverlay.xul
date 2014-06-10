@@ -16,13 +16,18 @@
       var appmenuPopup = document.getElementById("appmenu_newMenupopup");
       var appmenuNextItem = appmenuPopup ? document.getElementById("appmenu_newMailAccountMenuItem").nextSibling : null ;
 
+      var labelBase = Messages.getLocalized("newMailAccountMenuItem.label");
+      var accesskeyBase = Messages.getLocalized("newMailAccountMenuItem.accesskey");
+
       StaticConfigManager.configs.forEach(function(aConfig) {
         var id = "newMailAccountMenuItem_achook_staticConfig_" + aConfig.name;
         var appmenuId = "appmenu_" + id;
 
         var item = document.createElement("menuitem");
         item.setAttribute("id", id);
-        item.setAttribute("class", "newMailAccountMenuItem_achook_staticConfig");
+        item.setAttribute("class", "achookNewCustomAccountItem");
+        item.setAttribute("label", aConfig.label);
+        item.setAttribute("accesskey", aConfig.accesskey);
         item.setAttribute("hidden", true);
         item.setAttribute("data-config", aConfig.name);
         item.setAttribute("oncommand", "AchookNewCustomMailAccount(this.getAttribute('data-config'));");
@@ -31,7 +36,9 @@
         if (appmenuPopup) {
           let appmenuItem = document.createElement("menuitem");
           appmenuItem.setAttribute("id", appmenuId);
-          appmenuItem.setAttribute("class", "appmenu_newMailAccountMenuItem_achook_staticConfig");
+          appmenuItem.setAttribute("class", "achookNewCustomAccountItem");
+          appmenuItem.setAttribute("label", aConfig.label);
+          appmenuItem.setAttribute("accesskey", aConfig.accesskey);
           appmenuItem.setAttribute("hidden", true);
           appmenuItem.setAttribute("data-config", aConfig.name);
           appmenuItem.setAttribute("oncommand", "AchookNewCustomMailAccount(this.getAttribute('data-config'));");
@@ -44,7 +51,7 @@
     if ("AutoConfigWizard" in window) {
       eval("window.AutoConfigWizard = "+window.AutoConfigWizard.toSource().replace(
         /(NewMailAccount\([^;]+okCallback)(\))/g,
-        "$1, { __achook__staticConfig : StaticConfigManager.configs[0] }$2"
+        "$1, { __achook__staticConfig : StaticConfigManager.defaultConfig }$2"
       ));
     } else {
       Application.console.log("achook: AutoConfigWizard is not defined!");

@@ -34,6 +34,16 @@ XPCOMUtils.defineLazyGetter(this, "preferences", function() {
 });
 
 
+const Messages = {
+  _messages : new Preferences("extensions.achook."),
+  getLocalized: function (key, defaultValue) {
+    if (this._messages.has(key + ".override"))
+      key += ".override";
+    return this._messages.getLocalized(key, defaultValue);
+  }
+};
+
+
 function StaticConfig(aName) {
   this._name = aName || "";
 }
@@ -48,6 +58,15 @@ StaticConfig.prototype = {
   get prefPrefix() {
     var namePart = this._name ? (this._name + ".") : "" ;
     return PreferenceNames.staticConfigRoot + namePart;
+  },
+
+  get label() {
+    var label = Messages.getLocalized("newMailAccountMenuItem.label");
+    return label.replace(/%domain%/gi, this.domain);
+  },
+  get accesskey() {
+    var accesskey = Messages.getLocalized("newMailAccountMenuItem.accesskey");
+    return accesskey.replace(/%domain%/gi, this.domain).charAt(0);
   },
 
   get source() {
@@ -142,6 +161,10 @@ var StaticConfigManager = {
       this.configs.unshift(defaultConfig);
       this.namedConfigs[defaultConfig.name] = defaultConfig;
     }
+  },
+
+  get defaultConfig() {
+    return this.configs[0];
   },
 
   get anyAvailable() {

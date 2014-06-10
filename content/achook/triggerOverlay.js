@@ -23,7 +23,7 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
 
   const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
 
-  const { StaticConfig } = Cu.import("resource://achook-modules/StaticConfig.js", {});
+  const { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
   const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
   const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
 
@@ -42,46 +42,32 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
         document.getElementById("newMailAccountMenuItem"), // main window, menu bar
         document.getElementById("appmenu_newMailAccountMenuItem"), // main window, application menu
         document.getElementById("accountActionsAddMailAccount"), // account settings window
-        document.querySelector("#CreateAccount .acctCentralText.acctCentralLinkText:not(#newMailAccountItem_achook_staticConfig)") // account central
+        document.querySelector("#CreateAccount .acctCentralText.acctCentralLinkText:not(.achookNewCustomAccountItem)") // account central
       ];
   var newCreateAccountItems = [
         document.getElementById("newCreateEmailAccountMenuItem"), // menu bar
         document.getElementById("appmenu_newCreateEmailAccountMenuItem") // application menu
       ];
-  var staticConfigItems = [
-        document.getElementById("newMailAccountMenuItem_achook_staticConfig"), // menu bar
-        document.getElementById("appmenu_newMailAccountMenuItem_achook_staticConfig"), // application menu
-        document.getElementById("newMailAccountItem_achook_staticConfig") // account central
-      ];
+  var staticConfigItems = Array.slice(document.querySelectorAll(".achookNewCustomAccountItem"), 0);
 
-  let label = Messages.getLocalized("newMailAccountMenuItem.label");
-  label = label.replace(/%domain%/gi, StaticConfig.domain);
-  let accesskey = Messages.getLocalized("newMailAccountMenuItem.accesskey");
-  accesskey = accesskey.replace(/%domain%/gi, StaticConfig.domain).charAt(0);
-
-  if (preferences.get(PreferenceNames.disableGenericWizard)) {
+  if (preferences.get(PreferenceNames.disableGenericWizard) &&
+      StaticConfigManager.configs.length == 1) {
     // Hide the custom menu item, because the default wizard is always overridden.
     staticConfigItems.forEach(function(item) {
       if (item) item.setAttribute("hidden", true);
     });
     // Use the menu item for the generic wizard to start the custom wizard (but don't override the access key!)
+    let config = StaticConfigManager.defaultConfig;
     newAccountItems.forEach(function(item) {
       if (!item) return;
       if (item.localName == "label") {
-        item.setAttribute("value", label);
+        item.setAttribute("value", config.label);
       } else {
-        item.setAttribute("label", label);
+        item.setAttribute("label", config.label);
       }
     });
   } else {
     staticConfigItems.forEach(function(item) {
-      if (!item) return;
-      if (item.localName == "label") {
-        item.setAttribute("value", label);
-      } else {
-        item.setAttribute("label", label);
-        item.setAttribute("accesskey", accesskey);
-      }
       item.removeAttribute("hidden");
     });
   }
@@ -97,13 +83,15 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
     });
   }
 
-  if (!StaticConfig.available) {
-    Application.console.log("achook: static config is not used. "+{
-                              "StaticConfig.available" : StaticConfig.available,
-                              "StaticConfig.domain"    : StaticConfig.domain,
-                              "StaticConfig.source"    : !!StaticConfig.source,
-                              "StaticConfig.xml"       : !!StaticConfig.xml,
-                            }.toSource());
+  if (!StaticConfig.anyAvailable) {
+    Application.console.log("achook: static config is not used. "+StaticConfig.configs.map(function(aConfig) {
+                              return {
+                                "StaticConfig." + aConfig.name + ".available" : aConfig.available,
+                                "StaticConfig." + aConfig.name + ".domain"    : aConfig.domain,
+                                "StaticConfig." + aConfig.name + ".source"    : !!aConfig.source,
+                                "StaticConfig." + aConfig.name + ".xml"       : !!aConfig.xml,
+                              };
+                            }).toSource());
   }
 }, false);
 

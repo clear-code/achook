@@ -37,7 +37,8 @@
         var hbox = row.appendChild(document.createElement("hbox"));
         var label = hbox.appendChild(document.createElement("label"));
         label.setAttribute("id", "newMailAccountItem_achook_staticConfig_" + aConfig.name);
-        label.setAttribute("class", "acctCentralText acctCentralLinkText");
+        label.setAttribute("class", "acctCentralText acctCentralLinkText achookNewCustomAccountItem");
+        label.setAttribute("value", aConfig.label);
         label.setAttribute("data-config", aConfig.name);
         label.setAttribute("onclick", "AchookNewCustomMailAccount(this.getAttribute('data-config'));");
         label.setAttribute("style", itemStyle);

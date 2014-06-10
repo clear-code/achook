@@ -17,7 +17,9 @@
 
         var item = document.createElement("menuitem");
         item.setAttribute("id", id);
-        item.setAttribute("class", "newMailAccountMenuItem_achook_staticConfig");
+        item.setAttribute("class", "achookNewCustomAccountItem");
+        item.setAttribute("label", aConfig.label);
+        item.setAttribute("accesskey", aConfig.accesskey);
         item.setAttribute("hidden", true);
         item.setAttribute("data-config", aConfig.name);
         item.setAttribute("oncommand", "AchookNewCustomMailAccount(this.getAttribute('data-config')); event.stopPropagation();");
