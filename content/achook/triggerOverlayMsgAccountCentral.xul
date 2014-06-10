@@ -6,10 +6,11 @@
   <script type="application/x-javascript"><![CDATA[
     var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
 
-    function AchookAddCustomMailAccount() {
+    function AchookAddCustomMailAccount(aConfigName) {
+      var config = StaticConfigManager.namedConfigs[aConfigName];
       var mailSession = Components.classes["@mozilla.org/messenger/services/session;1"]
             .getService(Components.interfaces.nsIMsgMailSession);
-      NewMailAccount(mailSession.topmostMsgWindow, null, { __achook__staticConfig : true });
+      NewMailAccount(mailSession.topmostMsgWindow, null, { __achook__staticConfig : config });
     }
 
     window.addEventListener("load", function(event) {
@@ -44,7 +45,7 @@
         label.setAttribute("id", "newMailAccountItem_achook_staticConfig_" + aConfig.name);
         label.setAttribute("class", "acctCentralText acctCentralLinkText");
         label.setAttribute("data-config", aConfig.name);
-        label.setAttribute("onclick", "AchookAddCustomMailAccount(this.getAttribute('data-config');");
+        label.setAttribute("onclick", "AchookAddCustomMailAccount(this.getAttribute('data-config'));");
         label.setAttribute("style", itemStyle);
 
         rows.insertBefore(row, nextRow);
