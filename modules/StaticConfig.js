@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const EXPORTED_SYMBOLS = ["StaticConfig"];
+const EXPORTED_SYMBOLS = ["StaticConfig", "StaticConfigManager"];
 
 const Cc = Components.classes;
 const Ci = Components.interfaces;
@@ -34,12 +34,20 @@ XPCOMUtils.defineLazyGetter(this, "preferences", function() {
 });
 
 
-var StaticConfig = {
+function StaticConfig(aName) {
+  this.name = aName;
+}
+StaticConfig.prototype = {
   EVENT_TYPE_STATIC_CONFIG_READY : "nsDOMAcHookStaticConfigReady",
   EVENT_TYPE_STATIC_DOMAIN_READY : "nsDOMAcHookStaticDomainReady",
 
+  get prefPrefix() {
+    var namePart = this.name ? (this.name + ".") : "" ;
+    return PreferenceNames.staticConfigRoot + namePart;
+  },
+
   get source() {
-    return preferences.get(PreferenceNames.staticConfigSource);
+    return preferences.get(this.prefPrefix + "source");
   },
   get disableGenericWizard() {
     return preferences.get(PreferenceNames.disableGenericWizard);
@@ -78,7 +86,7 @@ var StaticConfig = {
   },
   _lastDomain : null,
   _loadDomain : function StaticConfig_loadDomain() {
-    var domain = preferences.get(PreferenceNames.staticConfigDomain);
+    var domain = preferences.get(this.prefPrefix + "domain");
     if (!domain) {
       try {
         domain = this.xml.emailProvider.domain.text();
@@ -90,7 +98,7 @@ var StaticConfig = {
   },
 
   get useSeparatedUsername() {
-    var shouldUse = preferences.get(PreferenceNames.staticConfigSeparatedUsername);
+    var shouldUse = preferences.get(this.prefPrefix + "separatedUsername");
     if (shouldUse === null) {
       try {
         shouldUse = this.xml.emailProvider.incomingServer.username.text() != '%EMAILLOCALPART%';
@@ -101,3 +109,35 @@ var StaticConfig = {
     return shouldUse;
   }
 };
+
+
+var StaticConfigManager = {
+  init: function() {
+    this.configs = [];
+    this.namedConfigs = [];
+
+    var defaultConfig = new StaticConfig();
+    if (defaultConfig.domain) {
+      this.configs.push(defaultConfig);
+      this.namedConfigs["default"] = defaultConfig;
+    }
+
+    var entries = Cc["@mozilla.org/preferences-service;1"]
+                    .getService(Ci.nsIPrefService)
+                    .QueryInterface(Ci.nsIPrefBranch)
+                    .QueryInterface(Ci.nsIPrefBranch2)
+                    .getChildList(PreferenceNames.staticConfigRoot, []);
+    var domainPrefMatcher = new RegExp("^" + PreferenceNames.staticConfigRoot.replace(/\./g, "\\.") + "(.*)\.domain$")
+    entries.forEach(function(aKey) {
+      var matched = aKey.match(domainPrefMatcher);
+      if (!matched)
+        return;
+
+      var name = matched[1];
+      var config = new StaticConfig(name);
+      this.configs.push(config);
+      this.namedConfigs[name] = config;
+    }, this);
+  }
+};
+StaticConfigManager.init();

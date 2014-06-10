@@ -5,9 +5,7 @@
 let EXPORTED_SYMBOLS = ["PreferenceNames"];
 
 let PreferenceNames = {
-  staticConfigDomain: "extensions.achook.staticConfig.domain",
-  staticConfigSource: "extensions.achook.staticConfig.source",
-  staticConfigSeparatedUsername: "extensions.achook.staticConfig.separatedUsername",
+  staticConfigRoot: "extensions.achook.staticConfig.",
   disableGenericWizard: "extensions.achook.disableGenericWizard",
   disableNewEmailAccountCreation: "extensions.achook.disableNewEmailAccountCreation",
   overwriteExistingAccount_incomingServer: "extensions.achook.overwriteExistingAccount.incomingServer",
