@@ -5,6 +5,8 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="./triggerOverlay.js" />
   <script type="application/x-javascript"><![CDATA[
+    var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
+
     // initial wizard should use static config
     if ("AutoConfigWizard" in window) {
       eval("window.AutoConfigWizard = "+window.AutoConfigWizard.toSource().replace(

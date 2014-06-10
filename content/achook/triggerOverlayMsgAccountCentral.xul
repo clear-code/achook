@@ -3,17 +3,11 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript" src="./triggerOverlay.js" />
   <script type="application/x-javascript"><![CDATA[
-    var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
-
-    function AchookAddCustomMailAccount(aConfigName) {
-      var config = StaticConfigManager.namedConfigs[aConfigName];
-      var mailSession = Components.classes["@mozilla.org/messenger/services/session;1"]
-            .getService(Components.interfaces.nsIMsgMailSession);
-      NewMailAccount(mailSession.topmostMsgWindow, null, { __achook__staticConfig : config });
-    }
-
     window.addEventListener("load", function AchookAccountCentralSetup(event) {
+      var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
+
       window.removeEventListener("load", AchookAccountCentralSetup, false);
       if (!("SetItemDisplay" in window) || document.getElementById("CreateAccount").collapsed)
         return;
@@ -45,7 +39,7 @@
         label.setAttribute("id", "newMailAccountItem_achook_staticConfig_" + aConfig.name);
         label.setAttribute("class", "acctCentralText acctCentralLinkText");
         label.setAttribute("data-config", aConfig.name);
-        label.setAttribute("onclick", "AchookAddCustomMailAccount(this.getAttribute('data-config'));");
+        label.setAttribute("onclick", "AchookNewCustomMailAccount(this.getAttribute('data-config'));");
         label.setAttribute("style", itemStyle);
 
         rows.insertBefore(row, nextRow);
@@ -54,5 +48,4 @@
       });
     }, false);
   ]]></script>
-  <script type="application/x-javascript" src="./triggerOverlay.js" />
 </overlay>

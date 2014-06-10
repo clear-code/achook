@@ -5,17 +5,10 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="./triggerOverlay.js" />
   <script type="application/x-javascript"><![CDATA[
-    var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
-
-    function AchookAddCustomMailAccount(aConfigName) {
-      var config = StaticConfigManager.namedConfigs[aConfigName];
-      var mailSession = Components.classes["@mozilla.org/messenger/services/session;1"]
-            .getService(Components.interfaces.nsIMsgMailSession);
-      NewMailAccount(mailSession.topmostMsgWindow, null, { __achook__staticConfig : config });
-    }
-
     window.addEventListener("load", function AchookAccountWizardSetup(event) {
       window.removeEventListener("load", AchookAccountWizardSetup, false);
+
+      var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
 
       var baseStyle = window.getComputedStyle(document.querySelector("#CreateAccount label"), null);
       var itemStyle = [
@@ -39,7 +32,7 @@
         item.setAttribute("class", "newMailAccountMenuItem_achook_staticConfig");
         item.setAttribute("hidden", true);
         item.setAttribute("data-config", aConfig.name);
-        item.setAttribute("oncommand", "AchookAddCustomMailAccount(this.getAttribute('data-config')); event.stopPropagation();");
+        item.setAttribute("oncommand", "AchookNewCustomMailAccount(this.getAttribute('data-config')); event.stopPropagation();");
 
         menupopup.insertBefore(item, nextItem);
       });
