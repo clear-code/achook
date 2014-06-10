@@ -19,7 +19,7 @@
   const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
   const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
   const { StringBundle } = Cu.import("resource://achook-modules/StringBundle.js", {});
-  const { StaticConfig } = Cu.import("resource://achook-modules/StaticConfig.js", {});
+  const { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
 
   var mozServices = {};
   Cu.import("resource://gre/modules/Services.jsm", mozServices);
@@ -61,19 +61,20 @@
   var existingAccountRemoved = false;
   var lastConfigXML = null;
 
-  var staticConfigUsed = StaticConfig.strictlyAvailable && shouldUseStaticConfig();
+  var staticConfig = selectedStaticConfig();
+  var staticConfigUsed = staticConfig && staticConfig.strictlyAvailable;
   debugMessage("staticConfigUsed = " + staticConfigUsed);
   if (staticConfigUsed) {
     suppressBuiltinLecture();
-    useStaticConfig();
+    useStaticConfig(staticConfig);
   } else {
     storeSourceXML();
   }
 
-  var staticDomainUsed = StaticConfig.domainFromSource && shouldUseStaticConfig();
+  var staticDomainUsed = staticConfig && staticConfig.domainFromSource;
   debugMessage("staticDomainUsed = "+staticDomainUsed);
   if (staticDomainUsed) {
-    buildFixedDomainView(StaticConfig.domain, StaticConfig.useSeparatedUsername);
+    buildFixedDomainView(staticConfig.domain, staticConfig.useSeparatedUsername);
     suppressSecurityWarning();
     suppressAccountDuplicationCheck();
   }
@@ -88,17 +89,16 @@
     window.removeEventListener("DOMContentLoaded", ACHook_onDOMContentLoaded, false);
 
     if (staticConfigUsed)
-      document.dispatchEvent(createDataContainerEvent(StaticConfig.EVENT_TYPE_STATIC_CONFIG_READY, {
-        source : StaticConfig.source
+      document.dispatchEvent(createDataContainerEvent(staticConfig.EVENT_TYPE_STATIC_CONFIG_READY, {
+        source : staticConfig.source
       }));
 
     if (staticDomainUsed)
-      document.dispatchEvent(createDataContainerEvent(StaticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
-        domain : StaticConfig.domain
+      document.dispatchEvent(createDataContainerEvent(staticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
+        domain : staticConfig.domain
       }));
 
-    if (!StaticConfig.available &&
-        shouldUseStaticConfig()) {
+    if (staticConfig && !staticConfig.available) {
         window.addEventListener("load", function ACHook_onLoad() {
           window.removeEventListener("load", ACHook_onLoad, false);
           window.setTimeout(function() {
@@ -462,21 +462,21 @@
     };
   }
 
-  function shouldUseStaticConfig() {
+  function selectedStaticConfig() {
     if (preferences.get(PreferenceNames.disableGenericWizard))
-      return true;
+      return StaticConfigManager.defaultConfig;
 
     var arg = window.arguments && window.arguments.length > 0 && window.arguments[0];
     return arg && arg.extraData && arg.extraData.__achook__staticConfig;
   }
 
-  function useStaticConfig() {
+  function useStaticConfig(aConfig) {
     var originalFetchConfigFromDisk = window.fetchConfigFromDisk;
     window.fetchConfigFromDisk = function ACHook_fetchConfigFromDisk(domain, successCallback, errorCallback) {
       elements.stopButton.hidden = true;
       return new TimeoutAbortable(runAsync(function ACHook_asyncFetchConfigCallback() {
         try {
-          lastConfigXML = StaticConfig.xml;
+          lastConfigXML = aConfig.xml;
           if (!lastConfigXML)
             throw new Error("failed to load static config file");
           var DOMParser = Cc['@mozilla.org/xmlextras/domparser;1']
