@@ -17,7 +17,7 @@ h2. 設定ファイルの用意
 https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
 
 設定ファイル内では既定のプレースホルダに加えて、 @%USERNAME%@ というプレースホルダを利用できます。
-後述する @extensions.achook.staticConfig.separatedUsername@ の値が @true@ である場合は、 @%USERNAME%@ はアカウントID専用の入力欄の値で置き換えられます。
+後述する @extensions.achook.staticConfig.(設定名).separatedUsername@ の値が @true@ である場合は、 @%USERNAME%@ はアカウントID専用の入力欄の値で置き換えられます。
 アカウントID専用の入力欄が使われない場合や、入力欄が空の場合は、 @%EMAILLOCALPART%@ の値が代わりに使われます。
 
 作成されるアカウントの名前は、設定ファイル内の <achook:prettyNameFormat> でカスタマイズできます。
@@ -34,15 +34,18 @@ https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
 
 h2. 設定ファイルの場所指定
 
-つぎに、ユーザの Thunderbird へ achook をインストールした上で、Thunderbird の設定値 @extensions.achook.staticConfig.source@ に設定ファイルの場所をURI形式（ファイルURLなど）で設定します。
+つぎに、ユーザの Thunderbird へ achook をインストールした上で、Thunderbird の設定値 @extensions.achook.staticConfig.(設定名).source@ に、設定ファイルの場所をURI形式（ファイルURLなど）で設定します。
+
+@(設定名)@ の部分はその設定に与える任意の名前で、@extensions.achook.staticConfig.mydomain.source@ のように指定します。
+異なる名前で複数の設定を定義することもできます
 
 h2. メールアドレスと異なるアカウントIDを使用するかどうかの設定
 
-通常、メールサーバにログインする際のユーザアカウントIDは、メールアドレスのローカルパートが使われます。メールアドレスのローカルパートとは異なるアカウントIDを使ってログインする必要がある場合は、Thunderbird の設定値 @extensions.achook.staticConfig.separatedUsername@ を @true@ （真偽値）に設定します。
+通常、メールサーバにログインする際のユーザアカウントIDは、メールアドレスのローカルパートが使われます。メールアドレスのローカルパートとは異なるアカウントIDを使ってログインする必要がある場合は、Thunderbird の設定値 @extensions.achook.staticConfig.(設定名).separatedUsername@ を @true@ （真偽値）に設定します。
 
 h2. ドメインの設定
 
-最後に、ユーザの Thunderbird の設定値 @extensions.achook.staticConfig.domain@ へ、専用アカウントで使うドメインを設定して下さい。これは、メニュー項目のラベルとして利用されます。
+最後に、ユーザの Thunderbird の設定値 @extensions.achook.staticConfig.(設定名).domain@ へ、専用アカウントで使うドメインを設定して下さい。これは、メニュー項目のラベルとして利用されます。
 
 h1. 通常アカウント作成機能の無効化
 

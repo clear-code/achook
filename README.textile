@@ -16,7 +16,7 @@ Setting files are written in XML, and example.com.xml packed in achook is a good
 
 https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat
 
-An extra placeholder @%USERNAME%@ is available in the configuration file. If the secret preference @extensions.achook.staticConfig.separatedUsername@ is @true@ and the input field for the account ID has any value, then the placeholder will be replaced to the value of the field. Otherwise, it will be replaced to the value same to @%EMAILLOCALPART%@ .
+An extra placeholder @%USERNAME%@ is available in the configuration file. If the secret preference @extensions.achook.staticConfig.(configname).separatedUsername@ is @true@ and the input field for the account ID has any value, then the placeholder will be replaced to the value of the field. Otherwise, it will be replaced to the value same to @%EMAILLOCALPART%@ .
 
 You can customize the pretty name of the created account by <achook:prettyNameFormat>.
 There are some template variables for the field:
@@ -32,15 +32,19 @@ If you don't specify <achook:prettyNameFormat>, the result becomes "%username%@%
 
 h2. Specifying the location of the setting file
 
-Second, install achook into user Thunderbird, and specify the location of the setting file via @extensions.achook.staticConfig.source@ as an URI string (ex. File URL).
+Second, install achook into user Thunderbird, and specify the location of the setting file via @extensions.achook.staticConfig.(configname).source@ as an URI string (ex. File URL).
+
+The part @(configname)@ should be replaced with a name for a config.
+For example: @extensions.achook.staticConfig.mydomain.source@.
+You can define multiple configs with different names.
 
 h2. Specifying to use separated account ID or don't
 
-By default, Thunderbird creates a mail account with an account ID same to the local part of the mail address. If you have to use an account ID different from the local part of the address, then set the preference @extensions.achook.staticConfig.separatedUsername@ to @true@ (boolean).
+By default, Thunderbird creates a mail account with an account ID same to the local part of the mail address. If you have to use an account ID different from the local part of the address, then set the preference @extensions.achook.staticConfig.(configname).separatedUsername@ to @true@ (boolean).
 
 h2. Specifying the domain name
 
-Optionally, system administrator can specify the domain name of pre-configured accounts via @extensions.achook.staticConfig.domain@. This value is used as a label of a menu item.
+Optionally, system administrator can specify the domain name of pre-configured accounts via @extensions.achook.staticConfig.(configname).domain@. This value is used as a label of a menu item.
 
 h1. Disable default account creation wizard
 
