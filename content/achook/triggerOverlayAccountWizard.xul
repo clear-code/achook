@@ -10,18 +10,6 @@
 
       var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
 
-      var baseStyle = window.getComputedStyle(document.querySelector("#CreateAccount label"), null);
-      var itemStyle = [
-        "background-color: ", baseStyle.backgroundColor, "!important;",
-        "background-image: ", baseStyle.backgroundImage, "!important;",
-        "background-repeat: ", baseStyle.backgroundRepeat, "!important;",
-        "background-attachment: ", baseStyle.backgroundAttachment, "!important;",
-        "background-position: ", baseStyle.backgroundPosition, "!important;",
-        "background-clip: ", baseStyle.backgroundClip, "!important;",
-        "background-origin: ", baseStyle.backgroundOrigin, "!important;",
-        "background-size: ", baseStyle.backgroundSize, "!important;"
-      ].join(" ");
-
       var menupopup = document.getElementById("accountActionsDropdown");
       var nextItem = document.getElementById("accountActionsAddMailAccount").nextSibling;
       StaticConfigManager.configs.forEach(function(aConfig) {
