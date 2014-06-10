@@ -89,7 +89,7 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
                                 aConfig.name + ".available" : aConfig.available,
                                 aConfig.name + ".domain"    : aConfig.domain,
                                 aConfig.name + ".source"    : !!aConfig.source,
-                                aConfig.name + ".xml"       : !!aConfig.xml,
+                                aConfig.name + ".xml"       : !!aConfig.xml
                               };
                             }).toSource());
   }
