@@ -83,13 +83,13 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
     });
   }
 
-  if (!StaticConfig.anyAvailable) {
-    Application.console.log("achook: static config is not used. "+StaticConfig.configs.map(function(aConfig) {
+  if (!StaticConfigManager.anyAvailable) {
+    Application.console.log("achook: static config is not used. "+StaticConfigManager.configs.map(function(aConfig) {
                               return {
-                                "StaticConfig." + aConfig.name + ".available" : aConfig.available,
-                                "StaticConfig." + aConfig.name + ".domain"    : aConfig.domain,
-                                "StaticConfig." + aConfig.name + ".source"    : !!aConfig.source,
-                                "StaticConfig." + aConfig.name + ".xml"       : !!aConfig.xml,
+                                aConfig.name + ".available" : aConfig.available,
+                                aConfig.name + ".domain"    : aConfig.domain,
+                                aConfig.name + ".source"    : !!aConfig.source,
+                                aConfig.name + ".xml"       : !!aConfig.xml,
                               };
                             }).toSource());
   }
