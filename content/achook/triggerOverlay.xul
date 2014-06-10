@@ -7,26 +7,47 @@
   <script type="application/x-javascript"><![CDATA[
     var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
 
+    window.addEventListener("load", function AchookTriggerSetup(event) {
+      window.removeEventListener("load", AchookTriggerSetup, false);
+
+      var menuPopup = document.getElementById("menu_NewPopup");
+      var menuNextItem = document.getElementById("newMailAccountMenuItem").nextSibling;
+
+      var appmenuPopup = document.getElementById("appmenu_newMenupopup");
+      var appmenuNextItem = appmenuPopup ? document.getElementById("appmenu_newMailAccountMenuItem").nextSibling : null ;
+
+      StaticConfigManager.configs.forEach(function(aConfig) {
+        var id = "newMailAccountMenuItem_achook_staticConfig_" + aConfig.name;
+        var appmenuId = "appmenu_" + id;
+
+        var item = document.createElement("menuitem");
+        item.setAttribute("id", id);
+        item.setAttribute("class", "newMailAccountMenuItem_achook_staticConfig");
+        item.setAttribute("hidden", true);
+        item.setAttribute("data-config", aConfig.name);
+        item.setAttribute("oncommand", "AchookNewCustomMailAccount(this.getAttribute('data-config'));");
+        menuPopup.insertBefore(item, menuNextItem);
+
+        if (appmenuPopup) {
+          let appmenuItem = document.createElement("menuitem");
+          appmenuItem.setAttribute("id", appmenuId);
+          appmenuItem.setAttribute("class", "appmenu_newMailAccountMenuItem_achook_staticConfig");
+          appmenuItem.setAttribute("hidden", true);
+          appmenuItem.setAttribute("data-config", aConfig.name);
+          appmenuItem.setAttribute("oncommand", "AchookNewCustomMailAccount(this.getAttribute('data-config'));");
+          appmenuPopup.insertBefore(appmenuItem, appmenuNextItem);
+        }
+      });
+    }, false);
+
     // initial wizard should use static config
     if ("AutoConfigWizard" in window) {
       eval("window.AutoConfigWizard = "+window.AutoConfigWizard.toSource().replace(
         /(NewMailAccount\([^;]+okCallback)(\))/g,
-        "$1, { __achook__staticConfig : true }$2"
+        "$1, { __achook__staticConfig : StaticConfigManager.configs[0] }$2"
       ));
     } else {
       Application.console.log("achook: AutoConfigWizard is not defined!");
     }
   ]]></script>
-  <menupopup id="menu_NewPopup">
-    <menuitem id="newMailAccountMenuItem_achook_staticConfig"
-              insertafter="newMailAccountMenuItem"
-              hidden="true"
-              oncommand="NewMailAccount(msgWindow, null, { __achook__staticConfig : true });"/>
-  </menupopup>
-  <menupopup id="appmenu_newMenupopup">
-    <menuitem id="appmenu_newMailAccountMenuItem_achook_staticConfig"
-              insertafter="appmenu_newMailAccountMenuItem"
-              hidden="true"
-              oncommand="NewMailAccount(msgWindow, null, { __achook__staticConfig : true });"/>
-  </menupopup>
 </overlay>
