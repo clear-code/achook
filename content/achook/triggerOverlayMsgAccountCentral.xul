@@ -4,6 +4,8 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript"><![CDATA[
+    var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
+
     function AchookAddCustomMailAccount() {
       var mailSession = Components.classes["@mozilla.org/messenger/services/session;1"]
             .getService(Components.interfaces.nsIMsgMailSession);
@@ -15,31 +17,41 @@
       if (!("SetItemDisplay" in window) || document.getElementById("CreateAccount").collapsed)
         return;
 
-      SetItemDisplay("CreateAccount_achook_staticConfig", true);
-
-      var item = document.getElementById("newMailAccountItem_achook_staticConfig");
       var baseStyle = window.getComputedStyle(document.querySelector("#CreateAccount label"), null);
-      item.setAttribute('style', [
-        'background-color: ', baseStyle.backgroundColor, '!important;',
-        'background-image: ', baseStyle.backgroundImage, '!important;',
-        'background-repeat: ', baseStyle.backgroundRepeat, '!important;',
-        'background-attachment: ', baseStyle.backgroundAttachment, '!important;',
-        'background-position: ', baseStyle.backgroundPosition, '!important;',
-        'background-clip: ', baseStyle.backgroundClip, '!important;',
-        'background-origin: ', baseStyle.backgroundOrigin, '!important;',
-        'background-size: ', baseStyle.backgroundSize, '!important;'
-      ].join(' '));
+      var itemStyle = [
+        "background-color: ", baseStyle.backgroundColor, "!important;",
+        "background-image: ", baseStyle.backgroundImage, "!important;",
+        "background-repeat: ", baseStyle.backgroundRepeat, "!important;",
+        "background-attachment: ", baseStyle.backgroundAttachment, "!important;",
+        "background-position: ", baseStyle.backgroundPosition, "!important;",
+        "background-clip: ", baseStyle.backgroundClip, "!important;",
+        "background-origin: ", baseStyle.backgroundOrigin, "!important;",
+        "background-size: ", baseStyle.backgroundSize, "!important;"
+      ].join(" ");
+
+      var rows = document.getElementById("acctCentralRows");
+      var nextRow = document.getElementById("CreateAccount").nextSibling;
+      StaticConfigManager.configs.forEach(function(aConfig) {
+        var id = "CreateAccount_achook_staticConfig_" + aConfig.name;
+
+        var row = document.createElement("row");
+        row.setAttribute("id", id);
+        row.setAttribute("class", "acctCentralRow");
+        row.setAttribute("collapsed", true);
+
+        var hbox = row.appendChild(document.createElement("hbox"));
+        var label = hbox.appendChild(document.createElement("label"));
+        label.setAttribute("id", "newMailAccountItem_achook_staticConfig_" + aConfig.name);
+        label.setAttribute("class", "acctCentralText acctCentralLinkText");
+        label.setAttribute("data-config", aConfig.name);
+        label.setAttribute("onclick", "AchookAddCustomMailAccount(this.getAttribute('data-config');");
+        label.setAttribute("style", itemStyle);
+
+        rows.insertBefore(row, nextRow);
+
+        SetItemDisplay(id, true);
+      });
     }, false);
   ]]></script>
   <script type="application/x-javascript" src="./triggerOverlay.js" />
-  <rows id="acctCentralRows">
-    <row id="CreateAccount_achook_staticConfig"
-         insertafter="CreateAccount" class="acctCentralRow" collapsed="true">
-      <hbox>
-        <label id="newMailAccountItem_achook_staticConfig"
-               class="acctCentralText acctCentralLinkText"
-               onclick="AchookAddCustomMailAccount()"/>
-      </hbox>
-    </row>
-  </rows>
 </overlay>
