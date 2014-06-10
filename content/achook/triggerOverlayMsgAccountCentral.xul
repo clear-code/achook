@@ -13,8 +13,8 @@
       NewMailAccount(mailSession.topmostMsgWindow, null, { __achook__staticConfig : config });
     }
 
-    window.addEventListener("load", function(event) {
-      window.removeEventListener("load", arguments.callee, false);
+    window.addEventListener("load", function AchookAccountCentralSetup(event) {
+      window.removeEventListener("load", AchookAccountCentralSetup, false);
       if (!("SetItemDisplay" in window) || document.getElementById("CreateAccount").collapsed)
         return;
 
