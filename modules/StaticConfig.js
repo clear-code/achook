@@ -12,20 +12,20 @@ const Cr = Components.results;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
 XPCOMUtils.defineLazyGetter(this, "Application", function() {
-  return Cc['@mozilla.org/steel/application;1']
+  return Cc["@mozilla.org/steel/application;1"]
            .getService(Ci.steelIApplication);
 });
 
 XPCOMUtils.defineLazyGetter(this, "Util", function() {
-  const { Util } = Cu.import('resource://achook-modules/Util.js', {});
+  const { Util } = Cu.import("resource://achook-modules/Util.js", {});
   return Util;
 });
 XPCOMUtils.defineLazyGetter(this, "Preferences", function() {
-  const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
+  const { Preferences } = Cu.import("resource://achook-modules/Preferences.js", {});
   return Preferences;
 });
 XPCOMUtils.defineLazyGetter(this, "PreferenceNames", function() {
-  const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
+  const { PreferenceNames } = Cu.import("resource://achook-modules/PreferenceNames.js", {});
   return PreferenceNames;
 });
 
@@ -35,14 +35,18 @@ XPCOMUtils.defineLazyGetter(this, "preferences", function() {
 
 
 function StaticConfig(aName) {
-  this.name = aName;
+  this._name = aName || "";
 }
 StaticConfig.prototype = {
   EVENT_TYPE_STATIC_CONFIG_READY : "nsDOMAcHookStaticConfigReady",
   EVENT_TYPE_STATIC_DOMAIN_READY : "nsDOMAcHookStaticDomainReady",
 
+  get name() {
+    return this._name || "default";
+  },
+
   get prefPrefix() {
-    var namePart = this.name ? (this.name + ".") : "" ;
+    var namePart = this._name ? (this._name + ".") : "" ;
     return PreferenceNames.staticConfigRoot + namePart;
   },
 
@@ -101,7 +105,7 @@ StaticConfig.prototype = {
     var shouldUse = preferences.get(this.prefPrefix + "separatedUsername");
     if (shouldUse === null) {
       try {
-        shouldUse = this.xml.emailProvider.incomingServer.username.text() != '%EMAILLOCALPART%';
+        shouldUse = this.xml.emailProvider.incomingServer.username.text() != "%EMAILLOCALPART%";
       } catch (e) {
         Components.utils.reportError(e);
       }
@@ -115,12 +119,6 @@ var StaticConfigManager = {
   init: function() {
     this.configs = [];
     this.namedConfigs = [];
-
-    var defaultConfig = new StaticConfig();
-    if (defaultConfig.domain) {
-      this.configs.push(defaultConfig);
-      this.namedConfigs["default"] = defaultConfig;
-    }
 
     var entries = Cc["@mozilla.org/preferences-service;1"]
                     .getService(Ci.nsIPrefService)
@@ -138,6 +136,24 @@ var StaticConfigManager = {
       this.configs.push(config);
       this.namedConfigs[name] = config;
     }, this);
+
+    var defaultConfig = new StaticConfig();
+    if (defaultConfig.domain && !("default" in this.namedConfigs)) {
+      this.configs.unshift(defaultConfig);
+      this.namedConfigs[defaultConfig.name] = defaultConfig;
+    }
+  },
+
+  get anyAvailable() {
+    return this.configs.some(function(aConfig) {
+      return aConfig.available;
+    });
+  },
+
+  get anyStrictlyAvailable() {
+    return this.configs.some(function(aConfig) {
+      return aConfig.strictlyAvailable;
+    });
   }
 };
 StaticConfigManager.init();
