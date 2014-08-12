@@ -9,9 +9,9 @@ const Ci = Components.interfaces;
 const Cu = Components.utils;
 const Cr = Components.results;
 
-const { Browser } = Cu.import('resource://achook-modules/Browser.js', {});
-const { Promise } = Cu.import('resource://gre/modules/Promise.jsm', {});
-const { NetUtil } = Cu.import('resource://gre/modules/NetUtil.jsm', {});
+var { Browser } = Cu.import('resource://achook-modules/Browser.js', {});
+var { Promise } = Cu.import('resource://gre/modules/Promise.jsm', {});
+var { NetUtil } = Cu.import('resource://gre/modules/NetUtil.jsm', {});
 
 const Application = Cc['@mozilla.org/steel/application;1']
   .getService(Ci.steelIApplication);
