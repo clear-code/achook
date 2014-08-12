@@ -6,7 +6,7 @@
   <script type="application/x-javascript" src="./triggerOverlay.js" />
   <script type="application/x-javascript"><![CDATA[
     window.addEventListener("load", function AchookAccountCentralSetup(event) {
-      var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
+      var { StaticConfigManager } = Components.utils.import("resource://achook-modules/StaticConfig.js", {});
 
       window.removeEventListener("load", AchookAccountCentralSetup, false);
       if (!("SetItemDisplay" in window) || document.getElementById("CreateAccount").collapsed)

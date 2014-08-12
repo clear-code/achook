@@ -5,10 +5,23 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="./triggerOverlay.js" />
   <script type="application/x-javascript"><![CDATA[
-    var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
+    var { StaticConfigManager } = Components.utils.import("resource://achook-modules/StaticConfig.js", {});
 
     window.addEventListener("load", function AchookTriggerSetup(event) {
       window.removeEventListener("load", AchookTriggerSetup, false);
+
+      const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
+      const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
+      const { PreferenceNames } = Cu.import('resource://achook-modules/PreferenceNames.js', {});
+      const preferences = new Preferences("");
+      const Messages = {
+        _messages : new Preferences("extensions.achook."),
+        getLocalized: function (key, defaultValue) {
+          if (this._messages.has(key + ".override"))
+            key += ".override";
+          return this._messages.getLocalized(key, defaultValue);
+        }
+      };
 
       var menuPopup = document.getElementById("menu_NewPopup");
       var menuNextItem = document.getElementById("newMailAccountMenuItem").nextSibling;
