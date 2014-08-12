@@ -85,12 +85,12 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
 
   if (!StaticConfigManager.anyAvailable) {
     Application.console.log("achook: static config is not used. "+StaticConfigManager.configs.map(function(aConfig) {
-                              return {
-                                aConfig.name + ".available" : aConfig.available,
-                                aConfig.name + ".domain"    : aConfig.domain,
-                                aConfig.name + ".source"    : !!aConfig.source,
-                                aConfig.name + ".xml"       : !!aConfig.xml
-                              };
+                              var output = {};
+                              output[aConfig.name + ".available"] = aConfig.available;
+                              output[aConfig.name + ".domain"]    = aConfig.domain;
+                              output[aConfig.name + ".source"]    = !!aConfig.source;
+                              output[aConfig.name + ".xml"]       = !!aConfig.xml;
+                              return output;
                             }).toSource());
   }
 }, false);
