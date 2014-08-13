@@ -8,7 +8,7 @@
     window.addEventListener("load", function AchookAccountWizardSetup(event) {
       window.removeEventListener("load", AchookAccountWizardSetup, false);
 
-      var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
+      var { StaticConfigManager } = Components.utils.import("resource://achook-modules/StaticConfig.js", {});
 
       var menupopup = document.getElementById("accountActionsDropdown");
       var nextItem = document.getElementById("accountActionsAddMailAccount").nextSibling;
