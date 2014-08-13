@@ -42,7 +42,8 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
         document.getElementById("newMailAccountMenuItem"), // main window, menu bar
         document.getElementById("appmenu_newMailAccountMenuItem"), // main window, application menu
         document.getElementById("accountActionsAddMailAccount"), // account settings window
-        document.querySelector("#CreateAccount .acctCentralText.acctCentralLinkText:not(.achookNewCustomAccountItem)") // account central
+        document.querySelector("#CreateAccount .acctCentralText.acctCentralLinkText:not(.achookNewCustomAccountItem)"), // account central
+        document.querySelector("#CreateAccounts .acctCentralLinkText:not(.achookNewCustomAccountItem)") // account central
       ];
   var newCreateAccountItems = [
         document.getElementById("newCreateEmailAccountMenuItem"), // menu bar
