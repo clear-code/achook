@@ -135,7 +135,7 @@ StaticConfig.prototype = {
     var domain = preferences.get(this.prefPrefix + "domain");
     if (!domain) {
       try {
-        domain = this.jxon.clientConfig.emailProvider.domain;
+        domain = this.jxon.clientConfig.emailProvider.domain.value;
       } catch (e) {
         Components.utils.reportError(e);
       }
@@ -149,7 +149,7 @@ StaticConfig.prototype = {
   _lastDisplayName : null,
   _loadDisplayName : function StaticConfig_loadDisplayName() {
     try {
-      return this.jxon.clientConfig.emailProvider.displayName;
+      return this.jxon.clientConfig.emailProvider.displayName.value;
     } catch (e) {
       Components.utils.reportError(e);
       return this.domain;
