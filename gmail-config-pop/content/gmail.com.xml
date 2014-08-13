@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!-- See: https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat -->
+<clientConfig version="1.1"
+  xmlns:achook="http://www.clear-code.com/thunderbird/achook">
+  <emailProvider id="gmail.com">
+    <domain>gmail.com</domain>
+
+    <displayName>GMail</displayName>
+    <displayShortName>GMail</displayShortName>
+
+    <achook:prettyNameFormat>%EMAILADDRESS%</achook:prettyNameFormat>
+
+    <incomingServer type="pop3">
+      <hostname>pop.googlemail.com</hostname>
+      <port>995</port>
+      <socketType>SSL</socketType>
+      <username>%EMAILADDRESS%</username>
+      <authentication>password-cleartext</authentication>
+
+      <achook:requireVerification>true</achook:requireVerification>
+
+      <!-- from nsIMsgIncomingServer -->
+      <achook:downloadOnBiff/>
+      <achook:doBiff/>
+      <achook:biffMinutes/>
+      <achook:emptyTrashOnExit/>
+      <achook:loginAtStartUp/>
+      <achook:limitOfflineMessageSize/>
+      <achook:maxMessageSize/>
+      <achook:offlineSupportLevel/>
+      <achook:defaultCopiesAndFoldersPrefsToServer/>
+      <achook:canCreateFoldersOnServer/>
+      <achook:canFileMessagesOnServer/>
+      <achook:incomingDuplicateAction/>
+
+      <!-- from nsIPop3IncomingServer -->
+      <achook:leaveMessagesOnServer>true</achook:leaveMessagesOnServer>
+      <achook:headersOnly/>
+      <achook:deleteMailLeftOnServer>false</achook:deleteMailLeftOnServer>
+      <achook:dotFix/>
+      <achook:pop3CapabilityFlags/>
+      <achook:deleteByAgeFromServer/>
+      <achook:numDaysToLeaveOnServer/>
+      <achook:runningProtocol/>
+      <achook:authenticated/>
+      <achook:deferredToAccount/>
+      <achook:deferGetNewMail/>
+    </incomingServer>
+
+    <outgoingServer type="smtp">
+      <hostname>smtp.gmail.com</hostname>
+      <port>587</port>
+      <socketType>STARTTLS</socketType>
+      <username>%EMAILADDRESS%</username>
+      <authentication>password-cleartext</authentication>
+    </outgoingServer>
+
+    <identity>
+      <!-- from nsIMsgIdentity -->
+      <achook:fullName/>
+      <achook:email/>
+      <achook:replyTo/>
+      <achook:organization/>
+      <achook:composeHtml>false</achook:composeHtml>
+      <achook:attachSignature>%INHERIT%</achook:attachSignature>
+      <achook:attachVCard/>
+      <achook:autoQuote/>
+      <achook:replyOnTop/>
+      <achook:sigBottom>%INHERIT%</achook:sigBottom>
+      <achook:signature>%INHERIT%</achook:signature>
+      <achook:sigOnForward>%INHERIT%</achook:sigOnForward>
+      <achook:sigOnReply>%INHERIT%</achook:sigOnReply>
+      <achook:htmlSigText>%INHERIT%</achook:htmlSigText>
+      <achook:htmlSigFormat>%INHERIT%</achook:htmlSigFormat>
+      <achook:suppressSigSep>%INHERIT%</achook:suppressSigSep>
+      <achook:escapedVCard/>
+      <achook:doFcc/>
+      <achook:fccFolder/>
+      <achook:fccReplyFollowsParent/>
+      <achook:fccFolderPickerMode/>
+      <achook:draftsFolderPickerMode/>
+      <achook:archivesFolderPickerMode/>
+      <achook:tmplFolderPickerMode/>
+      <achook:doCc/>
+      <achook:doCcList/>
+      <achook:doBcc/>
+      <achook:doBccList/>
+      <achook:draftFolder/>
+      <achook:archiveFolder/>
+      <achook:stationeryFolder/>
+      <achook:archiveEnabled/>
+      <achook:archiveGranularity/>
+      <achook:archiveKeepFolderStructure/>
+      <achook:showSaveMsgDlg/>
+      <achook:directoryServer/>
+      <achook:overrideGlobalPref/>
+      <achook:autocompleteToMyDomain/>
+      <achook:requestReturnReceipt/>
+      <achook:receiptHeaderType/>
+      <achook:requestDSN/>
+    </identity>
+  </emailProvider>
+</clientConfig>
