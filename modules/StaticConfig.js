@@ -96,6 +96,7 @@ StaticConfig.prototype = {
       contents = contents.replace(/<\?xml[^>]*\?>|<!--.*\?-->/g, "");
       return contents;
     } catch(e) {
+      Components.utils.reportError(new Error(this.name + ': failed to load XML from '+this.source));
       Components.utils.reportError(e);
       return null;
     }
