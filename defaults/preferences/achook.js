@@ -15,6 +15,7 @@
 // pref("extensions.achook.reuseExistingAccount.outgoingServer", true);
 // pref("extensions.achook.forceRestartAfterOverwrite", false);
 pref("extensions.achook.newMailAccountMenuItem.label", "chrome://achook/locale/achook.properties");
+pref("extensions.achook.newMailAccountMenuItem.shortLabel", "chrome://achook/locale/achook.properties");
 pref("extensions.achook.newMailAccountMenuItem.accesskey", "chrome://achook/locale/achook.properties");
 pref("extensions.achook.wizard.missingStaticConfig.title", "chrome://achook/locale/achook.properties");
 pref("extensions.achook.wizard.missingStaticConfig.text", "chrome://achook/locale/achook.properties");

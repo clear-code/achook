@@ -65,6 +65,10 @@ StaticConfig.prototype = {
     var label = Messages.getLocalized("newMailAccountMenuItem.label");
     return label.replace(/%domain%/gi, this.displayName);
   },
+  get shortLabel() {
+    var label = Messages.getLocalized("newMailAccountMenuItem.shortLabel");
+    return label.replace(/%domain%/gi, this.displayName);
+  },
   get accesskey() {
     var accesskey = Messages.getLocalized("newMailAccountMenuItem.accesskey");
     return accesskey.replace(/%domain%/gi, this.domain).charAt(0);

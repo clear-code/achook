@@ -6,13 +6,22 @@
   <script type="application/x-javascript" src="./triggerOverlay.js" />
   <script type="application/x-javascript"><![CDATA[
     window.addEventListener("DOMContentLoaded", function AchookAccountCentralSetup(event) {
+      window.removeEventListener("DOMContentLoaded", AchookAccountCentralSetup, false);
+
       var { StaticConfigManager } = Components.utils.import("resource://achook-modules/StaticConfig.js", {});
 
-      window.removeEventListener("DOMContentLoaded", AchookAccountCentralSetup, false);
-      if (!("SetItemDisplay" in window) || document.getElementById("CreateAccount").collapsed)
+      if (!("SetItemDisplay" in window))
         return;
 
-      var baseStyle = window.getComputedStyle(document.querySelector("#CreateAccount label"), null);
+      var createAccountRow = document.getElementById("CreateAccount");
+      var createAccountsRow = document.getElementById("CreateAccounts");
+      var createAccountsListBox = document.getElementById("CreateAccountsList");
+      if (!createAccountsRow && createAccountRow && createAccountRow.collapsed)
+        return;
+
+      var baseStyleOwner = document.querySelector("#CreateAccountsList label") ||
+                             document.querySelector("#CreateAccount label");
+      var baseStyle = window.getComputedStyle(baseStyleOwner, null);
       var itemStyle = [
         "background-color: ", baseStyle.backgroundColor, "!important;",
         "background-image: ", baseStyle.backgroundImage, "!important;",
@@ -26,26 +35,38 @@
 
       var rows = document.getElementById("acctCentralRows");
       var nextRow = document.getElementById("CreateAccount").nextSibling;
+      var nextItem = createAccountsListBox && createAccountsListBox.firstChild;
       StaticConfigManager.configs.forEach(function(aConfig) {
         var id = "CreateAccount_achook_staticConfig_" + aConfig.name;
+        var linkId = "newMailAccountItem_achook_staticConfig_" + aConfig.name;
 
-        var row = document.createElement("row");
-        row.setAttribute("id", id);
-        row.setAttribute("class", "acctCentralRow");
-        row.setAttribute("collapsed", true);
-
-        var hbox = row.appendChild(document.createElement("hbox"));
-        var label = hbox.appendChild(document.createElement("label"));
-        label.setAttribute("id", "newMailAccountItem_achook_staticConfig_" + aConfig.name);
-        label.setAttribute("class", "acctCentralText acctCentralLinkText achookNewCustomAccountItem");
-        label.setAttribute("value", aConfig.label);
+        var label = document.createElement("label");
+        label.setAttribute("id", linkId);
+        label.setAttribute("class", "acctCentralText acctCentralNewAcctText acctCentralLinkText achookNewCustomAccountItem");
         label.setAttribute("data-config", aConfig.name);
         label.setAttribute("onclick", "AchookNewCustomMailAccount(this.getAttribute('data-config'));");
         label.setAttribute("style", itemStyle);
 
-        rows.insertBefore(row, nextRow);
+        if (createAccountsListBox) {
+          label.setAttribute("value", aConfig.shortLabel);
+          createAccountsListBox.insertBefore(label, nextItem);
 
-        SetItemDisplay(id, true);
+          SetItemDisplay(linkId, true);
+        } else {
+          label.setAttribute("value", aConfig.label);
+
+          let row = document.createElement("row");
+          row.setAttribute("id", id);
+          row.setAttribute("class", "acctCentralRow");
+          row.setAttribute("collapsed", true);
+
+          let hbox = document.createElement("hbox");
+          hbox.appendChild(label);
+          row.appendChild(hbox);
+          rows.insertBefore(row, nextRow);
+
+          SetItemDisplay(id, true);
+        }
       });
     }, false);
   ]]></script>
