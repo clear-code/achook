@@ -492,6 +492,9 @@
       }));
     };
     elements.nextButton.label = elements.createButton.label;
+
+    if (aConfig.name != 'default')
+      document.title = aConfig.displayName + ': ' + document.title;
   }
 
   function outputDebugMessages() {
