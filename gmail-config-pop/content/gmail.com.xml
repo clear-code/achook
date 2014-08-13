@@ -42,7 +42,7 @@
       <achook:deleteMailLeftOnServer>false</achook:deleteMailLeftOnServer>
       <achook:dotFix/>
       <achook:pop3CapabilityFlags/>
-      <achook:deleteByAgeFromServer/>
+      <achook:deleteByAgeFromServer>false</achook:deleteByAgeFromServer>
       <achook:numDaysToLeaveOnServer/>
       <achook:runningProtocol/>
       <achook:authenticated/>
