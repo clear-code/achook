@@ -96,7 +96,7 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
 }, false);
 
 function AchookNewCustomMailAccount(aConfigName, aMsgWindow) {
-  var { StaticConfigManager } = Cu.import("resource://achook-modules/StaticConfig.js", {});
+  var { StaticConfigManager } = Components.utils.import("resource://achook-modules/StaticConfig.js", {});
   var config = StaticConfigManager.namedConfigs[aConfigName];
   if (!aMsgWindow) {
     let mailSession = Components.classes["@mozilla.org/messenger/services/session;1"]
