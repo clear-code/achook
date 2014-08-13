@@ -8,8 +8,8 @@
   <emailProvider id="gmail.com">
     <domain>gmail.com</domain>
 
-    <displayName>GMail</displayName>
-    <displayShortName>GMail</displayShortName>
+    <displayName>GMail (POP3)</displayName>
+    <displayShortName>GMail (POP3)</displayShortName>
 
     <achook:prettyNameFormat>%EMAILADDRESS%</achook:prettyNameFormat>
 
