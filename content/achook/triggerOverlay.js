@@ -50,22 +50,31 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
       ];
   var staticConfigItems = Array.slice(document.querySelectorAll(".achookNewCustomAccountItem"), 0);
 
-  if (preferences.get(PreferenceNames.disableGenericWizard) &&
-      StaticConfigManager.configs.length == 1) {
-    // Hide the custom menu item, because the default wizard is always overridden.
-    staticConfigItems.forEach(function(item) {
-      if (item) item.setAttribute("hidden", true);
-    });
-    // Use the menu item for the generic wizard to start the custom wizard (but don't override the access key!)
-    let config = StaticConfigManager.defaultConfig;
-    newAccountItems.forEach(function(item) {
-      if (!item) return;
-      if (item.localName == "label") {
-        item.setAttribute("value", config.label);
-      } else {
-        item.setAttribute("label", config.label);
-      }
-    });
+  if (preferences.get(PreferenceNames.disableGenericWizard)) {
+    if (StaticConfigManager.configs.length == 1) {
+      // Hide the custom menu item, because the default wizard is always overridden.
+      staticConfigItems.forEach(function(item) {
+        if (item) item.setAttribute("hidden", true);
+      });
+      // Use the menu item for the generic wizard to start the custom wizard (but don't override the access key!)
+      let config = StaticConfigManager.defaultConfig;
+      newAccountItems.forEach(function(item) {
+        if (!item) return;
+        if (item.localName == "label") {
+          item.setAttribute("value", config.label);
+        } else {
+          item.setAttribute("label", config.label);
+        }
+      });
+    } else {
+      // Hide default item, because we don't use it. Instead we use items for static configs.
+      staticConfigItems.forEach(function(item) {
+        item.removeAttribute("hidden");
+      });
+      newAccountItems.forEach(function(item) {
+        if (item) item.setAttribute("hidden", true);
+      });
+    }
   } else {
     staticConfigItems.forEach(function(item) {
       item.removeAttribute("hidden");
