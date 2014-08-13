@@ -463,11 +463,15 @@
   }
 
   function selectedStaticConfig() {
+    var arg = window.arguments && window.arguments.length > 0 && window.arguments[0];
+    var config = arg && arg.extraData && arg.extraData.__achook__staticConfig;
+    if (config)
+      return config;
+
     if (preferences.get(PreferenceNames.disableGenericWizard))
       return StaticConfigManager.defaultConfig;
 
-    var arg = window.arguments && window.arguments.length > 0 && window.arguments[0];
-    return arg && arg.extraData && arg.extraData.__achook__staticConfig;
+    return null;
   }
 
   function useStaticConfig(aConfig) {
