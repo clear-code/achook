@@ -63,7 +63,7 @@ StaticConfig.prototype = {
 
   get label() {
     var label = Messages.getLocalized("newMailAccountMenuItem.label");
-    return label.replace(/%domain%/gi, this.domain);
+    return label.replace(/%domain%/gi, this.displayName);
   },
   get accesskey() {
     var accesskey = Messages.getLocalized("newMailAccountMenuItem.accesskey");
@@ -152,7 +152,7 @@ StaticConfig.prototype = {
       return this.jxon.clientConfig.emailProvider.displayName;
     } catch (e) {
       Components.utils.reportError(e);
-      return this.name;
+      return this.domain;
     }
   },
 
