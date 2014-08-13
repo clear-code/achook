@@ -157,10 +157,13 @@ var StaticConfigManager = {
       this.namedConfigs[name] = config;
     }, this);
 
-    var defaultConfig = new StaticConfig();
-    if (defaultConfig.domain && !("default" in this.namedConfigs)) {
-      this.configs.unshift(defaultConfig);
-      this.namedConfigs[defaultConfig.name] = defaultConfig;
+    if (!("default" in this.namedConfigs)) {
+      let defaultConfig = this.defaultConfig || new StaticConfig();
+      if (defaultConfig.domain) {
+        if (this.configs.indexOf(defaultConfig) < 0)
+          this.configs.unshift(defaultConfig);
+        this.namedConfigs[defaultConfig.name] = defaultConfig;
+      }
     }
   },
 
