@@ -3,10 +3,10 @@
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
-                   em:id="gmail-config@clear-code.com"
-                   em:name="Configurations for GMail"
+                   em:id="gmail-config-imap@clear-code.com"
+                   em:name="Configurations for GMail (IMAP)"
                    em:version="1.0"
-                   em:description="Provides configuration settings for GMail."
+                   em:description="Provides configuration settings for GMail (IMAP)."
                    em:creator="ClearCode Inc."
                    em:homepageURL="http://www.clear-code.com/">
 
@@ -15,7 +15,7 @@
 
     <em:localized>
       <RDF:Description em:locale="en-US"
-                       em:name="Configurations for GMail"
+                       em:name="Configurations for GMail (IMAP)"
                        em:description="Provides configuration settings for GMail."
                        em:homepageURL="http://www.clear-code.com/"
                        em:creator="ClearCode Inc.">
@@ -23,7 +23,7 @@
     </em:localized>
     <em:localized>
       <RDF:Description em:locale="ja"
-                       em:name="Configurations for GMail"
+                       em:name="Configurations for GMail (IMAP)"
                        em:description="GMail向けの設定を提供します。"
                        em:homepageURL="http://www.clear-code.com/"
                        em:creator="ClearCode Inc.">
