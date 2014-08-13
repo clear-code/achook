@@ -113,7 +113,7 @@ StaticConfig.prototype = {
     // However, Thunderbird's "readFromXML" must receive verbose level = 1 JXON.
     return this._lastJXONForReadFromXML || this._loadJXON();
   },
-  loadJXON : function StaticConfig_loadJXON(aVerboseLevel) {
+  _loadJXON : function StaticConfig_loadJXON(aVerboseLevel) {
     var xml = this.xml;
     if (!xml)
       throw new Error(this.name + ": failed to load XML from "+this.source);
