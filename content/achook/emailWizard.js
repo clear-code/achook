@@ -476,17 +476,10 @@
       elements.stopButton.hidden = true;
       return new TimeoutAbortable(runAsync(function ACHook_asyncFetchConfigCallback() {
         try {
-          lastConfigXML = aConfig.xml;
+          lastConfigXML = aConfig.jxon;
           if (!lastConfigXML)
             throw new Error("failed to load static config file");
-          var DOMParser = Cc['@mozilla.org/xmlextras/domparser;1']
-                           .createInstance(Ci.nsIDOMParser);
-          var DOMConfig = DOMParser.parseFromString(lastConfigXML, 'text/xml');
-          // Verbose level = 2 or high, because low verbose level (1=default) parses
-          // an empty node to "true" unexepctedly.
-          lastConfigXML = JXON.build(DOMConfig, 2);
-          // However, readFromXML must receive verbose level = 1 JXON.
-          successCallback(readFromXML(JXON.build(DOMConfig)));
+          successCallback(readFromXML(aConfig.jxonForReadFromXML));
           elements.statusMessage.textContent = "";
           window.setTimeout(function() {
             elements.createButton.click();
