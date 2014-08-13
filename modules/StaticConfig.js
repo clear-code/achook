@@ -10,6 +10,7 @@ const Cu = Components.utils;
 const Cr = Components.results;
 
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+Cu.import("resource://gre/modules/JXON.js");
 
 XPCOMUtils.defineLazyGetter(this, "Application", function() {
   return Cc["@mozilla.org/steel/application;1"]
@@ -96,29 +97,63 @@ StaticConfig.prototype = {
       contents = contents.replace(/<\?xml[^>]*\?>|<!--.*\?-->/g, "");
       return contents;
     } catch(e) {
-      Components.utils.reportError(new Error(this.name + ': failed to load XML from '+this.source));
+      Components.utils.reportError(new Error(this.name + ": failed to load XML from "+this.source));
       Components.utils.reportError(e);
       return null;
     }
   },
 
-  get domain() {
-    return this._lastDomain || this.domainFromSource;
+  get jxon() {
+    // Verbose level = 2 or high, because low verbose level (1=default) parses
+    // an empty node to "true" unexepctedly.
+    return this._lastJXON || this._loadJXON(2);
   },
-  get domainFromSource() {
-    return this._lastDomain = this._loadDomain();
+  _lastJXON : null,
+  get jxonForReadFromXML() {
+    // However, Thunderbird's "readFromXML" must receive verbose level = 1 JXON.
+    return this._lastJXONForReadFromXML || this._loadJXON();
+  },
+  loadJXON : function StaticConfig_loadJXON(aVerboseLevel) {
+    var xml = this.xml;
+    if (!xml)
+      throw new Error(this.name + ": failed to load XML from "+this.source);
+
+    var DOMParser = Cc["@mozilla.org/xmlextras/domparser;1"]
+                     .createInstance(Ci.nsIDOMParser);
+    var DOMConfig = DOMParser.parseFromString(xml, "text/xml");
+    if (aVerboseLevel === undefined)
+      return JXON.build(DOMConfig);
+    else
+      return JXON.build(DOMConfig, aVerboseLevel);
+  },
+
+  get domain() {
+    return this._lastDomain || (this._lastDomain = this._loadDomain());
   },
   _lastDomain : null,
   _loadDomain : function StaticConfig_loadDomain() {
     var domain = preferences.get(this.prefPrefix + "domain");
     if (!domain) {
       try {
-        domain = this.xml.emailProvider.domain.text();
+        domain = this.jxon.clientConfig.emailProvider.domain;
       } catch (e) {
         Components.utils.reportError(e);
       }
     }
     return domain;
+  },
+
+  get displayName() {
+    return this._lastDisplayName || (this._lastDisplayName = this._loadDisplayName());
+  },
+  _lastDisplayName : null,
+  _loadDisplayName : function StaticConfig_loadDisplayName() {
+    try {
+      return this.jxon.clientConfig.emailProvider.displayName;
+    } catch (e) {
+      Components.utils.reportError(e);
+      return this.name;
+    }
   },
 
   get useSeparatedUsername() {
