@@ -128,7 +128,10 @@ StaticConfig.prototype = {
   },
 
   get domain() {
-    return this._lastDomain || (this._lastDomain = this._loadDomain());
+    return this._lastDomain || this.domainFromSource;
+  },
+  get domainFromSource() {
+    return this._lastDomain = this._loadDomain();
   },
   _lastDomain : null,
   _loadDomain : function StaticConfig_loadDomain() {
