@@ -7,8 +7,8 @@
   <script type="application/x-javascript"><![CDATA[
     var { StaticConfigManager } = Components.utils.import("resource://achook-modules/StaticConfig.js", {});
 
-    window.addEventListener("load", function AchookTriggerSetup(event) {
-      window.removeEventListener("load", AchookTriggerSetup, false);
+    window.addEventListener("DOMContentLoaded", function AchookTriggerSetup(event) {
+      window.removeEventListener("DOMContentLoaded", AchookTriggerSetup, false);
 
       const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
       const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});

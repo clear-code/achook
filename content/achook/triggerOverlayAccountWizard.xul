@@ -5,8 +5,8 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="./triggerOverlay.js" />
   <script type="application/x-javascript"><![CDATA[
-    window.addEventListener("load", function AchookAccountWizardSetup(event) {
-      window.removeEventListener("load", AchookAccountWizardSetup, false);
+    window.addEventListener("DOMContentLoaded", function AchookAccountWizardSetup(event) {
+      window.removeEventListener("DOMContentLoaded", AchookAccountWizardSetup, false);
 
       var { StaticConfigManager } = Components.utils.import("resource://achook-modules/StaticConfig.js", {});
 
