@@ -640,6 +640,9 @@
   }
 
   function overrideAccountConfig() {
+    if (!lastConfigXML)
+      return;
+
     var config = lastConfigXML.clientConfig;
 
     var afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
