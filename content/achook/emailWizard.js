@@ -76,6 +76,9 @@
   if (DEBUG)
     outputDebugMessages();
 
+  if (!staticConfigUsed) // fallback to the builtin wizard
+    return;
+
   window.addEventListener("DOMContentLoaded", function ACHook_onDOMContentLoaded() {
     window.removeEventListener("DOMContentLoaded", ACHook_onDOMContentLoaded, false);
 
