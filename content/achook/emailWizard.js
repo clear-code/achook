@@ -82,8 +82,21 @@
   window.addEventListener("DOMContentLoaded", function ACHook_onDOMContentLoaded() {
     window.removeEventListener("DOMContentLoaded", ACHook_onDOMContentLoaded, false);
 
-    if (!staticConfigUsed)
+    if (!staticConfig.available) {
+      // report error and exit wizard!
+      window.addEventListener("load", function ACHook_onLoad() {
+        window.removeEventListener("load", ACHook_onLoad, false);
+        window.setTimeout(function() {
+          Util.alert(
+            Messages.getLocalized("missingStaticConfig.title"),
+            Messages.getLocalized("missingStaticConfig.text"),
+            window
+          );
+          window.close();
+        });
+      }, false);
       return;
+    }
 
     window.addEventListener("unload", function ACHook_onUnload() {
       window.removeEventListener("unload", ACHook_onUnload, false);
@@ -103,22 +116,6 @@
       document.dispatchEvent(createDataContainerEvent(staticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
         domain : staticConfig.domain
       }));
-
-    if (staticConfig.available)
-      return;
-
-    // report error and exit wizard!
-    window.addEventListener("load", function ACHook_onLoad() {
-      window.removeEventListener("load", ACHook_onLoad, false);
-      window.setTimeout(function() {
-        Util.alert(
-          Messages.getLocalized("missingStaticConfig.title"),
-          Messages.getLocalized("missingStaticConfig.text"),
-          window
-        );
-        window.close();
-      });
-    }, false);
   }, false);
 
   const accountManager = Cc["@mozilla.org/messenger/account-manager;1"]
