@@ -55,21 +55,20 @@
 
   var staticConfig = selectedStaticConfig();
   var staticConfigUsed = staticConfig && staticConfig.strictlyAvailable;
+  var staticDomainUsed = false;
   debugMessage("staticConfigUsed = " + staticConfigUsed);
   if (staticConfigUsed) {
     suppressBuiltinLecture();
     useStaticConfig(staticConfig);
-  }
 
-  var staticDomainUsed = staticConfig && staticConfig.domainFromSource;
-  debugMessage("staticDomainUsed = "+staticDomainUsed);
-  if (staticDomainUsed) {
-    buildFixedDomainView(staticConfig.domain, staticConfig.useSeparatedUsername);
-    suppressSecurityWarning();
-    suppressAccountDuplicationCheck();
-  }
+    staticDomainUsed = staticConfig.domainFromSource;
+    debugMessage("staticDomainUsed = "+staticDomainUsed);
+    if (staticDomainUsed) {
+      buildFixedDomainView(staticConfig.domain, staticConfig.useSeparatedUsername);
+      suppressSecurityWarning();
+      suppressAccountDuplicationCheck();
+    }
 
-  if (staticConfigUsed) {
     activateUsernamePlaceholder();
     suppressAccountVerification();
   }
