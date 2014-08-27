@@ -80,17 +80,29 @@
   window.addEventListener("DOMContentLoaded", function ACHook_onDOMContentLoaded() {
     window.removeEventListener("DOMContentLoaded", ACHook_onDOMContentLoaded, false);
 
-    if (staticConfigUsed)
-      document.dispatchEvent(createDataContainerEvent(staticConfig.EVENT_TYPE_STATIC_CONFIG_READY, {
-        source : staticConfig.source
-      }));
+    if (!staticConfigUsed)
+      return;
+
+    window.addEventListener("unload", function ACHook_onUnload() {
+      window.removeEventListener("unload", ACHook_onUnload, false);
+      try {
+        overrideAccountConfig();
+        confirmRestart();
+      } catch(error) {
+        debugMessage(error + '\n' + error.stack);
+      }
+    }, false);
+
+    document.dispatchEvent(createDataContainerEvent(staticConfig.EVENT_TYPE_STATIC_CONFIG_READY, {
+      source : staticConfig.source
+    }));
 
     if (staticDomainUsed)
       document.dispatchEvent(createDataContainerEvent(staticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
         domain : staticConfig.domain
       }));
 
-    if (staticConfig && !staticConfig.available) {
+    if (!staticConfig.available) {
         window.addEventListener("load", function ACHook_onLoad() {
           window.removeEventListener("load", ACHook_onLoad, false);
           window.setTimeout(function() {
@@ -102,16 +114,6 @@
             window.close();
           });
         }, false);
-    }
-  }, false);
-
-  window.addEventListener("unload", function ACHook_onUnload() {
-    window.removeEventListener("unload", ACHook_onUnload, false);
-    try {
-      overrideAccountConfig();
-      confirmRestart();
-    } catch(error) {
-      debugMessage(error + '\n' + error.stack);
     }
   }, false);
 
