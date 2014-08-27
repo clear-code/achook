@@ -50,14 +50,6 @@
     get statusMessage() $("#status_msg")
   };
 
-  // Reset wizard status to "start".
-  function resetStatus() {
-    debugMessage("resetStatus");
-    elements.statusMessage.textContent = "";
-    gEmailConfigWizard.onStartOver();
-    gEmailConfigWizard.checkStartDone();
-  }
-
   var existingAccountRemoved = false;
   var lastConfigXML = null;
 
@@ -352,7 +344,7 @@
           successCallback.apply(this, arguments);
         },
         function error() {
-          resetStatus();
+          resetWizardStatus();
           errorCallback.apply(this, arguments);
           elements.nextButton.hidden = false;
           elements.stopButton.hidden = true;
@@ -416,7 +408,7 @@
             Messages.getLocalized("alertExistingServers.text"),
             window
           );
-          return resetStatus();
+          return resetWizardStatus();
         } else if (incomingServer && overrideIncoming ||
                    outgoingServer && overrideOutgoing) {
           const removeButtonIndex = 0;
@@ -432,7 +424,7 @@
                 null
               ) != removeButtonIndex) {
             // nothing to do
-            return resetStatus();
+            return resetWizardStatus();
           }
         }
 
@@ -520,6 +512,13 @@
         '$1 debugMessage("error : "+e);'
       )
     );
+  }
+
+  function resetWizardStatus() {
+    debugMessage("resetWizardStatus");
+    elements.statusMessage.textContent = "";
+    gEmailConfigWizard.onStartOver();
+    gEmailConfigWizard.checkStartDone();
   }
 
   function concreteValue(aValue, aVariables) {
