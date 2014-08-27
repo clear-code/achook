@@ -53,16 +53,16 @@
   var existingAccountRemoved = false;
 
   var staticConfig = selectedStaticConfig();
-  var staticConfigUsed = staticConfig && staticConfig.strictlyAvailable;
-  var staticDomainUsed = false;
-  debugMessage("staticConfigUsed = " + staticConfigUsed);
-  if (staticConfigUsed) {
+  var shouldUseStaticConfig = staticConfig && staticConfig.strictlyAvailable;
+  var shouldUseStaticDomain = false;
+  debugMessage("shouldUseStaticConfig = " + shouldUseStaticConfig);
+  if (shouldUseStaticConfig) {
     suppressBuiltinLecture();
     useStaticConfig(staticConfig);
 
-    staticDomainUsed = staticConfig.domainFromSource;
-    debugMessage("staticDomainUsed = "+staticDomainUsed);
-    if (staticDomainUsed) {
+    shouldUseStaticDomain = staticConfig.domainFromSource;
+    debugMessage("shouldUseStaticDomain = "+shouldUseStaticDomain);
+    if (shouldUseStaticDomain) {
       buildFixedDomainView(staticConfig.domain, staticConfig.useSeparatedUsername);
       suppressSecurityWarning();
       suppressAccountDuplicationCheck();
@@ -75,7 +75,7 @@
   if (DEBUG)
     outputDebugMessages();
 
-  if (!staticConfigUsed) // fallback to the builtin wizard
+  if (!shouldUseStaticConfig) // fallback to the builtin wizard
     return;
 
   window.addEventListener("DOMContentLoaded", function ACHook_onDOMContentLoaded() {
@@ -111,7 +111,7 @@
       source : staticConfig.source
     }));
 
-    if (staticDomainUsed)
+    if (shouldUseStaticDomain)
       document.dispatchEvent(createDataContainerEvent(staticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
         domain : staticConfig.domain
       }));
