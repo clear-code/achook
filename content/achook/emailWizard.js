@@ -69,8 +69,10 @@
     suppressAccountDuplicationCheck();
   }
 
-  activateUsernamePlaceholder();
-  suppressAccountVerification();
+  if (staticConfigUsed) {
+    activateUsernamePlaceholder();
+    suppressAccountVerification();
+  }
 
   if (DEBUG)
     outputDebugMessages();
