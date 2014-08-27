@@ -331,8 +331,8 @@
   }
 
   // Reset status to "start" when verification failed
-  let (verifyConfig_original = verifyConfig) {
-    verifyConfig = function (config, alter, msgWindow, successCallback, errorCallback) {
+  let (verifyConfig_original = window.verifyConfig) {
+    window.verifyConfig = function (config, alter, msgWindow, successCallback, errorCallback) {
       verifyConfig_original(
         config, alter, msgWindow,
         function success() {
