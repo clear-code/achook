@@ -51,7 +51,6 @@
   };
 
   var existingAccountRemoved = false;
-  var lastConfigXML = null;
 
   var staticConfig = selectedStaticConfig();
   var staticConfigUsed = staticConfig && staticConfig.strictlyAvailable;
@@ -302,9 +301,9 @@
     var originalVerifyLogon = window.verifyLogon;
     window.verifyLogon = function ACHook_verifyLogon(config, inServer, alter, msgWindow, successCallback, errorCallback) {
       ensureNoDuplicatedOldAccount(config.incoming.username, config.incoming.hostname, config.incoming.type); // XXX for debugging!
-      if (lastConfigXML) {
+      if (loadedConfigXML) {
         try {
-          let incomingServer = lastConfigXML.clientConfig.emailProvider.incomingServer;
+          let incomingServer = loadedConfigXML.clientConfig.emailProvider.incomingServer;
           let requireVerification = incomingServer && incomingServer['achook:requireVerification'];
           if (requireVerification && !stringToBoolean(requireVerification.value, true)) {
             accountManager.removeIncomingServer(inServer, true);
@@ -461,14 +460,15 @@
     return null;
   }
 
+  var loadedConfigXML = null;
   function useStaticConfig(aConfig) {
     var originalFetchConfigFromDisk = window.fetchConfigFromDisk;
     window.fetchConfigFromDisk = function ACHook_fetchConfigFromDisk(domain, successCallback, errorCallback) {
       elements.stopButton.hidden = true;
       return new TimeoutAbortable(runAsync(function ACHook_asyncFetchConfigCallback() {
         try {
-          lastConfigXML = aConfig.jxon;
-          if (!lastConfigXML)
+          loadedConfigXML = aConfig.jxon;
+          if (!loadedConfigXML)
             throw new Error("failed to load static config file");
           successCallback(readFromXML(aConfig.jxonForReadFromXML));
           elements.statusMessage.textContent = "";
@@ -634,10 +634,10 @@
   }
 
   function overrideAccountConfig() {
-    if (!lastConfigXML)
+    if (!loadedConfigXML)
       return;
 
-    var config = lastConfigXML.clientConfig;
+    var config = loadedConfigXML.clientConfig;
 
     var afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
     var createdAccounts = afterAccounts.filter(function (account) beforeAccountKeys.indexOf(account.key) < 0);
