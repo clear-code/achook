@@ -59,8 +59,6 @@
   if (staticConfigUsed) {
     suppressBuiltinLecture();
     useStaticConfig(staticConfig);
-  } else {
-    storeSourceXML();
   }
 
   var staticDomainUsed = staticConfig && staticConfig.domainFromSource;
@@ -259,14 +257,6 @@
         window.sizeToContent();
 
         // TODO: automatically click "create account" button?
-    };
-  }
-
-  function storeSourceXML() {
-    var originalReadFromXML = window.readFromXML;
-    window.readFromXML = function ACHook_readFromXML(clientConfigXML) {
-      lastConfigXML = clientConfigXML;
-      return originalReadFromXML.apply(this, arguments);
     };
   }
 
