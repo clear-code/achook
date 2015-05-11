@@ -228,7 +228,7 @@
     elements.emailLocalPartInputBox.addEventListener("blur", onLocalPartInput, false);
 
     document.addEventListener("AcHookMailAddressOverride", function (ev) {
-      onEmailUpdated(ev.getData("value"));
+      onEmailUpdated(ev.detail.value);
     }, false);
   }
 
