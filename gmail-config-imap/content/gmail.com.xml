@@ -24,10 +24,10 @@
 
       <!-- from nsIMsgIncomingServer -->
       <achook:downloadOnBiff/>
-      <achook:doBiff/>
-      <achook:biffMinutes/>
-      <achook:emptyTrashOnExit/>
-      <achook:loginAtStartUp/>
+      <achook:doBiff>false</achook:doBiff>
+      <achook:biffMinutes>90</achook:biffMinutes>
+      <achook:emptyTrashOnExit>false</achook:emptyTrashOnExit>
+      <achook:loginAtStartUp>failse</achook:loginAtStartUp>
       <achook:limitOfflineMessageSize/>
       <achook:maxMessageSize/>
       <achook:offlineSupportLevel/>
