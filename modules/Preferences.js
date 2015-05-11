@@ -474,11 +474,6 @@ Preferences.prototype = {
 
 };
 
-// Give the constructor the same prototype as its instances, so users can access
-// preferences directly via the constructor without having to create an instance
-// first.
-Preferences.__proto__ = Preferences.prototype;
-
 /**
  * A cache of pref observers.
  *
@@ -496,6 +491,7 @@ function PrefObserver(prefName, callback, thisObject) {
   this.prefName = prefName;
   this.callback = callback;
   this.thisObject = thisObject;
+  this.prefs = new Preferences("");
 }
 
 PrefObserver.prototype = {
@@ -509,7 +505,7 @@ PrefObserver.prototype = {
       return;
 
     if (typeof this.callback == "function") {
-      let prefValue = Preferences.get(this.prefName);
+      let prefValue = this.prefs.get(this.prefName);
 
       if (this.thisObject)
         this.callback.call(this.thisObject, prefValue);
