@@ -195,7 +195,8 @@ var Util = {
 
       while (entries.hasMoreElements()) {
         let nextFromFile = entries.getNext().QueryInterface(Ci.nsIFile);
-        let nextToFile   = let (cloned = toDir.clone()) (cloned.append(nextFromFile.leafName), cloned);
+        let nextToFile = toDir.clone();
+        nextToFile.append(nextFromFile.leafName);
         if (nextFromFile.isDirectory())
           promises.push(Util.deferredCopyDirectory(nextFromFile, nextToFile, fileTransformer));
         else
