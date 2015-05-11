@@ -486,8 +486,8 @@ var Util = {
 
   launchProcess: function (exe, args) {
     let process = Cc["@mozilla.org/process/util;1"].createInstance(Ci.nsIProcess);
-    let exe = Util.getFile(exe);
-    process.init(exe);
+    let exeFile = Util.getFile(exe);
+    process.init(exeFile);
     process.run(false, args, args.length);
     return process;
   },
