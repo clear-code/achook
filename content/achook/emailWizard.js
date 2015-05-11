@@ -330,7 +330,8 @@
   }
 
   // Reset status to "start" when verification failed
-  let (verifyConfig_original = window.verifyConfig) {
+  {
+    let verifyConfig_original = window.verifyConfig;
     window.verifyConfig = function (config, alter, msgWindow, successCallback, errorCallback) {
       verifyConfig_original(
         config, alter, msgWindow,
@@ -350,7 +351,8 @@
     };
   };
   // clear testing account for the "cancel" button
-  let (verifyLogon_original = window.verifyLogon) {
+  {
+    let verifyLogon_original = window.verifyLogon;
     window.verifyLogon = function ACHook_verifyLogon(config, inServer, alter, msgWindow, successCallback, errorCallback) {
       let onUnload = function() {
         debugMessage('clear temporary incoming server (dialog is closed)');
