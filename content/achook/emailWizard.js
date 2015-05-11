@@ -107,12 +107,12 @@
       }
     }, false);
 
-    document.dispatchEvent(createDataContainerEvent(staticConfig.EVENT_TYPE_STATIC_CONFIG_READY, {
+    document.dispatchEvent(createCustomEvent(staticConfig.EVENT_TYPE_STATIC_CONFIG_READY, {
       source : staticConfig.source
     }));
 
     if (shouldUseStaticDomain)
-      document.dispatchEvent(createDataContainerEvent(staticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
+      document.dispatchEvent(createCustomEvent(staticConfig.EVENT_TYPE_STATIC_DOMAIN_READY, {
         domain : staticConfig.domain
       }));
   }, false);
@@ -218,7 +218,7 @@
         onLocalPartInputTimer = null;
       }, 500, (new Error()).stack);
 
-      if (elements.emailLocalPartInputBox.dispatchEvent(createDataContainerEvent("AcHookMailAddressInput", {
+      if (elements.emailLocalPartInputBox.dispatchEvent(createCustomEvent("AcHookMailAddressInput", {
             value: currentMailAddress
           }, true))) {
           onEmailUpdated(currentMailAddress);
@@ -594,19 +594,17 @@
     debugMessage("setAccountValueFromKeyValues for "+target+"\n"+results.join("\n"));
   }
 
-  function createDataContainerEvent(name, properties, cancellable) {
-    var event = document.createEvent("DataContainerEvent");
-    event.initEvent(name, true, cancellable);
-
-    for (let [key, value] in Iterator(properties)) {
-      event.setData(key, value);
-    }
-
+  function createCustomEvent(name, properties, cancelable) {
+    var event = new window.CustomEvent(name, {
+      bubbles    : true,
+      cancelable : cancelable,
+      detail     : properties
+    });
     return event;
   }
 
   function dispatchAccountCreatedEvent(createdAccount, createdSMTPServer) {
-    return document.dispatchEvent(createDataContainerEvent("AcHookAccountCreated", {
+    return document.dispatchEvent(createCustomEvent("AcHookAccountCreated", {
              account: createdAccount,
              smtpServer: createdSMTPServer
            }));
