@@ -9,7 +9,7 @@ const Ci = Components.interfaces;
 const Cu = Components.utils;
 const Cr = Components.results;
 
-const Browser = {
+var Browser = {
   setTimeout: function setTimeout(f, i) {
     let timer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
     timer.initWithCallback(f, i, timer.TYPE_ONE_SHOT);
