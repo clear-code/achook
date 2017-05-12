@@ -628,12 +628,14 @@ var Util = {
       let elem = doc.createElement(name);
 
       if (attrs)
-        for (let [k, v] in Iterator(attrs))
-          elem.setAttribute(k, v);
+        Object.keys(attrs).forEach(function(k) {
+          elem.setAttribute(k, attrs[k]);
+        });
 
       if (children)
-        for (let [, v] in Iterator(children))
-          elem.appendChild(v);
+        Object.keys(children).forEach(function(k) {
+          elem.appendChild(children[k]);
+        });
 
       return elem;
     };
@@ -645,7 +647,9 @@ var Util = {
       let pt = typeof prm;
 
       if (prm && pt === "object")
-        prm = [k + "=" + v for ([k, v] in Iterator(prm))].join("&");
+        prm = Object.keys(prm).map(function(key) {
+          return key + '=' + prm[key];
+        }).join('&');
       else if (pt !== "string")
         prm = "";
 
@@ -669,8 +673,11 @@ var Util = {
       if (opts.raw)
         req.overrideMimeType('text/plain; charset=x-user-defined');
 
-      for (let [name, value] in Iterator(opts.header || {}))
-        req.setRequestHeader(name, value);
+      if (!opts.header)
+        opts.header = {};
+      Object.keys(opts.header).forEach(function(name) {
+        req.setRequestHeader(name, opts.header[name]);
+      });
 
       req.send(params || null);
 
