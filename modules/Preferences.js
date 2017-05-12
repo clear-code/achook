@@ -402,11 +402,12 @@ Preferences.prototype = {
     // make it.  We could index by fullBranch, but we can't index by callback
     // or thisObject, as far as I know, since the keys to JavaScript hashes
     // (a.k.a. objects) can apparently only be primitive values.
-    let [observer] = observers.filter(function(v) v.prefName   == fullPrefName &&
-                                                  v.callback   == callback &&
-                                                  v.thisObject == thisObject);
+    let observer = observers.filter(function(v) v.prefName   == fullPrefName &&
+                                                v.callback   == callback &&
+                                                v.thisObject == thisObject);
 
-    if (observer) {
+    if (observer.length) {
+      observer = observer[0];
       Preferences._prefSvc.removeObserver(fullPrefName, observer);
       observers.splice(observers.indexOf(observer), 1);
     }
