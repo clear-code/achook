@@ -148,8 +148,9 @@ Preferences.prototype = {
    */
   set: function(prefName, prefValue) {
     if (isObject(prefName)) {
-      for (let [name, value] in Iterator(prefName))
-        this.set(name, value);
+      Object.keys(prefName).forEach(function(name) {
+        this.set(name, prefName[value]);
+      }, this);
       return;
     }
 
