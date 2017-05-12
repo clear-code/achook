@@ -12,11 +12,6 @@ const Cr = Components.results;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/JXON.js");
 
-XPCOMUtils.defineLazyGetter(this, "Application", function() {
-  return Cc["@mozilla.org/steel/application;1"]
-           .getService(Ci.steelIApplication);
-});
-
 XPCOMUtils.defineLazyGetter(this, "Util", function() {
   const { Util } = Cu.import("resource://achook-modules/Util.js", {});
   return Util;

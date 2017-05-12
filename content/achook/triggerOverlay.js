@@ -94,7 +94,8 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
   }
 
   if (!StaticConfigManager.anyAvailable) {
-    Application.console.log("achook: static config is not used. "+StaticConfigManager.configs.map(function(aConfig) {
+    let Console = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
+    Console.logStringMessage("achook: static config is not used. "+StaticConfigManager.configs.map(function(aConfig) {
                               var output = {};
                               output[aConfig.name + ".available"] = aConfig.available;
                               output[aConfig.name + ".domain"]    = aConfig.domain;

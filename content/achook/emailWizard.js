@@ -7,9 +7,10 @@
 
 (function (exports) {
   const DEBUG = true;
+  var Console = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
   function debugMessage(message) {
     if (DEBUG)
-      Application.console.log("achook: "+message);
+      Console.logStringMessage("achook: "+message);
   }
 
   const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;

@@ -13,8 +13,7 @@ var { Browser } = Cu.import('resource://achook-modules/Browser.js', {});
 var { Promise } = Cu.import('resource://gre/modules/Promise.jsm', {});
 var { NetUtil } = Cu.import('resource://gre/modules/NetUtil.jsm', {});
 
-const Application = Cc['@mozilla.org/steel/application;1']
-  .getService(Ci.steelIApplication);
+var Console = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
 
 
 function setTimeout(aCallback, aInterval) {
@@ -392,7 +391,7 @@ var Util = {
 
   log: function () {
     if (this.DEBUG)
-      Application.console.log(Util.format.apply(Util, arguments));
+      Console.logStringMessage(Util.format.apply(Util, arguments));
   },
 
   _loader: null,
