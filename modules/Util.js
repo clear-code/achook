@@ -95,7 +95,14 @@ var Util = {
 
     let ios = Cc["@mozilla.org/network/io-service;1"]
           .getService(Ci.nsIIOService);
-    let channel = ios.newChannelFromURI(aURI);
+    let channel = ios.newChannelFromURI2(
+                    aURI,
+                    null,
+                    Services.scriptSecurityManager.getSystemPrincipal(),
+                    null,
+                    Ci.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_DATA_IS_NULL,
+                    Ci.nsIContentPolicy.TYPE_OTHER
+                  );
 
     let stream = Cc["@mozilla.org/intl/converter-input-stream;1"]
                    .createInstance(Ci.nsIConverterInputStream);
