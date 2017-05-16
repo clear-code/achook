@@ -6,14 +6,14 @@
 // "use strict";
 
 (function (exports) {
+  const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
+
   const DEBUG = true;
   var Console = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
   function debugMessage(message) {
     if (DEBUG)
       Console.logStringMessage("achook: "+message);
   }
-
-  const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
 
   const { Util } = Cu.import('resource://achook-modules/Util.js', {});
   const { Services } = Cu.import('resource://achook-modules/Services.js', {});
