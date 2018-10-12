@@ -10,7 +10,12 @@ const Cu = Components.utils;
 const Cr = Components.results;
 
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
-Cu.import("resource://gre/modules/JXON.js");
+try {
+  Cu.import("resource:///modules/JXON.js");
+}
+catch(e) {
+  Cu.import("resource://gre/modules/JXON.js");
+}
 
 XPCOMUtils.defineLazyGetter(this, "Util", function() {
   const { Util } = Cu.import("resource://achook-modules/Util.js", {});
