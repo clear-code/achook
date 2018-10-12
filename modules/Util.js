@@ -134,7 +134,7 @@ var Util = {
       .createInstance(Ci.nsIFileOutputStream);
     fileStream.init(file,
                     Util.or(aOptions.ioFlags, 0x02 | 0x08 | 0x20),
-                    Util.or(aOptions.permission, 0644),
+                    Util.or(aOptions.permission, 0o644),
                     Util.or(aOptions.behaviorFlags, false));
 
     let wrote = fileStream.write(aData, aData.length);
@@ -199,7 +199,7 @@ var Util = {
       }
 
       if (!toDir.exists())
-        toDir.create(Ci.nsIFile.DIRECTORY_TYPE, 0775); // XXX: permission
+        toDir.create(Ci.nsIFile.DIRECTORY_TYPE, 0o775); // XXX: permission
 
       while (entries.hasMoreElements()) {
         let nextFromFile = entries.getNext().QueryInterface(Ci.nsIFile);
