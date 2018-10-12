@@ -37,7 +37,7 @@
     }
   };
 
-  function $(selector) document.querySelector(selector);
+  var $ = (selector) => document.querySelector(selector);
   var createElement = Util.getElementCreator(document);
 
   var elements = {

@@ -77,7 +77,7 @@ Preferences.prototype = {
    */
   get: function(prefName, defaultValue) {
     if (isArray(prefName))
-      return prefName.map(function(v) this.get(v, defaultValue), this);
+      return prefName.map((v) => this.get(v, defaultValue));
 
     if (this._site)
       return this._siteGet(prefName, defaultValue);
