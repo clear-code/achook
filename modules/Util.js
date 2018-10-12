@@ -577,13 +577,14 @@ var Util = {
       .getService(Ci.nsIWindowWatcher);
 
     if (args !== undefined && args !== null) {
-      let array = Cc["@mozilla.org/supports-array;1"]
-                    .createInstance(Ci.nsISupportsArray);
+      let array = Cc['@mozilla.org/array;1']
+                    .createInstance(Ci.nsIMutableArray)
+                    .QuerySelector(Ci.nsIArray);
       args.forEach(function(aItem) {
         if (aItem === null ||
           aItem === void(0) ||
           aItem instanceof Ci.nsISupports) {
-          array.AppendElement(aItem);
+          array.appendElement(aItem);
         } else {
           let variant = Cc["@mozilla.org/variant;1"]
                         .createInstance(Ci.nsIVariant)
@@ -591,7 +592,7 @@ var Util = {
           variant.setFromVariant(aItem);
           aItem = variant;
         }
-        array.AppendElement(aItem);
+        array.appendElement(aItem);
       }, this);
       args = array;
     }
@@ -718,11 +719,7 @@ var Util = {
     iface = iface || Ci.nsISupports;
     let array = [];
 
-    if (enumerator instanceof Ci.nsISupportsArray) {
-      let count = enumerator.Count();
-      for (let i = 0; i < count; ++i)
-        array.push(enumerator.QueryElementAt(i, iface));
-    } else if (enumerator instanceof Ci.nsIArray) {
+    if (enumerator instanceof Ci.nsIArray) {
       let count = enumerator.length;
       for (let i = 0; i < count; ++i)
         array.push(enumerator.queryElementAt(i, iface));
