@@ -44,6 +44,7 @@ const Cr = Components.results;
 const Cu = Components.utils;
 
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+Cu.import('resource://gre/modules/Services.jsm');
 
 // The minimum and maximum integers that can be set as preferences.
 // The range of valid values is narrower than the range of valid JS values
@@ -87,15 +88,15 @@ Preferences.prototype = {
 
   _get: function(prefName, defaultValue) {
     try {
-      switch (this._prefSvc.getPrefType(prefName)) {
+      switch (Services.prefs.getPrefType(prefName)) {
       case Ci.nsIPrefBranch.PREF_STRING:
-        return this._prefSvc.getComplexValue(prefName, Ci.nsISupportsString).data;
+        return Services.prefs.getComplexValue(prefName, Ci.nsISupportsString).data;
 
       case Ci.nsIPrefBranch.PREF_INT:
-        return this._prefSvc.getIntPref(prefName);
+        return Services.prefs.getIntPref(prefName);
 
       case Ci.nsIPrefBranch.PREF_BOOL:
-        return this._prefSvc.getBoolPref(prefName);
+        return Services.prefs.getBoolPref(prefName);
 
       case Ci.nsIPrefBranch.PREF_INVALID:
         return defaultValue;
@@ -103,7 +104,7 @@ Preferences.prototype = {
       default:
         // This should never happen.
         throw "Error getting pref " + prefName + "; its value's type is " +
-          this._prefSvc.getPrefType(prefName) + ", which I don't know " +
+          Services.prefs.getPrefType(prefName) + ", which I don't know " +
           "how to handle.";
       }
     } catch (x) {
@@ -113,7 +114,7 @@ Preferences.prototype = {
 
   getLocalized: function(prefName, defaultValue) {
     try {
-      return this._prefSvc.getComplexValue(prefName, Ci.nsIPrefLocalizedString).data;
+      return Services.prefs.getComplexValue(prefName, Ci.nsIPrefLocalizedString).data;
     } catch (x) {
       return this.get(prefName, defaultValue);
     }
@@ -171,7 +172,7 @@ Preferences.prototype = {
           let string = Cc["@mozilla.org/supports-string;1"].
                        createInstance(Ci.nsISupportsString);
           string.data = prefValue;
-          this._prefSvc.setComplexValue(prefName, Ci.nsISupportsString, string);
+          Services.prefs.setComplexValue(prefName, Ci.nsISupportsString, string);
         }
         break;
 
@@ -185,7 +186,7 @@ Preferences.prototype = {
                 prefValue + ", as number pref values must be in the signed " +
                 "32-bit integer range -(2^31-1) to 2^31-1.  To store numbers " +
                 "outside that range, store them as strings.");
-        this._prefSvc.setIntPref(prefName, prefValue);
+        Services.prefs.setIntPref(prefName, prefValue);
         if (prefValue % 1 != 0)
           Cu.reportError("Warning: setting the " + prefName + " pref to the " +
                          "non-integer number " + prefValue + " converted it " +
@@ -195,7 +196,7 @@ Preferences.prototype = {
         break;
 
       case "Boolean":
-        this._prefSvc.setBoolPref(prefName, prefValue);
+        Services.prefs.setBoolPref(prefName, prefValue);
         break;
 
       default:
@@ -233,7 +234,7 @@ Preferences.prototype = {
   },
 
   _has: function(prefName) {
-    return (this._prefSvc.getPrefType(prefName) != Ci.nsIPrefBranch.PREF_INVALID);
+    return (Services.prefs.getPrefType(prefName) != Ci.nsIPrefBranch.PREF_INVALID);
   },
 
   _siteHas: function(prefName) {
@@ -258,7 +259,7 @@ Preferences.prototype = {
     if (isArray(prefName))
       return prefName.map(this.isSet, this);
 
-    return (this.has(prefName) && this._prefSvc.prefHasUserValue(prefName));
+    return (this.has(prefName) && Services.prefs.prefHasUserValue(prefName));
   },
 
   /**
@@ -282,7 +283,7 @@ Preferences.prototype = {
 
   _reset: function(prefName) {
     try {
-      this._prefSvc.clearUserPref(prefName);
+      Services.prefs.clearUserPref(prefName);
     }
     catch(ex) {
       // The pref service throws NS_ERROR_UNEXPECTED when the caller tries
@@ -311,7 +312,7 @@ Preferences.prototype = {
     if (isArray(prefName))
       prefName.map(this.lock, this);
 
-    this._prefSvc.lockPref(prefName);
+    Services.prefs.lockPref(prefName);
   },
 
   /**
@@ -324,7 +325,7 @@ Preferences.prototype = {
     if (isArray(prefName))
       prefName.map(this.unlock, this);
 
-    this._prefSvc.unlockPref(prefName);
+    Services.prefs.unlockPref(prefName);
   },
 
   /**
@@ -342,7 +343,7 @@ Preferences.prototype = {
     if (isArray(prefName))
       return prefName.map(this.locked, this);
 
-    return this._prefSvc.prefIsLocked(prefName);
+    return Services.prefs.prefIsLocked(prefName);
   },
 
   /**
@@ -367,7 +368,7 @@ Preferences.prototype = {
     let fullPrefName = this._prefBranch + (prefName || "");
 
     let observer = new PrefObserver(fullPrefName, callback, thisObject);
-    Preferences._prefSvc.addObserver(fullPrefName, observer, true);
+    Services.prefs.addObserver(fullPrefName, observer, true);
     observers.push(observer);
 
     return observer;
@@ -408,20 +409,20 @@ Preferences.prototype = {
 
     if (observer.length) {
       observer = observer[0];
-      Preferences._prefSvc.removeObserver(fullPrefName, observer);
+      Services.prefs.removeObserver(fullPrefName, observer);
       observers.splice(observers.indexOf(observer), 1);
     }
   },
 
   resetBranch: function(prefBranch) {
     try {
-      this._prefSvc.resetBranch(prefBranch);
+      Services.prefs.resetBranch(prefBranch);
     }
     catch(ex) {
       // The current implementation of nsIPrefBranch in Mozilla
       // doesn't implement resetBranch, so we do it ourselves.
       if (ex.result == Cr.NS_ERROR_NOT_IMPLEMENTED)
-        this.reset(this._prefSvc.getChildList(prefBranch, []));
+        this.reset(Services.prefs.getChildList(prefBranch, []));
       else
         throw ex;
     }
@@ -437,19 +438,6 @@ Preferences.prototype = {
     if (!(site instanceof Ci.nsIURI))
       site = this._ioSvc.newURI("http://" + site, null, null);
     return new Preferences({ branch: this._prefBranch, site: site });
-  },
-
-  /**
-   * Preferences Service
-   * @private
-   */
-  get _prefSvc() {
-    let prefSvc = Cc["@mozilla.org/preferences-service;1"].
-                  getService(Ci.nsIPrefService).
-                  getBranch(this._prefBranch).
-                  QueryInterface(Ci.nsIPrefBranch2);
-    this.__defineGetter__("_prefSvc", () => prefSvc);
-    return this._prefSvc;
   },
 
   /**

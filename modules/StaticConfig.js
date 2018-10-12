@@ -10,6 +10,7 @@ const Cu = Components.utils;
 const Cr = Components.results;
 
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+Cu.import('resource://gre/modules/Services.jsm');
 try {
   Cu.import("resource:///modules/JXON.js");
 }
@@ -182,11 +183,7 @@ var StaticConfigManager = {
     this.configs = [];
     this.namedConfigs = [];
 
-    var entries = Cc["@mozilla.org/preferences-service;1"]
-                    .getService(Ci.nsIPrefService)
-                    .QueryInterface(Ci.nsIPrefBranch)
-                    .QueryInterface(Ci.nsIPrefBranch2)
-                    .getChildList(PreferenceNames.staticConfigRoot, []);
+    var entries = Services.prefs.getChildList(PreferenceNames.staticConfigRoot, []);
     var domainPrefMatcher = new RegExp("^" + PreferenceNames.staticConfigRoot.replace(/\./g, "\\.") + "(.*)\.domain$")
     entries.forEach(function(aKey) {
       var matched = aKey.match(domainPrefMatcher);
