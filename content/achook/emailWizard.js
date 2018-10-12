@@ -41,14 +41,14 @@
   var createElement = Util.getElementCreator(document);
 
   var elements = {
-    get emailInputBox() $("#email"),
-    get emailErrorIcon() $("#emailerroricon"),
-    get manualEditButton() $("#manual-edit_button"),
-    get nextButton() $("#next_button"),
-    get createButton() $("#create_button"),
-    get stopButton() $("#stop_button"),
-    get masterVBox() $("#mastervbox"),
-    get statusMessage() $("#status_msg")
+    get emailInputBox() { return $("#email"); },
+    get emailErrorIcon() { return $("#emailerroricon"); },
+    get manualEditButton() { return $("#manual-edit_button"); },
+    get nextButton() { return $("#next_button"); },
+    get createButton() { return $("#create_button"); },
+    get stopButton() { return $("#stop_button"); },
+    get masterVBox() { return $("#mastervbox"); },
+    get statusMessage() { return $("#status_msg"); }
   };
 
   var existingAccountRemoved = false;
