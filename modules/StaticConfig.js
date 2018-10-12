@@ -121,7 +121,7 @@ StaticConfig.prototype = {
   _loadJXON : function StaticConfig_loadJXON(aVerboseLevel) {
     var xml = this.xml;
     if (!xml)
-      throw new Error(this.name + ": failed to load XML from "+this.source);
+      throw new Error(this.name + ": failed to load XML from "+this.source +" ("+this.prefPrefix + "source"+")");
 
     var DOMParser = Cc["@mozilla.org/xmlextras/domparser;1"]
                      .createInstance(Ci.nsIDOMParser);

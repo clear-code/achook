@@ -90,7 +90,7 @@ Preferences.prototype = {
     try {
       switch (Services.prefs.getPrefType(prefName)) {
       case Ci.nsIPrefBranch.PREF_STRING:
-        return Services.prefs.getComplexValue(prefName, Ci.nsISupportsString).data;
+        return decodeURIComponent(escape(Services.prefs.getCharPref(prefName)));
 
       case Ci.nsIPrefBranch.PREF_INT:
         return Services.prefs.getIntPref(prefName);
@@ -168,12 +168,7 @@ Preferences.prototype = {
 
     switch (prefType) {
       case "String":
-        {
-          let string = Cc["@mozilla.org/supports-string;1"].
-                       createInstance(Ci.nsISupportsString);
-          string.data = prefValue;
-          Services.prefs.setComplexValue(prefName, Ci.nsISupportsString, string);
-        }
+        Services.prefs.setCharPref(aPrefstring, unescape(encodeURIComponent(prefValue)));
         break;
 
       case "Number":
