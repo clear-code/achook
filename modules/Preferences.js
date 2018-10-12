@@ -148,9 +148,9 @@ Preferences.prototype = {
    */
   set: function(prefName, prefValue) {
     if (isObject(prefName)) {
-      Object.keys(prefName).forEach(function(name) {
+      Object.keys(prefName).forEach((name) => {
         this.set(name, prefName[value]);
-      }, this);
+      });
       return;
     }
 
@@ -270,7 +270,7 @@ Preferences.prototype = {
 
   reset: function(prefName) {
     if (isArray(prefName)) {
-      prefName.map(function(v) this.reset(v), this);
+      prefName.map((v) => this.reset(v));
       return;
     }
 
@@ -402,7 +402,7 @@ Preferences.prototype = {
     // make it.  We could index by fullBranch, but we can't index by callback
     // or thisObject, as far as I know, since the keys to JavaScript hashes
     // (a.k.a. objects) can apparently only be primitive values.
-    let observer = observers.filter(function(v) v.prefName   == fullPrefName &&
+    let observer = observers.filter((v) => v.prefName   == fullPrefName &&
                                                 v.callback   == callback &&
                                                 v.thisObject == thisObject);
 
@@ -448,7 +448,7 @@ Preferences.prototype = {
                   getService(Ci.nsIPrefService).
                   getBranch(this._prefBranch).
                   QueryInterface(Ci.nsIPrefBranch2);
-    this.__defineGetter__("_prefSvc", function() prefSvc);
+    this.__defineGetter__("_prefSvc", () => prefSvc);
     return this._prefSvc;
   },
 
@@ -459,7 +459,7 @@ Preferences.prototype = {
   get _ioSvc() {
     let ioSvc = Cc["@mozilla.org/network/io-service;1"].
                 getService(Ci.nsIIOService);
-    this.__defineGetter__("_ioSvc", function() ioSvc);
+    this.__defineGetter__("_ioSvc", () => ioSvc);
     return this._ioSvc;
   },
 
@@ -470,7 +470,7 @@ Preferences.prototype = {
   get _contentPrefSvc() {
     let contentPrefSvc = Cc["@mozilla.org/content-pref/service;1"].
                          getService(Ci.nsIContentPrefService);
-    this.__defineGetter__("_contentPrefSvc", function() contentPrefSvc);
+    this.__defineGetter__("_contentPrefSvc", () => contentPrefSvc);
     return this._contentPrefSvc;
   }
 

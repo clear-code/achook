@@ -123,8 +123,8 @@
   const smtpManager = Cc["@mozilla.org/messengercompose/smtp;1"]
                         .getService(Ci.nsISmtpService);
 
-  var beforeAccountKeys = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map(function(account) account.key);
-  var beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function (server) server.key);
+  var beforeAccountKeys = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount).map((account) => account.key);
+  var beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map((server) => server.key);
 
 
   function blurElement(element) {
@@ -136,8 +136,7 @@
   }
 
   function buildFixedDomainView(domain, useSeparatedUsername) {
-    function getCurrentMailAddress() elements.emailLocalPartInputBox.value
-      + "@" + domain;
+    var getCurrentMailAddress = () => elements.emailLocalPartInputBox.value + "@" + domain;
 
     elements.emailInfoContainer = elements.emailInputBox.parentNode;
     elements.accountInfoContainer = elements.emailInfoContainer.parentNode;
@@ -275,7 +274,7 @@
         if (account.incomingServer == server)
           targetAccounts.push(account);
       });
-      targetAccounts.forEach(function (account) accountManager.removeAccount(account));
+      targetAccounts.forEach((account) => accountManager.removeAccount(account));
     } catch (x) {
       debugMessage("Failed to remove account " + username + "@" + hostname + "(" + type +")\n" + x);
     }
@@ -440,7 +439,7 @@
             debugMessage("deleting existing outgoing server");
             existingAccountRemoved = true;
             Services.smtpService.deleteSmtpServer(outgoingServer);
-            beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map(function (server) server.key);
+            beforeSMTPServerKeys = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer).map((server) => server.key);
           }
         } catch (x) {
           debugMessage(x);
@@ -641,7 +640,7 @@
     var config = loadedConfigXML.clientConfig;
 
     var afterAccounts = Util.toArray(accountManager.accounts, Ci.nsIMsgAccount);
-    var createdAccounts = afterAccounts.filter(function (account) beforeAccountKeys.indexOf(account.key) < 0);
+    var createdAccounts = afterAccounts.filter((account) => beforeAccountKeys.indexOf(account.key) < 0);
 
     var variables = {};
 
@@ -701,7 +700,7 @@
     });
 
     var afterSMTPServers = Util.toArray(smtpManager.smtpServers, Ci.nsISmtpServer);
-    var createdSMTPServers = afterSMTPServers.filter(function (server) beforeSMTPServerKeys.indexOf(server.key) < 0);
+    var createdSMTPServers = afterSMTPServers.filter((server) => beforeSMTPServerKeys.indexOf(server.key) < 0);
     createdSMTPServers.forEach(function (server) {
       server = server.QueryInterface(Ci.nsISmtpServer);
       setAccountValueFromKeyValues(

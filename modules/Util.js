@@ -221,7 +221,7 @@ var Util = {
         // jsdeferred doesn't set "length" property of results.
         // We have to set results.length explicitly.
         results.length = promises.length;
-        deferred.resolve(Array.every(results, function (result) result));
+        deferred.resolve(Array.every(results, (result) => result));
       });
 
       return deferred.promise;
@@ -342,7 +342,7 @@ var Util = {
                                 .then(function(results) {
                                   if (timer) timer.cancel();
                                   results.length = promises.length;
-                                  deferred.resolve(Array.every(results, function(result) result ));
+                                  deferred.resolve(Array.every(results, (result) => result ));
                                 });
              if (timeout) {
                timer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
@@ -450,8 +450,7 @@ var Util = {
       },
       log: function (msg) {
         var indentedMsg = msg.split("\n").map(
-          function (l)
-          (new Array(self.indent)).join(Util.LOGGER_INDENT_CHAR)
+          (l) => (new Array(self.indent)).join(Util.LOGGER_INDENT_CHAR)
         );
         Util.log(indentedMsg);
       }
@@ -736,6 +735,6 @@ var Util = {
   },
 
   equal: function (a, b, propNames) {
-    return propNames.every(function (propName) a[propName] === b[propName]);
+    return propNames.every((propName) => a[propName] === b[propName]);
   }
 };
