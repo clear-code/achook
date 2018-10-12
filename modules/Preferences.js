@@ -87,6 +87,8 @@ Preferences.prototype = {
   },
 
   _get: function(prefName, defaultValue) {
+    if (this._prefBranch)
+      prefName = this._prefBranch + prefName;
     try {
       switch (Services.prefs.getPrefType(prefName)) {
       case Ci.nsIPrefBranch.PREF_STRING:
@@ -162,6 +164,8 @@ Preferences.prototype = {
   },
 
   _set: function(prefName, prefValue) {
+    if (this._prefBranch)
+      prefName = this._prefBranch + prefName;
     let prefType;
     if (typeof prefValue != "undefined" && prefValue != null)
       prefType = prefValue.constructor.name;
