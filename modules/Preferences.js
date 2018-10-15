@@ -116,7 +116,7 @@ Preferences.prototype = {
 
   getLocalized: function(prefName, defaultValue) {
     try {
-      return Services.prefs.getComplexValue(prefName, Ci.nsIPrefLocalizedString).data;
+      return Services.prefs.getComplexValue(this._prefBranch + prefName, Ci.nsIPrefLocalizedString).data;
     } catch (x) {
       return this.get(prefName, defaultValue);
     }
