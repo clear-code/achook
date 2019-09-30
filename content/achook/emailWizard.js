@@ -42,6 +42,7 @@
   var elements = {
     get emailInputBox() { return $("#email"); },
     get emailErrorIcon() { return $("#emailerroricon"); },
+    get provisionerButton() { return $("#provisioner_button"); },
     get manualEditButton() { return $("#manual-edit_button"); },
     get nextButton() { return $("#next_button"); },
     get createButton() { return $("#create_button"); },
@@ -169,6 +170,7 @@
       elements.emailInfoContainer.nextSibling
     );
     elements.usernameRow.hidden = !useSeparatedUsername;
+    elements.provisionerButton.hidden = true;
 
     // Create mail address input box
 
