@@ -4,6 +4,7 @@
 
 window.addEventListener("DOMContentLoaded", function ACHook_triggerOverlay_pre_init() {
   window.removeEventListener("DOMContentLoaded", ACHook_triggerOverlay_pre_init, false);
+  console.log('[achook] ACHook_triggerOverlay_pre_init');
 
   const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
   const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
@@ -14,12 +15,14 @@ window.addEventListener("DOMContentLoaded", function ACHook_triggerOverlay_pre_i
   if ((preferences.get(PreferenceNames.disableGenericWizard) ||
        preferences.get(PreferenceNames.disableNewEmailAccountCreation)) &&
       preferences.get(mailProvisionerPref)) {
+    console.log('[achook] mail.provider.enabled => false');
     preferences.set(mailProvisionerPref, false);
   }
 }, false);
 
 window.addEventListener("load", function ACHook_triggerOverlay_init() {
   window.removeEventListener("load", ACHook_triggerOverlay_init, false);
+  console.log('[achook] ACHook_triggerOverlay_init');
 
   const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
 
@@ -52,6 +55,7 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
   var staticConfigItems = Array.slice(document.querySelectorAll(".achookNewCustomAccountItem"), 0);
 
   if (preferences.get(PreferenceNames.disableGenericWizard)) {
+    console.log('[achook] generic wizard is disabled');
     if (StaticConfigManager.configs.length == 1) {
       // Hide the custom menu item, because the default wizard is always overridden.
       staticConfigItems.forEach(function(item) {
@@ -77,6 +81,7 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
       });
     }
   } else {
+    console.log('[achook] generic wizard is enabled');
     staticConfigItems.forEach(function(item) {
       item.removeAttribute("hidden");
     });
@@ -94,8 +99,7 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
   }
 
   if (!StaticConfigManager.anyAvailable) {
-    let Console = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
-    Console.logStringMessage("achook: static config is not used. "+StaticConfigManager.configs.map(function(aConfig) {
+    console.log("achook: static config is not used. "+StaticConfigManager.configs.map(function(aConfig) {
                               var output = {};
                               output[aConfig.name + ".available"] = aConfig.available;
                               output[aConfig.name + ".domain"]    = aConfig.domain;

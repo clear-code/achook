@@ -9,6 +9,7 @@
 
     window.addEventListener("DOMContentLoaded", function AchookTriggerSetup(event) {
       window.removeEventListener("DOMContentLoaded", AchookTriggerSetup, false);
+      console.log('[achook] AchookTriggerSetup');
 
       const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
       const { Preferences } = Cu.import('resource://achook-modules/Preferences.js', {});
