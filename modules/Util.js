@@ -97,7 +97,7 @@ var Util = {
           .getService(Ci.nsIIOService);
     let scriptSecurityManager = Cc["@mozilla.org/scriptsecuritymanager;1"]
           .getService(Ci.nsIScriptSecurityManager);
-    let channel = ios.newChannelFromURI2(
+    let channel = ios.newChannelFromURI(
                     aURI,
                     null,
                     scriptSecurityManager.getSystemPrincipal(),
@@ -374,10 +374,8 @@ var Util = {
     return file;
   },
 
-  format: function (formatString) {
+  format: function (formatString, ...values) {
     formatString = "" + formatString;
-
-    var values = Array.slice(arguments, 1);
 
     return formatString.replace(/%s/g, function () {
       return Util.or(values.shift(), "");

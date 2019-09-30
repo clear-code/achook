@@ -9,8 +9,7 @@ var { XPCOMUtils } = Cu.import("resource://gre/modules/XPCOMUtils.jsm", {});
 
 var Services = {};
 
-function setService() {
-  var args = Array.slice(arguments, 0);
+function setService(...args) {
   args.unshift(Services);
   XPCOMUtils.defineLazyServiceGetter.apply(XPCOMUtils, args);
 }

@@ -123,9 +123,8 @@ StaticConfig.prototype = {
     if (!xml)
       throw new Error(this.name + ": failed to load XML from "+this.source +" ("+this.prefPrefix + "source"+")");
 
-    var DOMParser = Cc["@mozilla.org/xmlextras/domparser;1"]
-                     .createInstance(Ci.nsIDOMParser);
-    var DOMConfig = DOMParser.parseFromString(xml, "text/xml");
+    var parser = new DOMParser();
+    var DOMConfig = parser.parseFromString(xml, "text/xml");
     if (aVerboseLevel === undefined)
       return JXON.build(DOMConfig);
     else

@@ -52,7 +52,7 @@ window.addEventListener("load", function ACHook_triggerOverlay_init() {
         document.getElementById("newCreateEmailAccountMenuItem"), // menu bar
         document.getElementById("appmenu_newCreateEmailAccountMenuItem") // application menu
       ];
-  var staticConfigItems = Array.slice(document.querySelectorAll(".achookNewCustomAccountItem"), 0);
+  var staticConfigItems = Array.from(document.querySelectorAll(".achookNewCustomAccountItem"));
 
   if (preferences.get(PreferenceNames.disableGenericWizard)) {
     console.log('[achook] generic wizard is disabled');
