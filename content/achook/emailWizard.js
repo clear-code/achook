@@ -9,10 +9,9 @@
   const { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
 
   const DEBUG = true;
-  var Console = Cc['@mozilla.org/consoleservice;1'].getService(Ci.nsIConsoleService);
   function debugMessage(message) {
     if (DEBUG)
-      Console.logStringMessage("achook: "+message);
+      console.log("[achook] ", message);
   }
 
   const { Util } = Cu.import('resource://achook-modules/Util.js', {});
@@ -235,7 +234,7 @@
   function suppressBuiltinLecture() {
     var shownElements = ["initialSettings", "status_area", "buttons_area"];
     Array.forEach(elements.masterVBox.childNodes, function(aElement) {
-      if (aElement.nodeType != Ci.nsIDOMNode.ELEMENT_NODE || aElement.localName == "spacer")
+      if (aElement.nodeType != Node.ELEMENT_NODE || aElement.localName == "spacer")
         return;
 
       if (shownElements.indexOf(aElement.id) < 0)
