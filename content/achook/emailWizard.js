@@ -492,20 +492,20 @@
   function outputDebugMessages() {
     eval('EmailConfigWizard.prototype.findConfig = '+EmailConfigWizard.prototype.findConfig.toSource()
       .replace(
-        /(gEmailWizardLogger.info\(("[^"]+")\))/g,
-        'debugMessage($2); $1'
-      )
-      .replace(
         /((?:this|self)\.(?:switchToMode|startSpinner)\(("[^"]+")\))/g,
         'debugMessage($2); $1'
       )
       .replace(
         '{',
-        '{ debugMessage("domain = "+domain+" / email = " + email);'
+        '{ debugMessage("domain = "+domain+" / emailAddress = " + emailAddress);'
       )
       .replace(
         /(function\s*\(e\)\s*\{)/,
         '$1 debugMessage("error : "+e);'
+      )
+      .replace(
+        /^(findConfig)/,
+        'function $1'
       )
     );
   }
