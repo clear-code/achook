@@ -27,8 +27,8 @@
       var menuPopup = document.getElementById("menu_NewPopup");
       var menuNextItem = document.getElementById("newMailAccountMenuItem").nextSibling;
 
-      var appmenuPopup = document.getElementById("appmenu_newMenupopup");
-      var appmenuNextItem = appmenuPopup ? document.getElementById("appmenu_newMailAccountMenuItem").nextSibling : null ;
+      var appmenuPanel = document.getElementById("appMenu-newViewItems");
+      var appmenuNextItem = appmenuPanel ? document.getElementById("appmenu_newMailAccountMenuItem").nextSibling : null ;
 
       var labelBase = Messages.getLocalized("newMailAccountMenuItem.label");
       var accesskeyBase = Messages.getLocalized("newMailAccountMenuItem.accesskey");
@@ -47,16 +47,16 @@
         item.setAttribute("oncommand", "AchookNewCustomMailAccount(this.getAttribute('data-config'));");
         menuPopup.insertBefore(item, menuNextItem);
 
-        if (appmenuPopup) {
-          let appmenuItem = document.createElement("menuitem");
+        if (appmenuPanel) {
+          let appmenuItem = document.createElement("toolbarbutton");
           appmenuItem.setAttribute("id", appmenuId);
-          appmenuItem.setAttribute("class", "achookNewCustomAccountItem");
+          appmenuItem.setAttribute("class", "subviewbutton subviewbutton-iconic achookNewCustomAccountItem");
           appmenuItem.setAttribute("label", aConfig.label);
           appmenuItem.setAttribute("accesskey", aConfig.accesskey);
           appmenuItem.setAttribute("hidden", true);
           appmenuItem.setAttribute("data-config", aConfig.name);
           appmenuItem.setAttribute("oncommand", "AchookNewCustomMailAccount(this.getAttribute('data-config'));");
-          appmenuPopup.insertBefore(appmenuItem, appmenuNextItem);
+          appmenuPanel.insertBefore(appmenuItem, appmenuNextItem);
         }
       });
     }, false);
