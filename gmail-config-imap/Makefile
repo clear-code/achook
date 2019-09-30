@@ -1,5 +1,5 @@
 PACKAGE_NAME = gmail-config-imap
-PACKAGED_FILES = content defaults install.rdf chrome.manifest
+PACKAGED_FILES = content defaults manifest.json chrome.manifest
 
 all: xpi
 
