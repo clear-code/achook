@@ -538,7 +538,7 @@
       if (aValue) {
         // Reusing XPCOM objects is dangerous, ex. signature file.
         // So I create new instance for the new account.
-        if (aValue instanceof Components.interfaces.nsILocalFile)
+        if (aValue instanceof Components.interfaces.nsIFile)
           aValue = aValue.clone();
       }
     }
