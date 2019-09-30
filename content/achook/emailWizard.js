@@ -233,13 +233,13 @@
 
   function suppressBuiltinLecture() {
     var shownElements = ["initialSettings", "status_area", "buttons_area"];
-    Array.forEach(elements.masterVBox.childNodes, function(aElement) {
-      if (aElement.nodeType != Node.ELEMENT_NODE || aElement.localName == "spacer")
-        return;
+    for (const element of elements.masterVBox.childNodes) {
+      if (element.nodeType != Node.ELEMENT_NODE || element.localName == "spacer")
+        continue;
 
-      if (shownElements.indexOf(aElement.id) < 0)
-        aElement.style.setProperty("display", "none", "important");
-    });
+      if (shownElements.indexOf(element.id) < 0)
+        element.style.setProperty("display", "none", "important");
+    }
 
     elements.manualEditButton.style.setProperty("display", "none", "important");
     // elements.manualEditButton.hidden = true;
